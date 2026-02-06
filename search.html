@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es"><head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Buscar inmuebles | Grupo Versa</title>
+  <link rel="stylesheet" href="styles.css"></head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+<header class="site-header"><div class="container nav-wrap">
+  <a class="logo" href="index.html">Grupo <span>Versa</span></a>
+  <nav class="nav-main"><a href="search.html">Inmuebles</a><a href="index.html#servicios">Servicios</a><a href="index.html#consigne">Consigne su inmueble</a><a href="about.html">Nosotros</a><a href="#footer">Contacto</a></nav>
+  <div class="nav-actions"><a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a><a class="btn btn-secondary" href="clients.html#pagar">Pagar arriendo</a><div class="dropdown"><button class="btn btn-soft">Zona Clientes</button><div class="dropdown-menu"><strong>Arrendatarios</strong><a href="clients.html#pagar">Pagar arriendo</a><a href="clients.html#cupon">Cupón</a><a href="clients.html#requisitos">Requisitos</a><a href="clients.html#tutoriales">Tutoriales</a><strong>Propietarios</strong><a href="clients.html#estados">Estados de cuenta</a><a href="clients.html#certificados">Certificados</a></div></div></div>
+</div></header>
+<main id="main" class="section container search-layout">
+  <aside class="panel filters-sticky">
+    <h2>Filtros</h2>
+    <div class="chips"><span class="chip">Arriendo</span><span class="chip">Venta</span><span class="chip">Casas</span><span class="chip">Apartamentos</span></div>
+    <form id="search-form">
+      <label for="gestion">Gestión</label><select id="gestion"><option value="">Todas</option><option value="arriendo">Arriendo</option><option value="venta">Venta</option></select>
+      <label for="tipo">Tipo</label><select id="tipo"><option value="">Todos</option><option>Apartamento</option><option>Casa</option><option>Oficina</option><option>Local</option><option>Lote</option></select>
+      <label for="ciudad">Ciudad / Zona</label><input id="ciudad" placeholder="Cali, Jamundí, Pance...">
+      <label for="precioMin">Precio min</label><input id="precioMin" type="number" min="0">
+      <label for="precioMax">Precio max</label><input id="precioMax" type="number" min="0">
+      <label for="habitaciones">Habitaciones (mín)</label><input id="habitaciones" type="number" min="0">
+      <label for="banos">Baños (mín)</label><input id="banos" type="number" min="0">
+      <label for="areaMin">Área min (m²)</label><input id="areaMin" type="number" min="0">
+      <label for="areaMax">Área max (m²)</label><input id="areaMax" type="number" min="0">
+      <button class="btn btn-primary" type="submit">Aplicar filtros</button>
+    </form>
+  </aside>
+  <section class="search-main hide-map">
+    <div class="results-column">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;"><h1 style="margin:0;">Resultados</h1><strong id="results-count">0 resultado(s)</strong></div>
+      <div class="mobile-toggle"><button id="view-list" class="btn btn-soft active" type="button">Lista</button><button id="view-map" class="btn btn-soft" type="button">Mapa</button></div>
+      <div id="search-results" class="card-grid" style="grid-template-columns: repeat(2,minmax(0,1fr));margin-top:12px;"></div>
+    </div>
+    <aside class="map-mock" aria-label="Mapa de referencia">
+      <div class="map-label">Mapa de zonas (mock)</div>
+      <span class="pin" style="top:30%;left:32%"></span><span class="pin" style="top:52%;left:46%"></span><span class="pin" style="top:60%;left:65%"></span><span class="pin" style="top:38%;left:72%"></span><span class="pin" style="top:70%;left:24%"></span>
+    </aside>
+  </section>
+</main>
+<footer id="footer" class="footer"><div class="container footer-grid"><div><h4>Grupo Versa</h4><p>Inmobiliaria en Cali, Colombia.</p></div><div><h4>Contacto</h4><p>+57 300 000 0000</p><p>contacto@grupoversa.com.co</p></div><div><h4>Oficina</h4><p>Dirección placeholder, Cali</p><p>Lun - Vie 8:00 a.m. - 6:00 p.m.</p></div><div><h4>Redes</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a></div></div></footer>
+<script src="data.js"></script><script src="app.js"></script>
+</body></html>

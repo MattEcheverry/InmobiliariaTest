@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo Versa | Inmuebles en Cali</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+<header class="site-header">
+  <div class="container nav-wrap">
+    <a class="logo" href="index.html">Grupo <span>Versa</span></a>
+    <nav class="nav-main" aria-label="Principal">
+      <a href="search.html">Inmuebles</a><a href="#servicios">Servicios</a><a href="#consigne">Consigne su inmueble</a><a href="about.html">Nosotros</a><a href="#footer">Contacto</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn btn-secondary" href="clients.html#pagar">Pagar arriendo</a>
+      <div class="dropdown"><button class="btn btn-soft">Zona Clientes</button>
+        <div class="dropdown-menu">
+          <strong>Arrendatarios</strong>
+          <a href="clients.html#pagar">Pagar arriendo</a><a href="clients.html#cupon">Cupón</a><a href="clients.html#requisitos">Requisitos</a><a href="clients.html#tutoriales">Tutoriales</a>
+          <strong>Propietarios</strong>
+          <a href="clients.html#estados">Estados de cuenta</a><a href="clients.html#certificados">Certificados</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<main id="main">
+  <section class="hero">
+    <div class="container hero-panel">
+      <h1>Encuentra tu próximo inmueble en Cali y el Valle</h1>
+      <p>Portal moderno de <strong>arriendos</strong> con soporte experto en ventas y acompañamiento de principio a fin.</p>
+      <div class="tab-row">
+        <button type="button" class="tab active" data-gestion-tab="arriendo">Arriendo</button>
+        <button type="button" class="tab" data-gestion-tab="venta">Venta</button>
+      </div>
+      <form id="home-search" class="search-grid" aria-label="Buscar inmuebles">
+        <input type="hidden" id="gestion" name="gestion" value="arriendo">
+        <div><label for="ciudad">Ciudad o zona</label><input id="ciudad" name="ciudad" placeholder="Ej: Cali, Pance"></div>
+        <div><label for="tipo">Tipo</label><select id="tipo" name="tipo"><option value="">Todos</option><option>Apartamento</option><option>Casa</option><option>Oficina</option><option>Local</option><option>Lote</option></select></div>
+        <div><label for="precioMin">Precio min</label><input id="precioMin" name="precioMin" type="number" min="0" placeholder="0"></div>
+        <div><label for="precioMax">Precio max</label><input id="precioMax" name="precioMax" type="number" min="0" placeholder="Sin tope"></div>
+        <button class="btn btn-primary" type="submit">Buscar</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div><h2>Destacados para arriendo</h2><p class="lead">Selección curada de propiedades con alta demanda.</p></div>
+      <a class="btn btn-secondary" href="search.html">Ver todos</a>
+    </div>
+    <div id="featured-list" class="card-grid"></div>
+  </section>
+
+  <section id="consigne" class="section container split">
+    <div class="panel">
+      <h2>Consigne su inmueble</h2>
+      <p class="lead">Conectamos propietarios con arrendatarios y compradores calificados.</p>
+      <ul>
+        <li>✅ Comercialización digital y tradicional integrada.</li>
+        <li>✅ Filtro documental y estudio de riesgo.</li>
+        <li>✅ Gestión legal y acompañamiento permanente.</li>
+      </ul>
+    </div>
+    <form id="consign-form" class="panel">
+      <label for="nombre">Nombre</label><input id="nombre" required>
+      <label for="celular">Celular</label><input id="celular" required>
+      <label for="email">Email</label><input id="email" type="email" required>
+      <label for="mensaje">Mensaje</label><textarea id="mensaje" rows="4"></textarea>
+      <button class="btn btn-primary" type="submit">Enviar</button>
+      <p id="consign-notice" class="notice">Recibido, te contactaremos pronto.</p>
+    </form>
+  </section>
+
+  <section id="servicios" class="section container">
+    <h2>Servicios</h2>
+    <div class="card-grid">
+      <article class="panel"><h3>Arrendamientos</h3><p>Captación, comercialización y administración integral.</p></article>
+      <article class="panel"><h3>Ventas</h3><p>Estrategia de vitrina, negociación y cierre seguro.</p></article>
+      <article class="panel"><h3>Avalúos</h3><p>Valoraciones técnicas para decisiones confiables.</p></article>
+      <article class="panel"><h3>Seguros</h3><p>Protección para propietario, inmueble y arrendatario.</p></article>
+    </div>
+  </section>
+
+  <section class="section container">
+    <h2>Confianza que se mide</h2>
+    <div class="metrics">
+      <div class="metric"><strong>18+ años</strong>en mercado regional</div>
+      <div class="metric"><strong>1.200+</strong>inmuebles gestionados</div>
+      <div class="metric"><strong>94%</strong>renovación de contratos</div>
+    </div>
+    <div class="split" style="margin-top:16px;">
+      <div class="testimonial">“La experiencia con Grupo Versa fue clara, ágil y profesional.” — Cliente arrendatario</div>
+      <div class="testimonial">“Nos dieron tranquilidad total en la administración del inmueble.” — Propietario</div>
+    </div>
+    <div class="logos">
+      <div class="logo-box">Aliado 1</div><div class="logo-box">Aliado 2</div><div class="logo-box">Aliado 3</div><div class="logo-box">Aliado 4</div>
+    </div>
+  </section>
+</main>
+<footer id="footer" class="footer">
+  <div class="container footer-grid">
+    <div><h4>Grupo Versa</h4><p>Inmobiliaria en Cali, Colombia.</p></div>
+    <div><h4>Contacto</h4><p>+57 300 000 0000</p><p>+57 602 000 0000</p><p>contacto@grupoversa.com.co</p></div>
+    <div><h4>Oficina</h4><p>Dirección placeholder, Cali</p><p>Lun - Vie 8:00 a.m. - 6:00 p.m.</p></div>
+    <div><h4>Redes</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a></div>
+  </div>
+</footer>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
