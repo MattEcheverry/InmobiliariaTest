@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grupo Versa | Inmuebles en Cali</title>
+  <title>Grupo Versa | Arriendos y ventas en Cali</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,7 +17,8 @@
     <div class="nav-actions">
       <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
       <a class="btn btn-secondary" href="clients.html#pagar">Pagar arriendo</a>
-      <div class="dropdown"><button class="btn btn-soft">Zona Clientes</button>
+      <div class="dropdown">
+        <button class="btn btn-ghost" type="button">Zona Clientes</button>
         <div class="dropdown-menu">
           <strong>Arrendatarios</strong>
           <a href="clients.html#pagar">Pagar arriendo</a><a href="clients.html#cupon">Cupón</a><a href="clients.html#requisitos">Requisitos</a><a href="clients.html#tutoriales">Tutoriales</a>
@@ -28,80 +29,96 @@
     </div>
   </div>
 </header>
+
 <main id="main">
   <section class="hero">
-    <div class="container hero-panel">
-      <h1>Encuentra tu próximo inmueble en Cali y el Valle</h1>
-      <p>Portal moderno de <strong>arriendos</strong> con soporte experto en ventas y acompañamiento de principio a fin.</p>
-      <div class="tab-row">
-        <button type="button" class="tab active" data-gestion-tab="arriendo">Arriendo</button>
-        <button type="button" class="tab" data-gestion-tab="venta">Venta</button>
+    <div class="container hero-shell">
+      <h1>Arrienda o compra con experiencia de portal premium</h1>
+      <p>Explora inmuebles en Cali y alrededores con una experiencia moderna, rápida y clara.</p>
+      <div class="tab-row" role="tablist" aria-label="Tipo de gestión">
+        <button class="tab active" type="button" data-gestion-tab="arriendo">Arriendo</button>
+        <button class="tab" type="button" data-gestion-tab="venta">Venta</button>
       </div>
-      <form id="home-search" class="search-grid" aria-label="Buscar inmuebles">
+
+      <form id="home-search" class="portal-search" aria-label="Buscador de inmuebles">
         <input type="hidden" id="gestion" name="gestion" value="arriendo">
-        <div><label for="ciudad">Ciudad o zona</label><input id="ciudad" name="ciudad" placeholder="Ej: Cali, Pance"></div>
-        <div><label for="tipo">Tipo</label><select id="tipo" name="tipo"><option value="">Todos</option><option>Apartamento</option><option>Casa</option><option>Oficina</option><option>Local</option><option>Lote</option></select></div>
-        <div><label for="precioMin">Precio min</label><input id="precioMin" name="precioMin" type="number" min="0" placeholder="0"></div>
-        <div><label for="precioMax">Precio max</label><input id="precioMax" name="precioMax" type="number" min="0" placeholder="Sin tope"></div>
+        <div class="field">
+          <label for="ciudad">Ciudad o zona</label>
+          <input id="ciudad" name="ciudad" placeholder="Cali, Pance, Jamundí...">
+        </div>
+        <div class="field">
+          <label for="tipo">Tipo</label>
+          <select id="tipo" name="tipo"><option value="">Todos</option><option>Apartamento</option><option>Casa</option><option>Oficina</option><option>Local</option><option>Lote</option></select>
+        </div>
+        <div class="field">
+          <label for="precioMin">Precio min</label>
+          <input id="precioMin" name="precioMin" type="number" min="0" placeholder="$0">
+        </div>
+        <div class="field">
+          <label for="precioMax">Precio max</label>
+          <input id="precioMax" name="precioMax" type="number" min="0" placeholder="Sin tope">
+        </div>
         <button class="btn btn-primary" type="submit">Buscar</button>
       </form>
     </div>
   </section>
 
   <section class="section container">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
-      <div><h2>Destacados para arriendo</h2><p class="lead">Selección curada de propiedades con alta demanda.</p></div>
+    <div class="section-head">
+      <div><h2>Inmuebles destacados</h2><p class="lead">Propiedades seleccionadas con mayor interés en arriendo.</p></div>
       <a class="btn btn-secondary" href="search.html">Ver todos</a>
     </div>
     <div id="featured-list" class="card-grid"></div>
   </section>
 
   <section id="consigne" class="section container split">
-    <div class="panel">
+    <article class="panel">
       <h2>Consigne su inmueble</h2>
-      <p class="lead">Conectamos propietarios con arrendatarios y compradores calificados.</p>
+      <p class="lead">Llevamos su inmueble al mercado con posicionamiento digital y proceso integral.</p>
       <ul>
-        <li>✅ Comercialización digital y tradicional integrada.</li>
-        <li>✅ Filtro documental y estudio de riesgo.</li>
-        <li>✅ Gestión legal y acompañamiento permanente.</li>
+        <li>✅ Estrategia comercial y captación de demanda calificada.</li>
+        <li>✅ Validación documental y respaldo jurídico.</li>
+        <li>✅ Administración transparente con reportes periódicos.</li>
       </ul>
-    </div>
+      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+    </article>
+
     <form id="consign-form" class="panel">
+      <h3>Déjanos tus datos</h3>
       <label for="nombre">Nombre</label><input id="nombre" required>
       <label for="celular">Celular</label><input id="celular" required>
       <label for="email">Email</label><input id="email" type="email" required>
       <label for="mensaje">Mensaje</label><textarea id="mensaje" rows="4"></textarea>
-      <button class="btn btn-primary" type="submit">Enviar</button>
+      <button class="btn btn-primary" type="submit">Enviar solicitud</button>
       <p id="consign-notice" class="notice">Recibido, te contactaremos pronto.</p>
     </form>
   </section>
 
   <section id="servicios" class="section container">
-    <h2>Servicios</h2>
+    <div class="section-head"><div><h2>Servicios inmobiliarios</h2><p class="lead">Soluciones para cada etapa del ciclo inmobiliario.</p></div></div>
     <div class="card-grid">
-      <article class="panel"><h3>Arrendamientos</h3><p>Captación, comercialización y administración integral.</p></article>
-      <article class="panel"><h3>Ventas</h3><p>Estrategia de vitrina, negociación y cierre seguro.</p></article>
-      <article class="panel"><h3>Avalúos</h3><p>Valoraciones técnicas para decisiones confiables.</p></article>
-      <article class="panel"><h3>Seguros</h3><p>Protección para propietario, inmueble y arrendatario.</p></article>
+      <article class="panel"><h3>Arrendamientos</h3><p>Promoción, colocación y administración integral.</p></article>
+      <article class="panel"><h3>Ventas</h3><p>Comercialización estratégica y negociación asistida.</p></article>
+      <article class="panel"><h3>Avalúos</h3><p>Valoraciones técnicas para decisiones financieras.</p></article>
+      <article class="panel"><h3>Seguros</h3><p>Respaldo para propietario, arrendatario e inmueble.</p></article>
     </div>
   </section>
 
   <section class="section container">
-    <h2>Confianza que se mide</h2>
+    <div class="section-head"><div><h2>Confianza respaldada por resultados</h2><p class="lead">Ejecución consistente y relaciones de largo plazo.</p></div></div>
     <div class="metrics">
-      <div class="metric"><strong>18+ años</strong>en mercado regional</div>
-      <div class="metric"><strong>1.200+</strong>inmuebles gestionados</div>
-      <div class="metric"><strong>94%</strong>renovación de contratos</div>
+      <article class="panel metric"><strong>18+ años</strong><span>de experiencia regional</span></article>
+      <article class="panel metric"><strong>1.200+</strong><span>inmuebles comercializados</span></article>
+      <article class="panel metric"><strong>94%</strong><span>renovación de contratos</span></article>
     </div>
-    <div class="split" style="margin-top:16px;">
-      <div class="testimonial">“La experiencia con Grupo Versa fue clara, ágil y profesional.” — Cliente arrendatario</div>
-      <div class="testimonial">“Nos dieron tranquilidad total en la administración del inmueble.” — Propietario</div>
+    <div class="split" style="margin-top:14px;">
+      <article class="panel">“Proceso ordenado, transparente y muy profesional en todo momento.” — Arrendatario</article>
+      <article class="panel">“Tenemos tranquilidad total en la administración de nuestros inmuebles.” — Propietario</article>
     </div>
-    <div class="logos">
-      <div class="logo-box">Aliado 1</div><div class="logo-box">Aliado 2</div><div class="logo-box">Aliado 3</div><div class="logo-box">Aliado 4</div>
-    </div>
+    <div class="logos" style="margin-top:10px;"><div class="logo-box">Aliado A</div><div class="logo-box">Aliado B</div><div class="logo-box">Aliado C</div><div class="logo-box">Aliado D</div></div>
   </section>
 </main>
+
 <footer id="footer" class="footer">
   <div class="container footer-grid">
     <div><h4>Grupo Versa</h4><p>Inmobiliaria en Cali, Colombia.</p></div>
@@ -110,6 +127,8 @@
     <div><h4>Redes</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a></div>
   </div>
 </footer>
+
+<div id="toast" class="toast" aria-live="polite"></div>
 <script src="data.js"></script>
 <script src="app.js"></script>
 </body>
