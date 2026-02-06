@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupo Versa | Arriendos y ventas en Cali</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Saltar al contenido</a>
+<header class="site-header">
+  <div class="container nav-shell">
+    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menú">☰</button>
+
+    <nav class="nav-left" aria-label="Navegación principal izquierda">
+      <a class="nav-link" href="search.html?gestion=arriendo">Arriendos</a>
+      <a class="nav-link" href="search.html?gestion=venta">Ventas</a>
+      <a class="nav-link" href="#consigne">Consigne</a>
+      <a class="nav-link" href="#servicios">Servicios</a>
+    </nav>
+
+    <a class="logo" href="index.html">Grupo <span>Versa</span></a>
+
+    <div class="nav-right">
+      <div class="dropdown">
+        <button class="btn btn-ghost dropdown-toggle" type="button">Zona clientes</button>
+        <div class="dropdown-menu">
+          <strong>Arrendatarios</strong>
+          <a href="clients.html#pagar">Pagar arriendo</a>
+          <a href="clients.html#cupon">Cupón</a>
+          <a href="clients.html#requisitos">Requisitos</a>
+          <a href="clients.html#tutoriales">Tutoriales</a>
+          <strong>Propietarios</strong>
+          <a href="clients.html#estados">Estados de cuenta</a>
+          <a href="clients.html#certificados">Certificados</a>
+        </div>
+      </div>
+      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero">
+    <div class="container hero-shell">
+      <!-- Opción 1: "Encuentra hogar en Cali, sin vueltas." -->
+      <!-- Opción 2 (elegida): "Tu próximo hogar en Cali empieza aquí." -->
+      <h1>Tu próximo hogar en Cali empieza aquí.</h1>
+      <p>Busca por barrio o sector y filtra en segundos con una experiencia clara y premium.</p>
+
+      <div class="tab-row" role="tablist" aria-label="Tipo de gestión">
+        <button class="tab active" type="button" data-gestion-tab="arriendo">Arriendo</button>
+        <button class="tab" type="button" data-gestion-tab="venta">Venta</button>
+      </div>
+
+      <form id="home-search" class="portal-search" aria-label="Buscador de inmuebles en Cali">
+        <input type="hidden" id="gestion" name="gestion" value="arriendo">
+
+        <div class="field">
+          <label for="ciudad">Barrio o sector</label>
+          <input id="ciudad" name="ciudad" list="barrios-cali" placeholder="Ej: Pance, Ciudad Jardín, Granada">
+          <datalist id="barrios-cali">
+            <option value="Pance"></option>
+            <option value="Ciudad Jardín"></option>
+            <option value="Granada"></option>
+            <option value="San Fernando"></option>
+            <option value="Valle del Lili"></option>
+            <option value="Bochalema"></option>
+            <option value="El Peñón"></option>
+          </datalist>
+        </div>
+
+        <div class="field">
+          <label for="tipo">Tipo</label>
+          <select id="tipo" name="tipo">
+            <option value="">Todos</option>
+            <option>Apartamento</option>
+            <option>Casa</option>
+            <option>Oficina</option>
+            <option>Local</option>
+            <option>Lote</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="precioMin">Precio min</label>
+          <input id="precioMin" name="precioMin" type="number" min="0" placeholder="$0">
+        </div>
+
+        <div class="field">
+          <label for="precioMax">Precio max</label>
+          <input id="precioMax" name="precioMax" type="number" min="0" placeholder="Sin tope">
+        </div>
+
+        <div class="field">
+          <label for="habitaciones-home">Habitaciones</label>
+          <select id="habitaciones-home" name="habitaciones">
+            <option value="">Cualquiera</option>
+            <option value="1">1+</option>
+            <option value="2">2+</option>
+            <option value="3">3+</option>
+            <option value="4">4+</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Buscar</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head">
+      <div><h2>Inmuebles destacados</h2><p class="lead">Propiedades seleccionadas con mayor interés en arriendo.</p></div>
+      <a class="btn btn-secondary" href="search.html">Ver todos</a>
+    </div>
+    <div id="featured-list" class="card-grid"></div>
+  </section>
+
+  <section id="consigne" class="section container split">
+    <article class="panel">
+      <h2>Consigne su inmueble</h2>
+      <p class="lead">Llevamos su inmueble al mercado con posicionamiento digital y proceso integral.</p>
+      <ul>
+        <li>✅ Estrategia comercial y captación de demanda calificada.</li>
+        <li>✅ Validación documental y respaldo jurídico.</li>
+        <li>✅ Administración transparente con reportes periódicos.</li>
+      </ul>
+      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+    </article>
+
+    <form id="consign-form" class="panel">
+      <h3>Déjanos tus datos</h3>
+      <label for="nombre">Nombre</label><input id="nombre" required>
+      <label for="celular">Celular</label><input id="celular" required>
+      <label for="email">Email</label><input id="email" type="email" required>
+      <label for="mensaje">Mensaje</label><textarea id="mensaje" rows="4"></textarea>
+      <button class="btn btn-primary" type="submit">Enviar solicitud</button>
+      <p id="consign-notice" class="notice">Recibido, te contactaremos pronto.</p>
+    </form>
+  </section>
+
+  <section id="servicios" class="section container">
+    <div class="section-head"><div><h2>Servicios inmobiliarios</h2><p class="lead">Soluciones para cada etapa del ciclo inmobiliario.</p></div></div>
+    <div class="card-grid">
+      <article class="panel"><h3>Arrendamientos</h3><p>Promoción, colocación y administración integral.</p></article>
+      <article class="panel"><h3>Ventas</h3><p>Comercialización estratégica y negociación asistida.</p></article>
+      <article class="panel"><h3>Avalúos</h3><p>Valoraciones técnicas para decisiones financieras.</p></article>
+      <article class="panel"><h3>Seguros</h3><p>Respaldo para propietario, arrendatario e inmueble.</p></article>
+    </div>
+  </section>
+
+  <section class="section container">
+    <div class="section-head"><div><h2>Confianza respaldada por resultados</h2><p class="lead">Ejecución consistente y relaciones de largo plazo.</p></div></div>
+    <div class="metrics">
+      <article class="panel metric"><strong>18+ años</strong><span>de experiencia regional</span></article>
+      <article class="panel metric"><strong>1.200+</strong><span>inmuebles comercializados</span></article>
+      <article class="panel metric"><strong>94%</strong><span>renovación de contratos</span></article>
+    </div>
+    <div class="split" style="margin-top:14px;">
+      <article class="panel">“Proceso ordenado, transparente y muy profesional en todo momento.” — Arrendatario</article>
+      <article class="panel">“Tenemos tranquilidad total en la administración de nuestros inmuebles.” — Propietario</article>
+    </div>
+    <div class="logos" style="margin-top:10px;"><div class="logo-box">Aliado A</div><div class="logo-box">Aliado B</div><div class="logo-box">Aliado C</div><div class="logo-box">Aliado D</div></div>
+  </section>
+</main>
+
+<footer id="footer" class="footer">
+  <div class="container footer-grid">
+    <div><h4>Grupo Versa</h4><p>Inmobiliaria en Cali, Colombia.</p></div>
+    <div><h4>Contacto</h4><p>+57 300 000 0000</p><p>+57 602 000 0000</p><p>contacto@grupoversa.com.co</p></div>
+    <div><h4>Oficina</h4><p>Dirección placeholder, Cali</p><p>Lun - Vie 8:00 a.m. - 6:00 p.m.</p></div>
+    <div><h4>Redes</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a></div>
+  </div>
+</footer>
+
+<div id="toast" class="toast" aria-live="polite"></div>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
