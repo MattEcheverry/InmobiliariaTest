@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="40" viewBox="0 0 220 40" role="img" aria-label="Grupo Versa">
+  <rect width="220" height="40" rx="8" fill="#ffffff"/>
+  <rect x="0" y="0" width="64" height="40" rx="8" fill="#B76A2A"/>
+  <rect x="64" y="0" width="156" height="40" fill="#0B1F33"/>
+  <text x="76" y="26" fill="#F6F7F9" font-family="Arial, sans-serif" font-size="16" font-weight="700">Grupo Versa</text>
+</svg>
