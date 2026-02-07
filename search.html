@@ -4,20 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buscar inmuebles | Grupo Versa</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="./styles.css?v=2">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
 <body>
 <a href="#main" class="skip-link">Saltar al contenido</a>
 <header class="site-header">
-  <div class="container nav-wrap">
-    <a class="logo" href="index.html">Grupo <span>Versa</span></a>
-    <nav class="nav-main" aria-label="Principal">
-      <a href="search.html">Inmuebles</a><a href="index.html#servicios">Servicios</a><a href="index.html#consigne">Consigne su inmueble</a><a href="about.html">Nosotros</a><a href="#footer">Contacto</a>
+  <div class="container nav-shell">
+    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menú">☰</button>
+    <nav class="nav-left" aria-label="Navegación principal izquierda">
+      <a class="nav-link" href="search.html?gestion=arriendo">Arriendos</a>
+      <a class="nav-link" href="search.html?gestion=venta">Ventas</a>
+      <a class="nav-link" href="index.html#consigne">Consigne</a>
+      <a class="nav-link" href="index.html#servicios">Servicios</a>
     </nav>
-    <div class="nav-actions">
+    <a class="logo" href="index.html"><img class="logo-full" src="assets/logo-horizontal.svg" alt="Grupo Versa">
+    <img class="logo-mark" src="assets/mark.svg" alt="Grupo Versa"></a>
+    <div class="nav-right">
+      <div class="dropdown">
+        <button class="btn btn-ghost dropdown-toggle" type="button">Zona clientes</button>
+        <div class="dropdown-menu">
+          <strong>Arrendatarios</strong>
+          <a href="clients.html#pagar">Pagar arriendo</a>
+          <a href="clients.html#cupon">Cupón</a>
+          <a href="clients.html#requisitos">Requisitos</a>
+          <a href="clients.html#tutoriales">Tutoriales</a>
+          <strong>Propietarios</strong>
+          <a href="clients.html#estados">Estados de cuenta</a>
+          <a href="clients.html#certificados">Certificados</a>
+        </div>
+      </div>
       <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
-      <a class="btn btn-secondary" href="clients.html#pagar">Pagar arriendo</a>
-      <button id="open-filters" class="btn btn-ghost" type="button">Filtros</button>
+      <button id="open-filters" class="btn btn-secondary" type="button">Filtros</button>
     </div>
   </div>
 </header>
@@ -79,7 +97,7 @@
 </footer>
 
 <div id="toast" class="toast" aria-live="polite"></div>
-<script src="data.js"></script>
-<script src="app.js"></script>
+<script src="./data.js?v=2"></script>
+<script src="./app.js?v=2"></script>
 </body>
 </html>
