@@ -9,31 +9,15 @@
 <body>
 <a href="#main" class="skip-link">Saltar al contenido</a>
 <header class="site-header">
-  <div class="container nav-shell">
-    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menú">☰</button>
-    <nav class="nav-left" aria-label="Navegación principal izquierda">
-      <a class="nav-link" href="search.html?gestion=arriendo">Arriendos</a>
-      <a class="nav-link" href="search.html?gestion=venta">Ventas</a>
-      <a class="nav-link" href="index.html#consigne">Consigne</a>
-      <a class="nav-link" href="index.html#servicios">Servicios</a>
-    </nav>
+  <div class="container nav-wrap">
     <a class="logo" href="index.html">Grupo <span>Versa</span></a>
-    <div class="nav-right">
-      <div class="dropdown">
-        <button class="btn btn-ghost dropdown-toggle" type="button">Zona clientes</button>
-        <div class="dropdown-menu">
-          <strong>Arrendatarios</strong>
-          <a href="clients.html#pagar">Pagar arriendo</a>
-          <a href="clients.html#cupon">Cupón</a>
-          <a href="clients.html#requisitos">Requisitos</a>
-          <a href="clients.html#tutoriales">Tutoriales</a>
-          <strong>Propietarios</strong>
-          <a href="clients.html#estados">Estados de cuenta</a>
-          <a href="clients.html#certificados">Certificados</a>
-        </div>
-      </div>
+    <nav class="nav-main" aria-label="Principal">
+      <a href="search.html">Inmuebles</a><a href="index.html#servicios">Servicios</a><a href="index.html#consigne">Consigne su inmueble</a><a href="about.html">Nosotros</a><a href="#footer">Contacto</a>
+    </nav>
+    <div class="nav-actions">
       <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
-      <button id="open-filters" class="btn btn-secondary" type="button">Filtros</button>
+      <a class="btn btn-secondary" href="clients.html#pagar">Pagar arriendo</a>
+      <button id="open-filters" class="btn btn-ghost" type="button">Filtros</button>
     </div>
   </div>
 </header>
