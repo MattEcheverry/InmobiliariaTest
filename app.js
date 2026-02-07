@@ -1,362 +1,272 @@
+"use strict";
+
 (function () {
-  var CONTENT_URL = "./content.json?v=102";
+  const WA_URL = "https://wa.me/573022584900";
 
-  function qs(selector, root) {
-    return (root || document).querySelector(selector);
+  function q(sel, root) {
+    return (root || document).querySelector(sel);
   }
 
-  function qsa(selector, root) {
-    return Array.prototype.slice.call((root || document).querySelectorAll(selector));
+  function qa(sel, root) {
+    return Array.from((root || document).querySelectorAll(sel));
   }
 
-  function parsePath(path) {
-    return String(path || "")
-      .replace(/\[(\d+)\]/g, ".$1")
-      .split(".")
-      .filter(Boolean);
-  }
-
-  function readPath(obj, path) {
-    var parts = parsePath(path);
-    var current = obj;
-    for (var i = 0; i < parts.length; i += 1) {
-      if (current == null) return undefined;
-      current = current[parts[i]];
+  function safe(fn) {
+    try {
+      return fn();
+    } catch (_e) {
+      /* do not break rendering */
+      return undefined;
     }
-    return current;
   }
 
-  function toNumber(value) {
-    if (typeof value === "number") return value;
-    if (typeof value !== "string") return 0;
-    var n = Number(value.replace(/[^\d.-]/g, ""));
-    return Number.isFinite(n) ? n : 0;
+  function getListings() {
+    const candidates = [
+      window.properties,
+      window.PROPERTIES,
+      window.listings,
+      window.LISTINGS,
+      window.data,
+      window.DATA,
+    ];
+    for (let i = 0; i < candidates.length; i += 1) {
+      if (Array.isArray(candidates[i])) return candidates[i];
+    }
+    return [];
   }
 
-  function formatCop(value) {
-    var n = Number.isFinite(value) ? value : 0;
+  function modeOf(value) {
+    return String(value || "").toLowerCase().includes("venta") ? "venta" : "arriendo";
+  }
+
+  function formatCOP(v) {
+    const n = Number(v);
+    if (!Number.isFinite(n)) return "Precio a consultar";
     return new Intl.NumberFormat("es-CO", {
       style: "currency",
       currency: "COP",
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(n);
   }
 
-  function normalizeText(value) {
-    return String(value || "").toLowerCase().trim();
+  function setupHeader() {
+    const header = q(".site-header");
+    if (!header) return;
+
+    const logo = q(".brand img", header);
+    if (logo instanceof HTMLImageElement) {
+      logo.src = "./assets/logo-nuevo.png";
+      logo.alt = "Grupo Versa";
+      logo.onerror = function () {
+        this.src = "./assets/logo-grupo-versa.png";
+      };
+    }
+
+    const zoneBtns = qa("a,button", header).filter((el) => {
+      if (el.closest(".dropdown-menu")) return false;
+      return /zona clientes/i.test((el.textContent || "").trim());
+    });
+    if (zoneBtns.length > 1) zoneBtns.slice(1).forEach((el) => el.remove());
+
+    const zone = zoneBtns[0];
+    if (zone) {
+      zone.classList.add("btn", "btn-secondary");
+      zone.textContent = "Ver zona clientes";
+      if (!zone.id) zone.id = "openClients";
+    }
+
+    const wa = qa("a,button", header).find((el) =>
+      /whatsapp/i.test((el.textContent || "").trim())
+    );
+    if (wa) {
+      wa.classList.add("btn", "btn-primary");
+      wa.textContent = "Hablar por WhatsApp";
+      if (wa.tagName === "A") {
+        wa.setAttribute("href", WA_URL);
+        wa.setAttribute("target", "_blank");
+        wa.setAttribute("rel", "noopener");
+      }
+    }
   }
 
-  function applyContentBindings(content) {
-    qsa("[data-bind]").forEach(function (el) {
-      var path = el.getAttribute("data-bind");
-      var attr = el.getAttribute("data-bind-attr");
-      var value = readPath(content, path);
-      if (value == null) return;
-      if (attr) {
-        el.setAttribute(attr, String(value));
-      } else if (typeof value === "string" || typeof value === "number") {
-        el.textContent = String(value);
-      }
+  function setupHero() {
+    const title = q(".hero-title");
+    if (title) title.textContent = "Rentas. Ventas. Seguros. Avalúos.";
+  }
+
+  function setupDropdown() {
+    qa("[data-dropdown-button]").forEach((btn) => {
+      const dropdown = btn.closest(".dropdown");
+      if (!dropdown) return;
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const wasOpen = dropdown.classList.contains("open");
+        qa(".dropdown.open").forEach((d) => d.classList.remove("open"));
+        btn.setAttribute("aria-expanded", wasOpen ? "false" : "true");
+        if (!wasOpen) dropdown.classList.add("open");
+      });
+    });
+
+    document.addEventListener("click", function (e) {
+      qa(".dropdown.open").forEach((d) => {
+        if (!d.contains(e.target)) {
+          d.classList.remove("open");
+          const b = q("[data-dropdown-button]", d);
+          if (b) b.setAttribute("aria-expanded", "false");
+        }
+      });
+    });
+  }
+
+  function setupMobileDrawer() {
+    const drawer = q("#mobile-drawer");
+    const toggle = q(".menu-toggle");
+    if (!drawer || !toggle) return;
+
+    const close = q(".drawer-close", drawer);
+    function openDrawer() {
+      drawer.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+      document.body.classList.add("modal-open");
+    }
+    function closeDrawer() {
+      drawer.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("modal-open");
+    }
+
+    toggle.addEventListener("click", function () {
+      if (drawer.hidden) openDrawer();
+      else closeDrawer();
+    });
+    if (close) close.addEventListener("click", closeDrawer);
+    drawer.addEventListener("click", function (e) {
+      if (e.target === drawer) closeDrawer();
+    });
+  }
+
+  function setupModeTabs() {
+    const tabs = qa("[data-mode-tab]");
+    const hiddenField = q("[data-mode-field]");
+    if (!tabs.length) return { current: "arriendo" };
+
+    const state = { current: "arriendo" };
+    function paint() {
+      tabs.forEach((tab) => {
+        const m = modeOf(tab.getAttribute("data-mode-tab"));
+        const active = m === state.current;
+        tab.classList.toggle("is-active", active);
+        tab.setAttribute("aria-pressed", active ? "true" : "false");
+      });
+      if (hiddenField) hiddenField.value = state.current;
+    }
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", function () {
+        state.current = modeOf(tab.getAttribute("data-mode-tab"));
+        paint();
+        document.dispatchEvent(new CustomEvent("gv:mode", { detail: { mode: state.current } }));
+      });
+    });
+    paint();
+    return state;
+  }
+
+  function setupCounts(listings) {
+    const counts = { arriendo: 0, venta: 0 };
+    listings.forEach((item) => {
+      counts[modeOf(item && item.operacion)] += 1;
+    });
+    qa("[data-mode-count]").forEach((el) => {
+      const m = modeOf(el.getAttribute("data-mode-count"));
+      el.textContent = String(counts[m] || 0);
+    });
+  }
+
+  function listingCard(item) {
+    const title = item && item.titulo ? item.titulo : "Inmueble en Cali";
+    const image = item && item.imagen ? item.imagen : "./assets/placeholder.svg";
+    const barrio = item && (item.barrio || item.direccionCorta) ? (item.barrio || item.direccionCorta) : "Cali";
+    const hab = item && item.habitaciones != null ? item.habitaciones : "-";
+    const banos = item && item.banos != null ? item.banos : "-";
+    const area = item && item.areaM2 != null ? item.areaM2 : "-";
+    const source = item && item.source ? item.source : "";
+    const sourceUrl = item && item.sourceUrl ? item.sourceUrl : "";
+    const sourceHtml = source
+      ? `<div class="listing-source">${sourceUrl ? `<a href="${sourceUrl}" target="_blank" rel="noopener">Fuente: ${source}</a>` : `Fuente: ${source}`}</div>`
+      : "";
+
+    return `
+      <article class="listing-card">
+        <div class="listing-media"><img src="${image}" alt="${title.replace(/"/g, "&quot;")}"></div>
+        <div class="listing-body">
+          <p class="listing-price">${formatCOP(item && item.precio)}</p>
+          <h3 class="listing-title">${title}</h3>
+          <p class="listing-location">${barrio}</p>
+          <div class="listing-specs">
+            <span>${hab} hab</span>
+            <span>${banos} baños</span>
+            <span>${area} m²</span>
+          </div>
+          ${sourceHtml}
+        </div>
+      </article>
+    `;
+  }
+
+  function setupFeatured(listings, state) {
+    const grid = q("[data-featured-grid], #featuredGrid, .featured-grid");
+    if (!grid) return;
+
+    function render(mode) {
+      const filtered = listings.filter((it) => modeOf(it && it.operacion) === mode);
+      const safeList = filtered.length ? filtered : listings;
+      grid.innerHTML = safeList.slice(0, 6).map(listingCard).join("");
+    }
+
+    render(state.current);
+    document.addEventListener("gv:mode", function (e) {
+      const mode = e && e.detail && e.detail.mode ? e.detail.mode : "arriendo";
+      render(mode);
     });
   }
 
   async function loadContent() {
+    const nodes = qa("[data-bind]");
+    if (!nodes.length) return;
     try {
-      var res = await fetch(CONTENT_URL, { method: "GET" });
+      const res = await fetch("./content.json?v=102", { cache: "no-store" });
       if (!res.ok) return;
-      var content = await res.json();
-      applyContentBindings(content);
-    } catch (error) {
-      return;
-    }
-  }
-
-  function firstFocusable(root) {
-    return qs('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', root);
-  }
-
-  function initDrawers() {
-    var overlay = qs("#overlay");
-    var openClients = qs("#openClients");
-    var closeClients = qs("#closeClients");
-    var clientsDrawer = qs("#clientsDrawer");
-    var openMobileNav = qs("#openMobileNav");
-    var closeMobileNav = qs("#closeMobileNav");
-    var mobileDrawer = qs("#mobileNavDrawer");
-    var currentDrawer = null;
-    var currentTrigger = null;
-    var previousFocus = null;
-
-    function toggle(drawer, trigger, open) {
-      if (!drawer || !overlay) return;
-      if (open) {
-        if (currentDrawer && currentDrawer !== drawer) toggle(currentDrawer, currentTrigger, false);
-        previousFocus = document.activeElement;
-        currentDrawer = drawer;
-        currentTrigger = trigger || null;
-        drawer.hidden = false;
-        overlay.hidden = false;
-        document.body.classList.add("modal-open");
-        if (trigger) trigger.setAttribute("aria-expanded", "true");
-        var focusTarget = firstFocusable(drawer);
-        if (focusTarget) focusTarget.focus();
-      } else {
-        drawer.hidden = true;
-        if (trigger) trigger.setAttribute("aria-expanded", "false");
-        if (currentDrawer === drawer) {
-          currentDrawer = null;
-          currentTrigger = null;
-          overlay.hidden = true;
-          document.body.classList.remove("modal-open");
-          if (previousFocus && typeof previousFocus.focus === "function") previousFocus.focus();
-          previousFocus = null;
+      const data = await res.json();
+      nodes.forEach((node) => {
+        const path = node.getAttribute("data-bind");
+        if (!path) return;
+        const normalized = path.replace(/\[(\d+)\]/g, ".$1").split(".");
+        let value = data;
+        for (let i = 0; i < normalized.length; i += 1) {
+          if (value == null) break;
+          value = value[normalized[i]];
         }
-      }
-    }
-
-    if (openClients && clientsDrawer) {
-      openClients.addEventListener("click", function () {
-        toggle(clientsDrawer, openClients, clientsDrawer.hidden);
+        if (value == null) return;
+        node.textContent = String(value);
       });
+    } catch (_e) {
+      /* keep static fallback copy */
     }
-
-    if (closeClients && clientsDrawer && openClients) {
-      closeClients.addEventListener("click", function () {
-        toggle(clientsDrawer, openClients, false);
-      });
-    }
-
-    if (openMobileNav && mobileDrawer) {
-      openMobileNav.addEventListener("click", function () {
-        toggle(mobileDrawer, openMobileNav, mobileDrawer.hidden);
-      });
-    }
-
-    if (closeMobileNav && mobileDrawer && openMobileNav) {
-      closeMobileNav.addEventListener("click", function () {
-        toggle(mobileDrawer, openMobileNav, false);
-      });
-    }
-
-    if (overlay) {
-      overlay.addEventListener("click", function () {
-        if (currentDrawer && currentTrigger) toggle(currentDrawer, currentTrigger, false);
-      });
-    }
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && currentDrawer && currentTrigger) {
-        toggle(currentDrawer, currentTrigger, false);
-      }
-    });
-  }
-
-  function initSegmentedControl() {
-    qsa(".segmented").forEach(function (group) {
-      var hidden = qs('input[type="hidden"]', group);
-      var buttons = qsa(".seg-btn", group);
-      buttons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          var value = button.getAttribute("data-seg-value") || "";
-          if (hidden) hidden.value = value;
-          buttons.forEach(function (b) {
-            var active = b === button;
-            b.classList.toggle("is-active", active);
-            b.setAttribute("aria-pressed", active ? "true" : "false");
-          });
-        });
-      });
-    });
-  }
-
-  function getListingsRaw() {
-    if (Array.isArray(window.listings)) return window.listings;
-    if (Array.isArray(window.inmuebles)) return window.inmuebles;
-    if (Array.isArray(window.properties)) return window.properties;
-    return [];
-  }
-
-  function normalizeListing(item, idx) {
-    return {
-      id: item.id || "listing-" + idx,
-      titulo: item.titulo || item.title || "Inmueble",
-      precio: Number(item.precio) || 0,
-      barrio: item.barrio || item.sector || item.ciudad || "Sector no especificado",
-      direccionCorta: item.direccionCorta || "",
-      habitaciones: item.habitaciones == null ? null : Number(item.habitaciones),
-      banos: item.banos == null ? null : Number(item.banos),
-      areaM2: item.areaM2 == null ? null : Number(item.areaM2),
-      parqueadero: item.parqueadero == null ? null : Number(item.parqueadero),
-      estrato: item.estrato == null ? null : Number(item.estrato),
-      tipo: normalizeText(item.tipo),
-      operacion: normalizeText(item.operacion),
-      destacado: Boolean(item.destacado),
-      nuevo: Boolean(item.nuevo),
-      imagen: item.imagen || "",
-      source: item.source || null,
-      sourceUrl: item.sourceUrl || null
-    };
-  }
-
-  function listingsData() {
-    return getListingsRaw().map(normalizeListing);
-  }
-
-  function spec(value, label) {
-    if (value == null) return "-";
-    return label ? String(value) + " " + label : String(value);
-  }
-
-  function sourceLine(item) {
-    if (!item.source) return "";
-    if (item.sourceUrl) {
-      return '<div class="listing-source">Fuente: <a href="' + item.sourceUrl + '" target="_blank" rel="noopener">' + item.source + "</a></div>";
-    }
-    return '<div class="listing-source">Fuente: ' + item.source + "</div>";
-  }
-
-  function listingCard(item) {
-    var imageMarkup = item.imagen
-      ? '<img src="' + item.imagen + '" alt="' + item.titulo + '">'
-      : '<svg viewBox="0 0 640 400" aria-hidden="true"><rect width="640" height="400" fill="#e8edf4"/><path d="M90 300h460L430 170l-65 64-62-71-98 100-45-46z" fill="#c8d5e4"/><circle cx="460" cy="130" r="28" fill="#d9e5f1"/></svg>';
-
-    var badges = "";
-    if (item.nuevo || item.destacado) {
-      badges = '<div class="badge-row">' +
-        (item.nuevo ? '<span class="badge badge-new">Nuevo</span>' : "") +
-        (item.destacado ? '<span class="badge badge-featured">Destacado</span>' : "") +
-        "</div>";
-    }
-
-    return (
-      '<article class="listing-card">' +
-      '<div class="listing-media-wrap">' + badges + '<div class="listing-media">' + imageMarkup + "</div></div>" +
-      '<div class="listing-body">' +
-      '<div class="listing-price">' + formatCop(item.precio) + "</div>" +
-      '<h3 class="listing-title">' + item.titulo + "</h3>" +
-      '<p class="listing-location">' + item.barrio + (item.direccionCorta ? " · " + item.direccionCorta : "") + "</p>" +
-      '<div class="listing-specs">' +
-      '<span class="spec">🛏 ' + spec(item.habitaciones, "") + "</span>" +
-      '<span class="spec">🛁 ' + spec(item.banos, "") + "</span>" +
-      '<span class="spec">▦ ' + spec(item.areaM2, "m²") + "</span>" +
-      "</div>" +
-      sourceLine(item) +
-      "</div></article>"
-    );
-  }
-
-  function renderFeatured() {
-    var grid = qs("#featuredGrid");
-    if (!grid) return;
-    var items = listingsData().slice().sort(function (a, b) {
-      return Number(b.destacado) - Number(a.destacado);
-    });
-    if (!items.length) {
-      grid.innerHTML = '<article class="listing-card"><div class="listing-body"><h3 class="listing-title">No hay inmuebles cargados</h3><p class="listing-location">Actualiza <code>data.js</code> para poblar esta sección.</p></div></article>';
-      return;
-    }
-    grid.innerHTML = items.slice(0, 6).map(listingCard).join("");
-  }
-
-  function setFormFromQuery(form) {
-    var params = new URLSearchParams(window.location.search);
-    ["operacion", "q", "tipo", "min", "max", "hab"].forEach(function (name) {
-      if (params.has(name) && form[name]) form[name].value = params.get(name);
-    });
-  }
-
-  function readFilters(form) {
-    return {
-      operacion: normalizeText(form.operacion && form.operacion.value),
-      q: normalizeText(form.q && form.q.value),
-      tipo: normalizeText(form.tipo && form.tipo.value),
-      min: toNumber(form.min && form.min.value),
-      max: toNumber(form.max && form.max.value),
-      hab: toNumber(form.hab && form.hab.value)
-    };
-  }
-
-  function byFilters(item, filters) {
-    if (filters.operacion && item.operacion !== filters.operacion) return false;
-    if (filters.tipo && item.tipo !== filters.tipo) return false;
-    if (filters.q) {
-      var text = normalizeText(item.titulo + " " + item.barrio + " " + item.direccionCorta);
-      if (!text.includes(filters.q)) return false;
-    }
-    if (filters.min && item.precio < filters.min) return false;
-    if (filters.max && item.precio > filters.max) return false;
-    if (filters.hab && (item.habitaciones || 0) < filters.hab) return false;
-    return true;
-  }
-
-  function writeQuery(filters) {
-    var params = new URLSearchParams();
-    Object.keys(filters).forEach(function (key) {
-      var value = filters[key];
-      if (value !== "" && value !== 0 && value != null) params.set(key, String(value));
-    });
-    var url = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
-    history.replaceState({}, "", url);
-  }
-
-  function initSearchPage() {
-    var form = qs("#searchFilters");
-    var grid = qs("#resultsGrid");
-    var count = qs("#resultsCount");
-    if (!form || !grid || !count) return;
-
-    setFormFromQuery(form);
-    var all = listingsData();
-
-    function render() {
-      var filters = readFilters(form);
-      var filtered = all.filter(function (item) {
-        return byFilters(item, filters);
-      });
-      count.textContent = filtered.length + " inmuebles";
-      if (!filtered.length) {
-        grid.innerHTML = '<article class="listing-card"><div class="listing-body"><h3 class="listing-title">No hay resultados</h3><p class="listing-location">Ajusta los filtros para encontrar más opciones.</p></div></article>';
-      } else {
-        grid.innerHTML = filtered.map(listingCard).join("");
-      }
-      writeQuery(filters);
-    }
-
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-      render();
-    });
-
-    render();
-    initMapToggle();
-  }
-
-  function initMapToggle() {
-    var toggle = qs(".mobile-map-toggle");
-    if (!toggle) return;
-    qsa("button", toggle).forEach(function (button) {
-      button.addEventListener("click", function () {
-        var view = button.getAttribute("data-view");
-        qsa("button", toggle).forEach(function (b) {
-          b.classList.toggle("is-active", b === button);
-        });
-        document.body.classList.toggle("show-map", view === "map");
-      });
-    });
   }
 
   function init() {
-    loadContent();
-    initDrawers();
-    initSegmentedControl();
-    renderFeatured();
-    initSearchPage();
-    console.log("GV UI loaded", { hasDrawer: !!document.getElementById("clientsDrawer") });
+    safe(setupHeader);
+    safe(setupHero);
+    safe(setupDropdown);
+    safe(setupMobileDrawer);
+    const listings = getListings();
+    safe(function () { setupCounts(listings); });
+    const state = safe(function () { return setupModeTabs(); }) || { current: "arriendo" };
+    safe(function () { setupFeatured(listings, state); });
+    safe(loadContent);
+    console.log("GV UI loaded", { hasDrawer: !!q("#clientsDrawer") });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
-  } else {
-    init();
-  }
+  document.addEventListener("DOMContentLoaded", init);
 })();

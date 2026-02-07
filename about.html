@@ -8,35 +8,58 @@
   <link rel="stylesheet" href="./styles.css?v=102">
 </head>
 <body data-page="about">
-  <header class="site-header">
-    <a class="skip-link" href="#main">Saltar al contenido</a>
-    <div class="container header-grid">
-      <button class="menu-toggle" id="openMobileNav" type="button" aria-label="Abrir menú" aria-controls="mobileNavDrawer" aria-expanded="false">☰</button>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
 
+  <div class="topbar">
+    <div class="container topbar-wrap">
+      <p><strong data-bind="brand.name">Grupo Versa Colombia SAS</strong></p>
+      <p><span data-bind="contact.phones[0]">302 258 4900</span> · <span data-bind="contact.address">Calle 9C #49-45, Cali</span></p>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-grid">
+      <button class="btn btn-ghost menu-toggle" id="openMobileNav" type="button" aria-label="Abrir menú" aria-controls="mobileNavDrawer" aria-expanded="false">☰</button>
       <nav class="nav-left" aria-label="Principal">
         <a href="./search.html?operacion=arriendo">Arriendos</a>
         <a href="./search.html?operacion=venta">Ventas</a>
-        <a href="./index.html#consigne">Consigne</a>
         <a href="./index.html#servicios">Servicios</a>
+        <a href="./about.html">Nosotros</a>
       </nav>
-
       <a class="brand" href="./index.html" aria-label="Grupo Versa">
-        <img class="brand-logo" src="./assets/logo-grupo-versa.png" alt="Grupo Versa">
+        <img class="brand-logo" src="./assets/logo-grupo-versa-header.png" onerror="this.onerror=null;this.src='./assets/logo-grupo-versa.png';" alt="Grupo Versa">
       </a>
-
       <div class="nav-right">
-        <button class="btn btn-secondary" id="openClients" type="button" aria-expanded="false" aria-controls="clientsDrawer">Zona clientes</button>
-        <a class="btn btn-primary" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
+        <div class="dropdown zc-desktop">
+          <button class="btn btn-secondary zc-trigger" type="button" aria-expanded="false">Ver zona clientes</button>
+          <div class="dropdown-menu" role="menu" aria-label="Zona clientes">
+            <div class="dropdown-grid">
+              <div class="dropdown-group">
+                <h4>Arrendatarios</h4>
+                <a data-bind="clientsZone.arrendatarios[0].url" data-bind-attr="href" href="./clients.html#pagar">Pagar arriendo</a>
+                <a data-bind="clientsZone.arrendatarios[1].url" data-bind-attr="href" href="./clients.html#cupon">Cupón</a>
+                <a data-bind="clientsZone.arrendatarios[2].url" data-bind-attr="href" href="./clients.html#requisitos">Requisitos</a>
+                <a data-bind="clientsZone.arrendatarios[3].url" data-bind-attr="href" href="./clients.html#tutoriales">Tutoriales</a>
+              </div>
+              <div class="dropdown-group">
+                <h4>Propietarios</h4>
+                <a data-bind="clientsZone.propietarios[0].url" data-bind-attr="href" href="./clients.html#estados">Estados de cuenta</a>
+                <a data-bind="clientsZone.propietarios[1].url" data-bind-attr="href" href="./clients.html#certificados">Certificados</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-secondary zc-mobile-trigger" id="openClients" type="button" aria-expanded="false" aria-controls="clientsDrawer">Ver zona clientes</button>
+        <a class="btn btn-primary" data-whatsapp-fallback="true" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">Hablar por WhatsApp</a>
       </div>
     </div>
   </header>
 
   <div id="overlay" class="overlay" hidden></div>
-
-  <aside id="clientsDrawer" class="drawer drawer-clients" role="dialog" aria-modal="true" aria-labelledby="clientsDrawerTitle" hidden>
+  <aside id="clientsDrawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="clientsDrawerTitle" hidden>
     <div class="drawer-head">
       <h2 id="clientsDrawerTitle">Zona clientes</h2>
-      <button class="drawer-close" id="closeClients" type="button" aria-label="Cerrar zona clientes">✕</button>
+      <button class="drawer-close" type="button" data-close-drawer="clientsDrawer" aria-label="Cerrar zona clientes">✕</button>
     </div>
     <div class="drawer-grid">
       <section>
@@ -44,7 +67,6 @@
         <a data-bind="clientsZone.arrendatarios[0].url" data-bind-attr="href" href="./clients.html#pagar">Pagar arriendo</a>
         <a data-bind="clientsZone.arrendatarios[1].url" data-bind-attr="href" href="./clients.html#cupon">Cupón</a>
         <a data-bind="clientsZone.arrendatarios[2].url" data-bind-attr="href" href="./clients.html#requisitos">Requisitos</a>
-        <a data-bind="clientsZone.arrendatarios[3].url" data-bind-attr="href" href="./clients.html#tutoriales">Tutoriales</a>
       </section>
       <section>
         <h3>Propietarios</h3>
@@ -53,51 +75,104 @@
       </section>
     </div>
   </aside>
-
   <aside id="mobileNavDrawer" class="drawer drawer-nav" role="dialog" aria-modal="true" aria-labelledby="mobileNavTitle" hidden>
     <div class="drawer-head">
-      <h2 id="mobileNavTitle">Menú</h2>
-      <button class="drawer-close" id="closeMobileNav" type="button" aria-label="Cerrar menú">✕</button>
+      <h2 id="mobileNavTitle">Menú principal</h2>
+      <button class="drawer-close" type="button" data-close-drawer="mobileNavDrawer" aria-label="Cerrar menú">✕</button>
     </div>
     <nav class="mobile-links" aria-label="Navegación móvil">
       <a href="./search.html?operacion=arriendo">Arriendos</a>
       <a href="./search.html?operacion=venta">Ventas</a>
-      <a href="./index.html#consigne">Consigne</a>
       <a href="./index.html#servicios">Servicios</a>
+      <a href="./about.html">Nosotros</a>
       <a href="./clients.html">Zona clientes</a>
-      <a data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
+      <a data-whatsapp-fallback="true" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">Hablar por WhatsApp</a>
     </nav>
   </aside>
 
   <main id="main">
     <section class="section">
-      <div class="section-head">
-        <h1>Nosotros</h1>
-      </div>
-      <div class="about-grid">
-        <article class="about-card">
-          <h2 data-bind="brand.name">Grupo Versa Colombia SAS</h2>
-          <p data-bind="brand.tagline">Arrendamientos, ventas y avalúos de inmuebles en Cali.</p>
+      <div class="container split-panels">
+        <article class="panel-card">
+          <p class="kicker">Nuestra historia</p>
+          <h1>Grupo Versa: visión inmobiliaria con base tecnológica</h1>
+          <p class="lead" data-bind="about.summary">Grupo Versa Colombia SAS es una inmobiliaria caleña con enfoque en arrendamientos, administración y ventas, impulsando procesos ágiles apoyados por herramientas digitales.</p>
+          <p data-bind="about.promise">Nuestra meta es ofrecer una experiencia tecnológica, confiable y humana para cada operación inmobiliaria.</p>
         </article>
-        <article class="about-card">
-          <h2>Ubicación</h2>
-          <p data-bind="contact.address">Calle 9C # 49-45, Cali</p>
+        <article class="panel-card">
+          <p class="kicker">Información de contacto</p>
+          <h3>Oficina principal</h3>
+          <p><strong>Dirección:</strong> <span data-bind="contact.address">Calle 9C #49-45, Cali, Valle del Cauca</span></p>
           <p><strong>Ciudad:</strong> <span data-bind="brand.city">Cali</span></p>
+          <p><strong>Teléfonos:</strong> <span data-bind="contact.phones[0]">302 258 4900</span> / <span data-bind="contact.phones[1]">317 801 6459</span></p>
+          <p><strong>Horario:</strong> <span data-bind="contact.hours">Lunes a viernes · 8:00 a.m. a 5:00 p.m.</span></p>
+          <a class="btn btn-primary" data-whatsapp-fallback="true" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">Solicitar asesoría</a>
         </article>
-        <article class="about-card">
-          <h2>Atención</h2>
-          <p><strong>Tel:</strong> <span data-bind="contact.phones[0]">302 258 4900</span></p>
-          <p><strong>Email:</strong> <span data-bind="contact.email">No publicado</span></p>
-          <p><strong>Horario:</strong> <span data-bind="contact.hours">Lun - Vie: 8:00 - 17:00</span></p>
-        </article>
+      </div>
+    </section>
+
+    <section class="section section-soft">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Especialidades</p>
+            <h2>Qué hacemos mejor</h2>
+          </div>
+        </div>
+        <div class="services-grid">
+          <article class="service-card">
+            <h3>Arrendamientos</h3>
+            <p>Promoción de inmuebles, estudios de viabilidad y formalización del contrato.</p>
+          </article>
+          <article class="service-card">
+            <h3>Administración</h3>
+            <p>Control de cartera, soporte de mantenimiento y atención al cliente final.</p>
+          </article>
+          <article class="service-card">
+            <h3>Ventas</h3>
+            <p>Estrategia comercial, negociación y cierre seguro de activos inmobiliarios.</p>
+          </article>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-wrap">
-      <p data-bind="brand.name">Grupo Versa Colombia SAS</p>
-      <p class="muted"><span data-bind="contact.address">Calle 9C # 49-45, Cali</span> · <span data-bind="contact.phones[0]">302 258 4900</span></p>
+    <div class="container footer-grid">
+      <div>
+        <img class="footer-logo" src="./assets/logo-grupo-versa-header.png" onerror="this.onerror=null;this.src='./assets/logo-grupo-versa.png';" alt="Grupo Versa">
+        <p class="muted" data-bind="brand.tagline">Arrendamientos, ventas, avalúos y administración inmobiliaria</p>
+        <p class="muted"><span data-bind="contact.address">Calle 9C #49-45, Cali, Valle del Cauca</span></p>
+      </div>
+      <div>
+        <h4>Empresa</h4>
+        <a href="./about.html">Nosotros</a>
+        <a href="./index.html#servicios">Servicios</a>
+        <a href="./search.html">Catálogo</a>
+      </div>
+      <div>
+        <h4>Zona clientes</h4>
+        <a href="./clients.html#pagar">Pagar arriendo</a>
+        <a href="./clients.html#estados">Estados de cuenta</a>
+        <a href="./clients.html#certificados">Certificados</a>
+      </div>
+      <div>
+        <h4>Conecta con Versa</h4>
+        <div class="social-row">
+          <a class="social-chip" data-whatsapp-fallback="true" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.94 9.94 0 0 0-8.47 15.2L2 22l4.94-1.54A9.95 9.95 0 1 0 12.04 2Zm5.8 13.76c-.24.67-1.37 1.27-1.9 1.35-.49.08-1.1.12-1.78-.1-.42-.14-.96-.31-1.66-.61-2.91-1.26-4.8-4.2-4.95-4.4-.15-.2-1.18-1.58-1.18-3.01 0-1.43.75-2.14 1.02-2.43.27-.29.59-.36.79-.36.2 0 .4 0 .58.01.19.01.43-.07.67.51.24.58.81 2.01.88 2.16.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.31.31-.13.6.18.3.81 1.33 1.73 2.16 1.19 1.06 2.18 1.39 2.48 1.54.3.15.47.13.64-.08.17-.2.74-.86.93-1.15.2-.29.39-.24.67-.15.27.1 1.73.81 2.02.96.3.15.49.22.57.35.08.12.08.71-.16 1.38Z"/></svg>
+          </a>
+          <a class="social-chip" data-bind="social.facebook" data-bind-attr="href" href="https://www.facebook.com/grupoversacolombia/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.5 1.6-1.5h1.7V5c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5V11H7v3h2.8v8h3.7Z"/></svg>
+          </a>
+          <a class="social-chip" data-bind="social.instagram" data-bind-attr="href" href="https://www.instagram.com/grupoversacolombia/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm-.2 1.9A3.65 3.65 0 0 0 3.9 7.55v8.9a3.65 3.65 0 0 0 3.65 3.65h8.9a3.65 3.65 0 0 0 3.65-3.65v-8.9a3.65 3.65 0 0 0-3.65-3.65h-8.9Zm9.95 1.45a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.9a3.1 3.1 0 1 0 0 6.2 3.1 3.1 0 0 0 0-6.2Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© <span data-bind="brand.shortName">Grupo Versa</span> · Todos los derechos reservados.</p>
     </div>
   </footer>
 

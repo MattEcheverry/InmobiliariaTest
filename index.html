@@ -1,180 +1,214 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grupo Versa | Inicio</title>
-  <link rel="preload" href="./content.json?v=102" as="fetch" crossorigin="anonymous">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grupo Versa | Inmobiliaria en Cali</title>
+  <meta name="description" content="Rentas, ventas, seguros y avalúos con Grupo Versa en Cali.">
   <link rel="stylesheet" href="./styles.css?v=102">
 </head>
-<body data-page="home">
+<body>
   <header class="site-header">
     <a class="skip-link" href="#main">Saltar al contenido</a>
     <div class="container header-grid">
-      <button class="menu-toggle" id="openMobileNav" type="button" aria-label="Abrir menú" aria-controls="mobileNavDrawer" aria-expanded="false">☰</button>
+      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-controls="mobile-drawer" aria-expanded="false">☰</button>
 
-      <nav class="nav-left" aria-label="Principal">
-        <a href="./search.html?operacion=arriendo">Arriendos</a>
-        <a href="./search.html?operacion=venta">Ventas</a>
-        <a href="./index.html#consigne">Consigne</a>
+      <nav class="nav-left" aria-label="Navegación principal">
+        <a href="./search.html?tipo=arriendo">Arriendos</a>
+        <a href="./search.html?tipo=venta">Ventas</a>
         <a href="./index.html#servicios">Servicios</a>
+        <a href="./about.html">Nosotros</a>
       </nav>
 
       <a class="brand" href="./index.html" aria-label="Grupo Versa">
-        <img class="brand-logo" src="./assets/logo-grupo-versa.png" alt="Grupo Versa">
+        <img src="./assets/logo-nuevo.png" alt="Grupo Versa" onerror="this.src='./assets/logo-grupo-versa.png'">
       </a>
 
       <div class="nav-right">
-        <button class="btn btn-secondary" id="openClients" type="button" aria-expanded="false" aria-controls="clientsDrawer">Zona clientes</button>
-        <a class="btn btn-primary" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
+        <div class="dropdown">
+          <button id="openClients" class="btn btn-secondary" type="button" data-dropdown-button aria-expanded="false">Ver zona clientes</button>
+          <div class="dropdown-menu" role="dialog" aria-label="Zona clientes">
+            <div class="zc-grid">
+              <div>
+                <p class="zc-title">Arrendatarios</p>
+                <a href="./clients.html#pagar">Pagar arriendo</a>
+                <a href="./clients.html#cupon">Generar cupón</a>
+                <a href="./clients.html#requisitos">Requisitos</a>
+                <a href="./clients.html#tutoriales">Tutoriales</a>
+              </div>
+              <div>
+                <p class="zc-title">Propietarios</p>
+                <a href="./clients.html#estados">Estados de cuenta</a>
+                <a href="./clients.html#certificados">Certificados</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a class="btn btn-primary" href="https://wa.me/573022584900" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+      </div>
+    </div>
+
+    <div id="mobile-drawer" class="mobile-drawer" hidden>
+      <div class="mobile-drawer-card">
+        <div class="mobile-drawer-head">
+          <p class="mobile-title">Menú</p>
+          <button class="drawer-close" type="button" aria-label="Cerrar menú">✕</button>
+        </div>
+        <div class="mobile-links">
+          <a href="./search.html?tipo=arriendo">Arriendos</a>
+          <a href="./search.html?tipo=venta">Ventas</a>
+          <a href="./index.html#servicios">Servicios</a>
+          <a href="./about.html">Nosotros</a>
+          <hr>
+          <a href="./clients.html">Zona clientes</a>
+          <a href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
+        </div>
       </div>
     </div>
   </header>
 
-  <div id="overlay" class="overlay" hidden></div>
-
-  <aside id="clientsDrawer" class="drawer drawer-clients" role="dialog" aria-modal="true" aria-labelledby="clientsDrawerTitle" hidden>
-    <div class="drawer-head">
-      <h2 id="clientsDrawerTitle">Zona clientes</h2>
-      <button class="drawer-close" id="closeClients" type="button" aria-label="Cerrar zona clientes">✕</button>
-    </div>
-    <div class="drawer-grid">
-      <section>
-        <h3>Arrendatarios</h3>
-        <a data-bind="clientsZone.arrendatarios[0].url" data-bind-attr="href" href="./clients.html#pagar">Pagar arriendo</a>
-        <a data-bind="clientsZone.arrendatarios[1].url" data-bind-attr="href" href="./clients.html#cupon">Cupón</a>
-        <a data-bind="clientsZone.arrendatarios[2].url" data-bind-attr="href" href="./clients.html#requisitos">Requisitos</a>
-        <a data-bind="clientsZone.arrendatarios[3].url" data-bind-attr="href" href="./clients.html#tutoriales">Tutoriales</a>
-      </section>
-      <section>
-        <h3>Propietarios</h3>
-        <a data-bind="clientsZone.propietarios[0].url" data-bind-attr="href" href="./clients.html#estados">Estados de cuenta</a>
-        <a data-bind="clientsZone.propietarios[1].url" data-bind-attr="href" href="./clients.html#certificados">Certificados</a>
-      </section>
-    </div>
-  </aside>
-
-  <aside id="mobileNavDrawer" class="drawer drawer-nav" role="dialog" aria-modal="true" aria-labelledby="mobileNavTitle" hidden>
-    <div class="drawer-head">
-      <h2 id="mobileNavTitle">Menú</h2>
-      <button class="drawer-close" id="closeMobileNav" type="button" aria-label="Cerrar menú">✕</button>
-    </div>
-    <nav class="mobile-links" aria-label="Navegación móvil">
-      <a href="./search.html?operacion=arriendo">Arriendos</a>
-      <a href="./search.html?operacion=venta">Ventas</a>
-      <a href="./index.html#consigne">Consigne</a>
-      <a href="./index.html#servicios">Servicios</a>
-      <a href="./clients.html">Zona clientes</a>
-      <a data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
-    </nav>
-  </aside>
-
   <main id="main">
-    <section class="section hero">
-      <div class="hero-copy">
-        <p class="eyebrow" data-bind="brand.name">Grupo Versa Colombia SAS</p>
-        <h1 data-bind="hero.headline">Arrendamientos, ventas y administración de inmuebles en Cali</h1>
-        <p data-bind="hero.subheadline">Gestionamos tu inmueble con procesos claros, soporte profesional y acompañamiento comercial.</p>
-      </div>
-
-      <form class="search-pill" id="heroSearch" action="./search.html" method="get">
-        <div class="segmented" role="group" aria-label="Operación">
-          <button type="button" class="seg-btn is-active" data-seg-value="arriendo" aria-pressed="true">Arriendo</button>
-          <button type="button" class="seg-btn" data-seg-value="venta" aria-pressed="false">Venta</button>
-          <input type="hidden" name="operacion" value="arriendo">
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1 class="hero-title">Rentas. Ventas. Seguros. Avalúos.</h1>
+          <div class="hero-quick-clients">
+            <p class="hero-clients-title">Clientes: accesos rápidos</p>
+            <div class="hero-clients-grid">
+              <a href="./clients.html#pagar">Pagar arriendo</a>
+              <a href="./clients.html#cupon">Generar cupón</a>
+              <a href="./clients.html#estados">Estados de cuenta</a>
+              <a href="./clients.html#certificados">Certificados</a>
+            </div>
+          </div>
         </div>
-        <label>
-          <span>Barrio / Sector</span>
-          <input type="text" name="q" placeholder="Ej. Pance, Capri, Caney">
-        </label>
-        <label>
-          <span>Tipo</span>
-          <select name="tipo">
-            <option value="">Todos</option>
-            <option value="apartamento">Apartamento</option>
-            <option value="casa">Casa</option>
-            <option value="local">Local</option>
-            <option value="oficina">Oficina</option>
-            <option value="lote">Lote</option>
-          </select>
-        </label>
-        <label>
-          <span>Precio min</span>
-          <input type="number" name="min" placeholder="0">
-        </label>
-        <label>
-          <span>Precio max</span>
-          <input type="number" name="max" placeholder="2000000000">
-        </label>
-        <label>
-          <span>Habitaciones</span>
-          <select name="hab">
-            <option value="">Cualquiera</option>
-            <option value="1">1+</option>
-            <option value="2">2+</option>
-            <option value="3">3+</option>
-            <option value="4">4+</option>
-          </select>
-        </label>
-        <button type="submit" class="btn btn-primary btn-search">Buscar</button>
-      </form>
+
+        <form class="search-card" action="./search.html" method="get">
+          <h2>Encuentra tu inmueble ideal</h2>
+
+          <div class="mode-tabs" role="tablist" aria-label="Operación">
+            <button class="mode-tab is-active" type="button" data-mode-tab="arriendo" aria-pressed="true">
+              Arriendo <span class="count" data-mode-count="arriendo">0</span>
+            </button>
+            <button class="mode-tab" type="button" data-mode-tab="venta" aria-pressed="false">
+              Venta <span class="count" data-mode-count="venta">0</span>
+            </button>
+          </div>
+
+          <input type="hidden" name="tipo" value="arriendo" data-mode-field>
+
+          <div class="search-grid">
+            <label>
+              Barrio o sector
+              <input name="q" type="text" placeholder="Ej. Pance, Capri, Caney">
+            </label>
+            <label>
+              Tipo de inmueble
+              <select name="tipoInmueble">
+                <option value="">Todos</option>
+                <option>Apartamento</option>
+                <option>Casa</option>
+                <option>Local</option>
+                <option>Oficina</option>
+                <option>Lote</option>
+              </select>
+            </label>
+            <label>
+              Presupuesto mínimo
+              <input name="min" type="number" min="0" step="100000" placeholder="0">
+            </label>
+            <label>
+              Presupuesto máximo
+              <input name="max" type="number" min="0" step="100000" placeholder="2000000000">
+            </label>
+            <label>
+              Habitaciones
+              <select name="hab">
+                <option value="">Cualquiera</option>
+                <option value="1">1+</option>
+                <option value="2">2+</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+              </select>
+            </label>
+          </div>
+
+          <button class="btn btn-primary btn-block" type="submit">Buscar inmuebles</button>
+        </form>
+      </div>
     </section>
 
     <section id="servicios" class="section">
-      <div class="section-head">
-        <h2>Servicios</h2>
+      <div class="container">
+        <h2 class="section-title">Servicios inmobiliarios</h2>
+        <div class="services-grid">
+          <article class="service-card">
+            <h3>Arriendos</h3>
+            <p>Administración integral para propietarios y proceso ágil para arrendatarios.</p>
+          </article>
+          <article class="service-card">
+            <h3>Ventas</h3>
+            <p>Comercialización con estrategia digital, filtros de clientes y acompañamiento legal.</p>
+          </article>
+          <article class="service-card">
+            <h3>Avalúos y seguros</h3>
+            <p>Valoración técnica y respaldo para decisiones seguras en cada operación.</p>
+          </article>
+        </div>
       </div>
-      <div class="services-grid">
-        <article class="service-card">
-          <h3 data-bind="services[0].title">Arrendamientos</h3>
-          <p data-bind="services[0].description">Gestión integral de colocación y administración.</p>
-        </article>
-        <article class="service-card">
-          <h3 data-bind="services[1].title">Ventas</h3>
-          <p data-bind="services[1].description">Acompañamiento comercial y jurídico.</p>
-        </article>
-        <article class="service-card">
-          <h3 data-bind="services[2].title">Avalúos</h3>
-          <p data-bind="services[2].description">Valoraciones con criterios técnicos.</p>
-        </article>
+    </section>
+
+    <section class="section section-muted">
+      <div class="container">
+        <h2 class="section-title">Inmuebles destacados</h2>
+        <div id="featuredGrid" data-featured-grid class="listing-grid"></div>
       </div>
     </section>
 
     <section class="section">
-      <div class="section-head">
-        <h2>Inmuebles destacados</h2>
-        <a class="text-link" href="./search.html">Ver todos</a>
-      </div>
-      <div id="featuredGrid" class="cards-grid"></div>
-    </section>
-
-    <section id="consigne" class="section consigne">
-      <div class="consigne-grid">
-        <article>
-          <h2>Consigne su inmueble</h2>
-          <p data-bind="clientsZone.ownerPitch">Publicamos y administramos tu inmueble con indicadores claros y comunicación constante.</p>
-          <ul>
-            <li>Estudio comercial y estrategia de precio</li>
-            <li>Filtro de candidatos y documentación</li>
-            <li>Acompañamiento durante la vigencia del contrato</li>
-          </ul>
+      <div class="container two-panels">
+        <article class="panel">
+          <p class="panel-kicker">Propietarios</p>
+          <h3>Consigne su inmueble con método y visibilidad digital</h3>
+          <p>Convierta su inmueble en un activo administrado con control comercial, soporte jurídico y seguimiento continuo.</p>
+          <a class="btn btn-primary" href="./clients.html#consignar">Iniciar consignación</a>
         </article>
-        <article class="consigne-card">
-          <h3>Contacto rápido</h3>
-          <p><strong>Teléfono:</strong> <span data-bind="contact.phones[0]">302 258 4900</span></p>
-          <p><strong>Dirección:</strong> <span data-bind="contact.address">Calle 9C # 49-45, Cali</span></p>
-          <p><strong>Horario:</strong> <span data-bind="contact.hours">Lun - Vie: 8:00 - 17:00</span></p>
-          <a class="btn btn-primary" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+        <article class="panel">
+          <p class="panel-kicker">Requisitos</p>
+          <h3>Resumen para arrendar</h3>
+          <ul>
+            <li>Hasta $3.000.000: 1 deudor con raíz + 1 solidario.</li>
+            <li>$3.000.000 a $6.000.000: 2 con raíz + 2 solidarios.</li>
+            <li>Más de $6.000.000: estudio especializado.</li>
+          </ul>
+          <a class="btn btn-secondary" href="./clients.html#requisitos">Ver requisitos completos</a>
         </article>
       </div>
     </section>
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-wrap">
-      <p data-bind="brand.name">Grupo Versa Colombia SAS</p>
-      <p class="muted"><span data-bind="contact.address">Calle 9C # 49-45, Cali</span> · <span data-bind="contact.phones[0]">302 258 4900</span></p>
+    <div class="container footer-grid">
+      <div>
+        <a class="footer-brand" href="./index.html">
+          <img src="./assets/logo-nuevo.png" alt="Grupo Versa" onerror="this.src='./assets/logo-grupo-versa.png'">
+        </a>
+        <p>Soluciones inmobiliarias en Cali para arriendos, ventas y administración.</p>
+      </div>
+      <div>
+        <p class="footer-title">Accesos</p>
+        <a href="./search.html?tipo=arriendo">Arriendos</a>
+        <a href="./search.html?tipo=venta">Ventas</a>
+        <a href="./clients.html">Zona clientes</a>
+      </div>
+      <div>
+        <p class="footer-title">Contacto</p>
+        <a href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="mailto:contacto@grupoversa.com.co">contacto@grupoversa.com.co</a>
+        <p>Cali, Colombia</p>
+      </div>
     </div>
+    <div class="container footer-bottom">© Grupo Versa</div>
   </footer>
 
   <script src="./data.js?v=102"></script>
