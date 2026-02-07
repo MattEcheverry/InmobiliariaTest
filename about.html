@@ -1,107 +1,103 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <link rel="stylesheet" href="./styles.css?v=102">
-  <link rel="stylesheet" href="./styles.css?v=99" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nosotros | Grupo Versa</title>
-  <link rel="stylesheet" href="./styles.css?v=2">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <title>Grupo Versa | Nosotros</title>
+  <link rel="stylesheet" href="./styles.css?v=200">
 </head>
-<body>
-<a href="#main" class="skip-link">Saltar al contenido</a>
-<header class="site-header">
-  <div class="container nav-shell">
-    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menú">☰</button>
-    <nav class="nav-left" aria-label="Navegación principal izquierda">
-      <a class="nav-link" href="search.html?gestion=arriendo">Arriendos</a>
-      <a class="nav-link" href="search.html?gestion=venta">Ventas</a>
-      <a class="nav-link" href="index.html#consigne">Consigne</a>
-      <a class="nav-link" href="index.html#servicios">Servicios</a>
+<body data-page="about">
+  <header class="site-header">
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <div class="container header-grid">
+      <button class="menu-toggle" id="openMobileNav" type="button" aria-label="Abrir menú" aria-controls="mobileNavDrawer" aria-expanded="false">☰</button>
+
+      <nav class="nav-left" aria-label="Principal">
+        <a href="./search.html?tipo=arriendo">Arriendos</a>
+        <a href="./search.html?tipo=venta">Ventas</a>
+        <a href="./index.html#consigne">Consigne</a>
+        <a href="./index.html#servicios">Servicios</a>
+      </nav>
+
+      <a class="brand" href="./index.html" aria-label="Grupo Versa">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text"><strong>Grupo</strong> Versa</span>
+      </a>
+
+      <div class="nav-right">
+        <button class="btn btn-secondary" id="openClients" type="button" aria-expanded="false" aria-controls="clientsDrawer">Zona clientes</button>
+        <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </header>
+
+  <div id="overlay" class="overlay" hidden></div>
+
+  <aside id="clientsDrawer" class="drawer drawer-clients" role="dialog" aria-modal="true" aria-labelledby="clientsDrawerTitle" hidden>
+    <div class="drawer-head">
+      <h2 id="clientsDrawerTitle">Zona clientes</h2>
+      <button class="drawer-close" id="closeClients" type="button" aria-label="Cerrar zona clientes">✕</button>
+    </div>
+    <div class="drawer-grid">
+      <section>
+        <h3>Arrendatarios</h3>
+        <a href="./clients.html#pagar">Pagar arriendo</a>
+        <a href="./clients.html#cupon">Cupón</a>
+        <a href="./clients.html#requisitos">Requisitos</a>
+        <a href="./clients.html#tutoriales">Tutoriales</a>
+      </section>
+      <section>
+        <h3>Propietarios</h3>
+        <a href="./clients.html#estados">Estados de cuenta</a>
+        <a href="./clients.html#certificados">Certificados</a>
+      </section>
+    </div>
+  </aside>
+
+  <aside id="mobileNavDrawer" class="drawer drawer-nav" role="dialog" aria-modal="true" aria-labelledby="mobileNavTitle" hidden>
+    <div class="drawer-head">
+      <h2 id="mobileNavTitle">Menú</h2>
+      <button class="drawer-close" id="closeMobileNav" type="button" aria-label="Cerrar menú">✕</button>
+    </div>
+    <nav class="mobile-links" aria-label="Navegación móvil">
+      <a href="./search.html?tipo=arriendo">Arriendos</a>
+      <a href="./search.html?tipo=venta">Ventas</a>
+      <a href="./index.html#consigne">Consigne</a>
+      <a href="./index.html#servicios">Servicios</a>
+      <a href="./clients.html">Zona clientes</a>
+      <a href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
     </nav>
-    <a class="logo" href="index.html"><img class="logo-full" src="assets/logo-horizontal.svg" alt="Grupo Versa">
-    <img class="logo-mark" src="assets/mark.svg" alt="Grupo Versa"></a>
-    <div class="nav-right">
-      <div class="dropdown">
-        <button class="btn btn-ghost dropdown-toggle" type="button">Zona clientes</button>
-        <div class="dropdown-menu">
-          <strong>Arrendatarios</strong>
-          <a href="clients.html#pagar">Pagar arriendo</a>
-          <a href="clients.html#cupon">Cupón</a>
-          <a href="clients.html#requisitos">Requisitos</a>
-          <a href="clients.html#tutoriales">Tutoriales</a>
-          <strong>Propietarios</strong>
-          <a href="clients.html#estados">Estados de cuenta</a>
-          <a href="clients.html#certificados">Certificados</a>
-        </div>
+  </aside>
+
+  <main id="main">
+    <section class="section">
+      <div class="section-head">
+        <h1>Nosotros</h1>
       </div>
-      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
-    </div>
-  </div>
-</header>
-
-<main id="main">
-  <section class="about-hero">
-    <div class="container">
-      <h1>Construimos relaciones inmobiliarias de largo plazo</h1>
-      <p>En Grupo Versa combinamos estrategia comercial, rigor legal y atención humana para dar tranquilidad a arrendatarios, propietarios e inversionistas en Cali y su área metropolitana.</p>
-    </div>
-  </section>
-
-  <section class="section container">
-    <div class="metrics">
-      <div class="panel metric"><strong>+18 años</strong>de experiencia regional</div>
-      <div class="panel metric"><strong>98%</strong>de satisfacción anual</div>
-      <div class="panel metric"><strong>24/7</strong>acompañamiento por WhatsApp</div>
-    </div>
-  </section>
-
-  <section class="section container split">
-    <article class="panel">
-      <h2>Por qué elegirnos</h2>
-      <ul>
-        <li>Modelo integral para arriendos y ventas.</li>
-        <li>Estándares claros de comunicación y transparencia.</li>
-        <li>Equipo interdisciplinario comercial, jurídico y financiero.</li>
-        <li>Procesos digitales para mayor velocidad y trazabilidad.</li>
-      </ul>
-    </article>
-    <article class="panel">
-      <h2>Nuestro proceso</h2>
-      <div class="process">
-        <div class="step"><span>01</span><p>Diagnóstico del inmueble</p></div>
-        <div class="step"><span>02</span><p>Plan de comercialización</p></div>
-        <div class="step"><span>03</span><p>Filtro y validación de clientes</p></div>
-        <div class="step"><span>04</span><p>Cierre y administración continua</p></div>
+      <div class="about-grid">
+        <article class="about-card">
+          <h2>Nuestra propuesta</h2>
+          <p>Un enfoque inmobiliario claro, sobrio y orientado a resultados medibles para propietarios, arrendatarios e inversionistas.</p>
+        </article>
+        <article class="about-card">
+          <h2>Equipo</h2>
+          <p>Comercial, jurídico y operativo trabajando en una sola ruta de atención para acelerar cierres y reducir fricción.</p>
+        </article>
+        <article class="about-card">
+          <h2>Contacto</h2>
+          <p>Dirección y líneas de atención: (actualizar)</p>
+        </article>
       </div>
-    </article>
-  </section>
+    </section>
+  </main>
 
-  <section class="section container panel" style="text-align:center;">
-    <h2>¿Listo para dar el siguiente paso?</h2>
-    <p class="lead">Convierta su inmueble en una oportunidad rentable con respaldo profesional.</p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <a class="btn btn-primary" href="index.html#consigne">Consigne su inmueble</a>
-      <a class="btn btn-secondary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>Grupo Versa Inmobiliaria</p>
+      <p class="muted">Contacto y dirección: (actualizar)</p>
     </div>
-  </section>
-</main>
+  </footer>
 
-<footer id="footer" class="footer">
-  <div class="container footer-grid">
-    <div><h4>Grupo Versa</h4><p>Inmobiliaria en Cali, Colombia.</p></div>
-    <div><h4>Contacto</h4><p>+57 300 000 0000</p><p>contacto@grupoversa.com.co</p></div>
-    <div><h4>Oficina</h4><p>Dirección placeholder, Cali</p><p>Lun - Vie 8:00 a.m. - 6:00 p.m.</p></div>
-    <div><h4>Redes</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a></div>
-  </div>
-</footer>
-
-<script src="./data.js?v=2"></script>
-<script src="./app.js?v=2"></script>
-  <script src="./data.js?v=99"></script>
-  <script src="./app.js?v=99"></script>
-  <script src="./data.js?v=102"></script>
-  <script src="./app.js?v=102"></script>
+  <script src="./app.js?v=200"></script>
 </body>
 </html>

@@ -1,86 +1,103 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <link rel="stylesheet" href="./styles.css?v=102">
-  <link rel="stylesheet" href="./styles.css?v=99" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zona Clientes | Grupo Versa</title>
-  <link rel="stylesheet" href="./styles.css?v=2">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <title>Grupo Versa | Zona Clientes</title>
+  <link rel="stylesheet" href="./styles.css?v=200">
 </head>
-<body>
-<a href="#main" class="skip-link">Saltar al contenido</a>
-<header class="site-header">
-  <div class="container nav-shell">
-    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menú">☰</button>
-    <nav class="nav-left" aria-label="Navegación principal izquierda">
-      <a class="nav-link" href="search.html?gestion=arriendo">Arriendos</a>
-      <a class="nav-link" href="search.html?gestion=venta">Ventas</a>
-      <a class="nav-link" href="index.html#consigne">Consigne</a>
-      <a class="nav-link" href="index.html#servicios">Servicios</a>
-    </nav>
-    <a class="logo" href="index.html"><img class="logo-full" src="assets/logo-horizontal.svg" alt="Grupo Versa">
-    <img class="logo-mark" src="assets/mark.svg" alt="Grupo Versa"></a>
-    <div class="nav-right">
-      <div class="dropdown">
-        <button class="btn btn-ghost dropdown-toggle" type="button">Zona clientes</button>
-        <div class="dropdown-menu">
-          <strong>Arrendatarios</strong>
-          <a href="#pagar">Pagar arriendo</a>
-          <a href="#cupon">Cupón</a>
-          <a href="#requisitos">Requisitos</a>
-          <a href="#tutoriales">Tutoriales</a>
-          <strong>Propietarios</strong>
-          <a href="#estados">Estados de cuenta</a>
-          <a href="#certificados">Certificados</a>
-        </div>
+<body data-page="clients">
+  <header class="site-header">
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <div class="container header-grid">
+      <button class="menu-toggle" id="openMobileNav" type="button" aria-label="Abrir menú" aria-controls="mobileNavDrawer" aria-expanded="false">☰</button>
+
+      <nav class="nav-left" aria-label="Principal">
+        <a href="./search.html?tipo=arriendo">Arriendos</a>
+        <a href="./search.html?tipo=venta">Ventas</a>
+        <a href="./index.html#consigne">Consigne</a>
+        <a href="./index.html#servicios">Servicios</a>
+      </nav>
+
+      <a class="brand" href="./index.html" aria-label="Grupo Versa">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text"><strong>Grupo</strong> Versa</span>
+      </a>
+
+      <div class="nav-right">
+        <button class="btn btn-secondary" id="openClients" type="button" aria-expanded="false" aria-controls="clientsDrawer">Zona clientes</button>
+        <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
       </div>
-      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
     </div>
-  </div>
-</header>
+  </header>
 
-<main id="main" class="section container">
-  <h1>Zona Clientes</h1>
-  <p class="lead">Gestiones rápidas para arrendatarios y propietarios.</p>
+  <div id="overlay" class="overlay" hidden></div>
 
-  <div class="tabs" role="tablist" aria-label="Tipo de cliente">
-    <button class="btn btn-soft active" data-client-tab="arrendatarios" type="button">Arrendatarios</button>
-    <button class="btn btn-soft" data-client-tab="propietarios" type="button">Propietarios</button>
-  </div>
-
-  <section id="arrendatarios-block" class="client-block active section">
-    <div class="card-grid">
-      <article id="pagar" class="panel"><h3>Pagar arriendo</h3><p>Realice su pago mensual de manera segura.</p><a class="btn btn-primary" href="#">Ir a PSE (placeholder)</a></article>
-      <article id="cupon" class="panel"><h3>Cupón de pago</h3><p>Descargue o consulte su cupón actualizado.</p><a class="btn btn-secondary" href="#">Ver cupón</a></article>
-      <article id="requisitos" class="panel"><h3>Requisitos</h3><p>Documentos para nuevas solicitudes de arriendo.</p><a class="btn btn-secondary" href="#">Consultar requisitos</a></article>
-      <article id="tutoriales" class="panel"><h3>Tutoriales</h3><p>Guías rápidas para pagos, radicaciones y soporte.</p><a class="btn btn-secondary" href="#">Ver tutoriales</a></article>
+  <aside id="clientsDrawer" class="drawer drawer-clients" role="dialog" aria-modal="true" aria-labelledby="clientsDrawerTitle" hidden>
+    <div class="drawer-head">
+      <h2 id="clientsDrawerTitle">Zona clientes</h2>
+      <button class="drawer-close" id="closeClients" type="button" aria-label="Cerrar zona clientes">✕</button>
     </div>
-  </section>
-
-  <section id="propietarios-block" class="client-block section">
-    <div class="card-grid" style="grid-template-columns:repeat(2,minmax(0,1fr));">
-      <article id="estados" class="panel"><h3>Estados de cuenta</h3><p>Consulte los movimientos y consignaciones de su inmueble.</p><a class="btn btn-primary" href="#">Ingresar</a></article>
-      <article id="certificados" class="panel"><h3>Certificados</h3><p>Solicite certificados tributarios y de administración.</p><a class="btn btn-secondary" href="#">Solicitar certificado</a></article>
+    <div class="drawer-grid">
+      <section>
+        <h3>Arrendatarios</h3>
+        <a href="./clients.html#pagar">Pagar arriendo</a>
+        <a href="./clients.html#cupon">Cupón</a>
+        <a href="./clients.html#requisitos">Requisitos</a>
+        <a href="./clients.html#tutoriales">Tutoriales</a>
+      </section>
+      <section>
+        <h3>Propietarios</h3>
+        <a href="./clients.html#estados">Estados de cuenta</a>
+        <a href="./clients.html#certificados">Certificados</a>
+      </section>
     </div>
-  </section>
-</main>
+  </aside>
 
-<footer id="footer" class="footer">
-  <div class="container footer-grid">
-    <div><h4>Grupo Versa</h4><p>Inmobiliaria en Cali, Colombia.</p></div>
-    <div><h4>Contacto</h4><p>+57 300 000 0000</p><p>contacto@grupoversa.com.co</p></div>
-    <div><h4>Oficina</h4><p>Dirección placeholder, Cali</p><p>Lun - Vie 8:00 a.m. - 6:00 p.m.</p></div>
-    <div><h4>Redes</h4><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">LinkedIn</a></div>
-  </div>
-</footer>
+  <aside id="mobileNavDrawer" class="drawer drawer-nav" role="dialog" aria-modal="true" aria-labelledby="mobileNavTitle" hidden>
+    <div class="drawer-head">
+      <h2 id="mobileNavTitle">Menú</h2>
+      <button class="drawer-close" id="closeMobileNav" type="button" aria-label="Cerrar menú">✕</button>
+    </div>
+    <nav class="mobile-links" aria-label="Navegación móvil">
+      <a href="./search.html?tipo=arriendo">Arriendos</a>
+      <a href="./search.html?tipo=venta">Ventas</a>
+      <a href="./index.html#consigne">Consigne</a>
+      <a href="./index.html#servicios">Servicios</a>
+      <a href="./clients.html">Zona clientes</a>
+      <a href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+    </nav>
+  </aside>
 
-<script src="./data.js?v=2"></script>
-<script src="./app.js?v=2"></script>
-  <script src="./data.js?v=99"></script>
-  <script src="./app.js?v=99"></script>
-  <script src="./data.js?v=102"></script>
-  <script src="./app.js?v=102"></script>
+  <main id="main">
+    <section class="section">
+      <div class="section-head">
+        <h1>Zona clientes</h1>
+      </div>
+      <div class="clients-grid">
+        <article class="client-card" id="pagar">
+          <h2>Arrendatarios</h2>
+          <a href="#">Pagar arriendo</a>
+          <a id="cupon" href="#">Cupón</a>
+          <a id="requisitos" href="#">Requisitos</a>
+          <a id="tutoriales" href="#">Tutoriales</a>
+        </article>
+        <article class="client-card">
+          <h2>Propietarios</h2>
+          <a id="estados" href="#">Estados de cuenta</a>
+          <a id="certificados" href="#">Certificados</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <p>Grupo Versa Inmobiliaria</p>
+      <p class="muted">Contacto y dirección: (actualizar)</p>
+    </div>
+  </footer>
+
+  <script src="./app.js?v=200"></script>
 </body>
 </html>
