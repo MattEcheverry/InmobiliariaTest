@@ -397,8 +397,8 @@ document.addEventListener('DOMContentLoaded', () => {
     header.innerHTML = `
       <div class="site-header__bar">
         <div class="site-header__left">
-          <button class="mobile-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer">☰</button>
-          <nav class="main-nav" aria-label="Principal">
+          <button class="mobile-menu-toggle menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer">☰</button>
+          <nav class="main-nav nav-main" aria-label="Principal">
             ${NAV_ITEMS.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
           </nav>
         </div>
@@ -406,14 +406,26 @@ document.addEventListener('DOMContentLoaded', () => {
           <a class="site-logo" href="./index.html" aria-label="Ir al inicio">${brand}</a>
         </div>
         <div class="site-header__right">
-          <button id="zoneClientsTrigger" class="btn btn-secondary" aria-haspopup="dialog" aria-controls="zona-clientes-modal">Zona clientes</button>
+          <div class="dropdown">
+            <a class="btn btn-secondary" href="./clients.html" data-dropdown-button aria-expanded="false">Zona clientes</a>
+            <div class="dropdown-menu" role="menu" aria-label="Zona clientes">
+              <div class="dropdown-group">
+                <p class="dropdown-title">Arrendatarios</p>
+                ${ZONA_LINKS.arrendatarios.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+              </div>
+              <div class="dropdown-group">
+                <p class="dropdown-title">Propietarios</p>
+                ${ZONA_LINKS.propietarios.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+              </div>
+            </div>
+          </div>
           <a class="btn btn-primary" href="${waHref}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
           <a class="btn btn-primary mobile-whatsapp" href="${waHref}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WA</a>
         </div>
       </div>
     `;
 
-    const currentHeader = document.querySelector("body > header");
+    const currentHeader = document.querySelector("header:not(.site-header)");
     if (currentHeader && !currentHeader.classList.contains("site-header")) {
       currentHeader.style.display = "none";
       currentHeader.setAttribute("aria-hidden", "true");
@@ -472,6 +484,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && drawer.classList.contains("is-open")) closeDrawer();
+    });
+  };
+
+  const initZoneDropdown = () => {
+    const dropdown = document.querySelector(".dropdown");
+    const button = dropdown ? dropdown.querySelector("[data-dropdown-button]") : null;
+    if (!(dropdown instanceof HTMLElement) || !(button instanceof HTMLElement)) return;
+
+    const setOpen = (open) => {
+      dropdown.classList.toggle("open", open);
+      button.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+
+    button.addEventListener("click", (event) => {
+      const mobile = window.matchMedia("(max-width: 767px)").matches;
+      if (mobile) return;
+      event.preventDefault();
+      setOpen(!dropdown.classList.contains("open"));
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (!dropdown.contains(target)) setOpen(false);
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
     });
   };
 
@@ -665,15 +705,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const normalizeAssetLinks = () => {
     document.querySelectorAll('link[href*="styles.css"]').forEach((el) => {
       if (!(el instanceof HTMLLinkElement)) return;
-      el.setAttribute("href", "./styles.css?v=101");
+      el.setAttribute("href", "./styles.css?v=102");
     });
     document.querySelectorAll('script[src*="data.js"]').forEach((el) => {
       if (!(el instanceof HTMLScriptElement)) return;
-      el.setAttribute("src", "./data.js?v=101");
+      el.setAttribute("src", "./data.js?v=102");
     });
     document.querySelectorAll('script[src*="app.js"]').forEach((el) => {
       if (!(el instanceof HTMLScriptElement)) return;
-      el.setAttribute("src", "./app.js?v=101");
+      el.setAttribute("src", "./app.js?v=102");
     });
   };
 
@@ -681,7 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
     normalizeAssetLinks();
     mountHeader();
     mountMobileDrawer();
-    mountZoneClientsModal();
+    initZoneDropdown();
     bindScrollShadow();
     upgradeHero();
     polishCards();
@@ -692,5 +732,154 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener("DOMContentLoaded", boot, { once: true });
   } else {
     boot();
+  }
+})();
+
+(() => {
+  const HEADER_HTML = `
+<header class="site-header">
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <div class="container header-grid">
+    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-controls="mobile-drawer" aria-expanded="false">
+      ☰
+    </button>
+
+    <nav class="nav-left" aria-label="Principal">
+      <a href="./search.html?tipo=arriendo">Arriendos</a>
+      <a href="./search.html?tipo=venta">Ventas</a>
+      <a href="./index.html#consigne">Consigne</a>
+      <a href="./index.html#servicios">Servicios</a>
+    </nav>
+
+    <a class="brand" href="./index.html" aria-label="Grupo Versa">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text"><strong>Grupo</strong> Versa</span>
+    </a>
+
+    <div class="nav-right">
+      <div class="dropdown">
+        <button class="btn btn-secondary" type="button" data-dropdown-button aria-expanded="false">
+          Zona clientes
+        </button>
+
+        <div class="dropdown-menu" role="dialog" aria-label="Zona clientes">
+          <div class="zc-grid">
+            <div class="zc-col">
+              <div class="zc-title">Arrendatarios</div>
+              <a href="./clients.html#pagar">Pagar arriendo</a>
+              <a href="./clients.html#cupon">Cupón</a>
+              <a href="./clients.html#requisitos">Requisitos</a>
+              <a href="./clients.html#tutoriales">Tutoriales</a>
+            </div>
+            <div class="zc-col">
+              <div class="zc-title">Propietarios</div>
+              <a href="./clients.html#estados">Estados de cuenta</a>
+              <a href="./clients.html#certificados">Certificados</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+
+  <div id="mobile-drawer" class="mobile-drawer" hidden>
+    <div class="mobile-drawer-card">
+      <div class="mobile-drawer-head">
+        <div class="mobile-title">Menú</div>
+        <button class="drawer-close" type="button" aria-label="Cerrar menú">✕</button>
+      </div>
+
+      <div class="mobile-links">
+        <a href="./search.html?tipo=arriendo">Arriendos</a>
+        <a href="./search.html?tipo=venta">Ventas</a>
+        <a href="./index.html#consigne">Consigne</a>
+        <a href="./index.html#servicios">Servicios</a>
+        <hr>
+        <a href="./clients.html">Zona clientes</a>
+        <a href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</header>`;
+
+  const ensureMainTarget = () => {
+    const main = document.querySelector("main");
+    if (main && !main.id) main.id = "main";
+  };
+
+  const rebuildHeader = () => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = HEADER_HTML.trim();
+    const newHeader = wrapper.firstElementChild;
+    if (!(newHeader instanceof HTMLElement)) return;
+
+    document.querySelectorAll("header").forEach((node) => node.remove());
+    document.querySelectorAll("#mobile-drawer, #zona-clientes-modal").forEach((node) => node.remove());
+    document.body.insertBefore(newHeader, document.body.firstChild);
+  };
+
+  const bindDropdown = () => {
+    const dropdown = document.querySelector(".dropdown");
+    const button = dropdown?.querySelector("[data-dropdown-button]");
+    if (!(dropdown instanceof HTMLElement) || !(button instanceof HTMLButtonElement)) return;
+
+    const setOpen = (open) => {
+      dropdown.classList.toggle("open", open);
+      button.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+
+    button.addEventListener("click", () => {
+      setOpen(!dropdown.classList.contains("open"));
+    });
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (!dropdown.contains(target)) setOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
+  };
+
+  const bindDrawer = () => {
+    const drawer = document.getElementById("mobile-drawer");
+    const openButton = document.querySelector(".menu-toggle");
+    const closeButton = drawer?.querySelector(".drawer-close");
+    if (!(drawer instanceof HTMLElement) || !(openButton instanceof HTMLButtonElement)) return;
+
+    const setOpen = (open) => {
+      drawer.hidden = !open;
+      openButton.setAttribute("aria-expanded", open ? "true" : "false");
+      document.body.style.overflow = open ? "hidden" : "";
+    };
+
+    openButton.addEventListener("click", () => setOpen(true));
+    closeButton?.addEventListener("click", () => setOpen(false));
+
+    drawer.addEventListener("click", (event) => {
+      if (event.target === drawer) setOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
+  };
+
+  const init = () => {
+    ensureMainTarget();
+    rebuildHeader();
+    bindDropdown();
+    bindDrawer();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
   }
 })();
