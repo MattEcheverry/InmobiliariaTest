@@ -326,3 +326,371 @@ document.addEventListener('DOMContentLoaded', () => {
   renderHomeFeatured();
   renderSearchResults();
 });
+(() => {
+  const NAV_ITEMS = [
+    { label: "Arriendos", href: "./search.html?tipo=arriendo" },
+    { label: "Ventas", href: "./search.html?tipo=venta" },
+    { label: "Consigne", href: "./about.html#consigne" },
+    { label: "Servicios", href: "./about.html#servicios" },
+  ];
+
+  const ZONA_LINKS = {
+    arrendatarios: [
+      { label: "Pagar canon en línea", href: "./clients.html#arrendatarios-pagos" },
+      { label: "Solicitar soporte", href: "./clients.html#arrendatarios-soporte" },
+      { label: "Descargar certificados", href: "./clients.html#arrendatarios-certificados" },
+    ],
+    propietarios: [
+      { label: "Ver reportes", href: "./clients.html#propietarios-reportes" },
+      { label: "Estado de pagos", href: "./clients.html#propietarios-pagos" },
+      { label: "Solicitudes y PQRS", href: "./clients.html#propietarios-soporte" },
+    ],
+  };
+
+  const DEFAULT_WHATSAPP = "https://wa.me/573000000000?text=Hola%2C%20quiero%20asesoria%20inmobiliaria";
+
+  const createEl = (tag, className, html) => {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (html) el.innerHTML = html;
+    return el;
+  };
+
+  const pathname = () => {
+    const p = window.location.pathname.split("/").pop();
+    return p || "index.html";
+  };
+
+  const getBrandText = () => {
+    const guess = document.querySelector(".logo, .brand, [data-logo], header h1, header .title");
+    const text = guess ? (guess.textContent || "").trim() : "";
+    return text || "Inmobiliaria";
+  };
+
+  const getWhatsAppHref = () => {
+    const existing = document.querySelector('a[href*="wa.me"],a[href*="whatsapp"]');
+    return existing ? existing.getAttribute("href") || DEFAULT_WHATSAPP : DEFAULT_WHATSAPP;
+  };
+
+  const setActiveNav = () => {
+    const page = pathname();
+    document.querySelectorAll(".main-nav a").forEach((a) => {
+      const href = (a.getAttribute("href") || "").split("?")[0];
+      if (page === "search.html" && href.endsWith("search.html")) {
+        a.setAttribute("aria-current", "page");
+      } else if (page === "about.html" && href.endsWith("about.html")) {
+        a.setAttribute("aria-current", "page");
+      } else if (page === "index.html" && href.endsWith("index.html")) {
+        a.setAttribute("aria-current", "page");
+      }
+    });
+  };
+
+  const mountHeader = () => {
+    if (document.querySelector(".site-header")) return;
+
+    const brand = getBrandText();
+    const waHref = getWhatsAppHref();
+
+    const header = createEl("header", "site-header");
+    header.setAttribute("role", "banner");
+    header.innerHTML = `
+      <div class="site-header__bar">
+        <div class="site-header__left">
+          <button class="mobile-menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer">☰</button>
+          <nav class="main-nav" aria-label="Principal">
+            ${NAV_ITEMS.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+          </nav>
+        </div>
+        <div class="site-header__center">
+          <a class="site-logo" href="./index.html" aria-label="Ir al inicio">${brand}</a>
+        </div>
+        <div class="site-header__right">
+          <button id="zoneClientsTrigger" class="btn btn-secondary" aria-haspopup="dialog" aria-controls="zona-clientes-modal">Zona clientes</button>
+          <a class="btn btn-primary" href="${waHref}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          <a class="btn btn-primary mobile-whatsapp" href="${waHref}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+    `;
+
+    const currentHeader = document.querySelector("body > header");
+    if (currentHeader && !currentHeader.classList.contains("site-header")) {
+      currentHeader.style.display = "none";
+      currentHeader.setAttribute("aria-hidden", "true");
+    }
+    document.body.insertBefore(header, document.body.firstChild);
+    setActiveNav();
+  };
+
+  const mountMobileDrawer = () => {
+    if (document.getElementById("mobile-drawer")) return;
+    const drawer = createEl("div", "mobile-drawer");
+    drawer.id = "mobile-drawer";
+    drawer.setAttribute("aria-hidden", "true");
+    drawer.innerHTML = `
+      <div class="mobile-drawer__backdrop" data-close-drawer="true"></div>
+      <div class="mobile-drawer__panel" role="dialog" aria-label="Menú móvil">
+        <h3>Navegación</h3>
+        <div class="mobile-drawer__links">
+          ${NAV_ITEMS.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+        </div>
+        <h3>Zona clientes</h3>
+        <div class="mobile-drawer__links">
+          ${ZONA_LINKS.arrendatarios.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+          ${ZONA_LINKS.propietarios.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+        </div>
+      </div>
+    `;
+    document.body.appendChild(drawer);
+
+    const toggle = document.querySelector(".mobile-menu-toggle");
+    const openDrawer = () => {
+      drawer.classList.add("is-open");
+      drawer.setAttribute("aria-hidden", "false");
+      if (toggle) toggle.setAttribute("aria-expanded", "true");
+      document.body.style.overflow = "hidden";
+    };
+    const closeDrawer = () => {
+      drawer.classList.remove("is-open");
+      drawer.setAttribute("aria-hidden", "true");
+      if (toggle) toggle.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    };
+
+    if (toggle) {
+      toggle.addEventListener("click", () => {
+        if (drawer.classList.contains("is-open")) closeDrawer();
+        else openDrawer();
+      });
+    }
+
+    drawer.addEventListener("click", (event) => {
+      const t = event.target;
+      if (!(t instanceof HTMLElement)) return;
+      if (t.matches("[data-close-drawer='true'], .mobile-drawer a")) closeDrawer();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && drawer.classList.contains("is-open")) closeDrawer();
+    });
+  };
+
+  const mountZoneClientsModal = () => {
+    if (document.getElementById("zona-clientes-modal")) return;
+
+    const modal = createEl("div", "zone-modal");
+    modal.id = "zona-clientes-modal";
+    modal.setAttribute("aria-hidden", "true");
+    modal.innerHTML = `
+      <div class="zone-modal__backdrop" data-close-modal="true"></div>
+      <div class="zone-modal__card" role="dialog" aria-modal="true" aria-labelledby="zona-clientes-title">
+        <div class="zone-modal__header">
+          <h3 id="zona-clientes-title">Zona clientes</h3>
+          <button class="zone-modal__close" aria-label="Cerrar zona clientes" data-close-modal="true">×</button>
+        </div>
+        <div class="clients-groups">
+          <article class="client-group">
+            <h3>Arrendatarios</h3>
+            <p>Gestiona pagos, solicitudes y documentos de forma rápida.</p>
+            ${ZONA_LINKS.arrendatarios.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+          </article>
+          <article class="client-group">
+            <h3>Propietarios</h3>
+            <p>Revisa reportes, estado de cartera y solicitudes de servicio.</p>
+            ${ZONA_LINKS.propietarios.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+          </article>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const trigger = document.getElementById("zoneClientsTrigger");
+    const open = () => {
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+    const close = () => {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    if (trigger) trigger.addEventListener("click", open);
+    modal.addEventListener("click", (event) => {
+      const t = event.target;
+      if (!(t instanceof HTMLElement)) return;
+      if (t.matches("[data-close-modal='true']")) close();
+    });
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) close();
+    });
+  };
+
+  const upgradeHero = () => {
+    if (pathname() !== "index.html") return;
+    const hero = document.querySelector(".hero, .home-hero, .banner, section");
+    if (!hero || !(hero instanceof HTMLElement)) return;
+    hero.classList.add("premium-hero");
+
+    const form = hero.querySelector("form");
+    if (form) {
+      form.classList.add("search-pill");
+      if (!form.querySelector(".segment-control")) {
+        const segment = createEl("div", "segment-control");
+        const btnRent = createEl("button", "is-active");
+        btnRent.type = "button";
+        btnRent.textContent = "Arriendo";
+        btnRent.setAttribute("aria-pressed", "true");
+        const btnSale = createEl("button", "");
+        btnSale.type = "button";
+        btnSale.textContent = "Venta";
+        btnSale.setAttribute("aria-pressed", "false");
+
+        const hidden = createEl("input", "");
+        hidden.type = "hidden";
+        hidden.name = "tipo";
+        hidden.value = "arriendo";
+
+        const activate = (isRent) => {
+          btnRent.classList.toggle("is-active", isRent);
+          btnRent.setAttribute("aria-pressed", isRent ? "true" : "false");
+          btnSale.classList.toggle("is-active", !isRent);
+          btnSale.setAttribute("aria-pressed", !isRent ? "true" : "false");
+          hidden.value = isRent ? "arriendo" : "venta";
+        };
+        btnRent.addEventListener("click", () => activate(true));
+        btnSale.addEventListener("click", () => activate(false));
+
+        segment.appendChild(btnRent);
+        segment.appendChild(btnSale);
+        segment.appendChild(hidden);
+        form.prepend(segment);
+      }
+    }
+  };
+
+  const specIcon = (kind) => {
+    if (kind === "hab") {
+      return '<svg class="spec-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 11h16v8h-2v-2H6v2H4v-8Zm2-6h5a3 3 0 0 1 3 3v1H4V7a2 2 0 0 1 2-2Zm10 1h2a2 2 0 0 1 2 2v1h-4V6Z"/></svg>';
+    }
+    if (kind === "banos") {
+      return '<svg class="spec-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 3h6v2H9v4h8a3 3 0 0 1 3 3v1h1v2h-1a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6V7a4 4 0 0 1 4-4Z"/></svg>';
+    }
+    return '<svg class="spec-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 3h8v2H5v6H3V3Zm18 0v8h-2V5h-6V3h8ZM3 21v-8h2v6h6v2H3Zm18-8v8h-8v-2h6v-6h2Z"/></svg>';
+  };
+
+  const polishCards = () => {
+    const cards = document.querySelectorAll(".card, .property-card, .listing-card, .result-card, .property-item, article");
+    cards.forEach((card) => {
+      if (!(card instanceof HTMLElement)) return;
+      if (card.querySelector("img")) {
+        card.classList.add("listing-card");
+      }
+
+      const text = card.textContent ? card.textContent.toLowerCase() : "";
+      if (text.includes("nuevo") || text.includes("destacado")) {
+        let badgeRow = card.querySelector(".badge-row");
+        if (!badgeRow) {
+          badgeRow = createEl("div", "badge-row");
+          card.style.position = "relative";
+          card.prepend(badgeRow);
+        }
+        if (text.includes("nuevo") && !badgeRow.querySelector(".badge-new")) {
+          badgeRow.insertAdjacentHTML("beforeend", '<span class="badge badge-new">Nuevo</span>');
+        }
+        if (text.includes("destacado") && !badgeRow.querySelector(".badge-featured")) {
+          badgeRow.insertAdjacentHTML("beforeend", '<span class="badge badge-featured">Destacado</span>');
+        }
+      }
+
+      const specs = card.querySelector(".specs, .spec-row, .property-specs, .listing-specs");
+      if (specs) {
+        specs.querySelectorAll("span, li, div").forEach((item) => {
+          if (!(item instanceof HTMLElement)) return;
+          const t = (item.textContent || "").toLowerCase();
+          if (item.querySelector(".spec-icon")) return;
+          if (t.includes("hab")) item.insertAdjacentHTML("afterbegin", specIcon("hab"));
+          else if (t.includes("ba") || t.includes("ban")) item.insertAdjacentHTML("afterbegin", specIcon("banos"));
+          else if (t.includes("m2") || t.includes("área") || t.includes("area")) item.insertAdjacentHTML("afterbegin", specIcon("area"));
+          item.classList.add("spec-item");
+        });
+      }
+    });
+  };
+
+  const polishClientsPage = () => {
+    if (pathname() !== "clients.html") return;
+    const main = document.querySelector("main") || document.body;
+    if (!(main instanceof HTMLElement)) return;
+    main.classList.add("clients-page");
+
+    const existing = document.querySelector(".clients-groups");
+    if (existing) return;
+
+    const panel = createEl("section", "clients-portal section");
+    panel.innerHTML = `
+      <div class="section-title-row">
+        <div>
+          <h2>Zona clientes</h2>
+          <p>Accesos directos para arrendatarios y propietarios.</p>
+        </div>
+      </div>
+      <div class="clients-groups">
+        <article class="client-group" id="arrendatarios-pagos">
+          <h3>Arrendatarios</h3>
+          <p>Pagos, soporte y certificados.</p>
+          ${ZONA_LINKS.arrendatarios.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+        </article>
+        <article class="client-group" id="propietarios-reportes">
+          <h3>Propietarios</h3>
+          <p>Reportes, cartera y solicitudes.</p>
+          ${ZONA_LINKS.propietarios.map((n) => `<a href="${n.href}">${n.label}</a>`).join("")}
+        </article>
+      </div>
+    `;
+    main.prepend(panel);
+  };
+
+  const bindScrollShadow = () => {
+    const apply = () => {
+      if (window.scrollY > 8) document.body.classList.add("scrolled");
+      else document.body.classList.remove("scrolled");
+    };
+    apply();
+    window.addEventListener("scroll", apply, { passive: true });
+  };
+
+  const normalizeAssetLinks = () => {
+    document.querySelectorAll('link[href*="styles.css"]').forEach((el) => {
+      if (!(el instanceof HTMLLinkElement)) return;
+      el.setAttribute("href", "./styles.css?v=101");
+    });
+    document.querySelectorAll('script[src*="data.js"]').forEach((el) => {
+      if (!(el instanceof HTMLScriptElement)) return;
+      el.setAttribute("src", "./data.js?v=101");
+    });
+    document.querySelectorAll('script[src*="app.js"]').forEach((el) => {
+      if (!(el instanceof HTMLScriptElement)) return;
+      el.setAttribute("src", "./app.js?v=101");
+    });
+  };
+
+  const boot = () => {
+    normalizeAssetLinks();
+    mountHeader();
+    mountMobileDrawer();
+    mountZoneClientsModal();
+    bindScrollShadow();
+    upgradeHero();
+    polishCards();
+    polishClientsPage();
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", boot, { once: true });
+  } else {
+    boot();
+  }
+})();
