@@ -1,0 +1,115 @@
+:root {
+  --surface-glass: rgba(255, 255, 255, 0.74);
+  --surface-border: rgba(18, 34, 68, 0.12);
+  --shadow-soft: 0 12px 28px rgba(18, 34, 68, 0.12);
+  --shadow-hover: 0 18px 40px rgba(18, 34, 68, 0.16);
+  --radius-soft: 14px;
+  --radius-pill: 999px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+body.ui-ready {
+  opacity: 1;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 34rem at 5% -10%, rgba(39, 143, 128, 0.11), transparent 62%),
+    radial-gradient(58rem 32rem at 100% 0%, rgba(250, 183, 89, 0.13), transparent 58%);
+  z-index: -1;
+}
+
+header,
+nav {
+  backdrop-filter: saturate(140%) blur(8px);
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
+}
+
+.card,
+.property-card,
+.listing-card,
+.client-card,
+.service-card,
+.feature-card {
+  border-radius: var(--radius-soft);
+  border: 1px solid var(--surface-border);
+  box-shadow: var(--shadow-soft);
+  background: var(--surface-glass);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.card:hover,
+.property-card:hover,
+.listing-card:hover,
+.client-card:hover,
+.service-card:hover,
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(18, 34, 68, 0.2);
+}
+
+button,
+.btn,
+a.btn,
+input[type="submit"] {
+  border-radius: var(--radius-pill);
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+}
+
+button:hover,
+.btn:hover,
+a.btn:hover,
+input[type="submit"]:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.04);
+}
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 380ms ease, transform 380ms ease;
+}
+
+@media (max-width: 768px) {
+  .card,
+  .property-card,
+  .listing-card,
+  .client-card,
+  .service-card,
+  .feature-card {
+    border-radius: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
