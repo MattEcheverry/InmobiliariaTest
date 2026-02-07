@@ -279,6 +279,32 @@ function setupSearchInteractions() {
   }
 }
 
+
+function setupHeaderUI() {
+  const header = document.querySelector('.site-header');
+  const toggle = document.getElementById('nav-toggle');
+  if (header && toggle) {
+    toggle.addEventListener('click', () => header.classList.toggle('menu-open'));
+  }
+
+  document.querySelectorAll('.dropdown-toggle').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      const drop = btn.closest('.dropdown');
+      if (!drop) return;
+      const isOpen = drop.classList.contains('open');
+      document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+      if (!isOpen) drop.classList.add('open');
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.dropdown')) {
+      document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+  });
+}
+
 function setupClientTabs() {
   const tabButtons = document.querySelectorAll('[data-client-tab]');
   if (!tabButtons.length) return;
@@ -291,6 +317,7 @@ function setupClientTabs() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  setupHeaderUI();
   syncGestionTabs();
   setupForms();
   hydrateSearchFromQuery();
