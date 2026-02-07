@@ -5,39 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grupo Versa | Arriendos y ventas en Cali</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 </head>
 <body>
 <a href="#main" class="skip-link">Saltar al contenido</a>
 <header class="site-header">
-  <div class="container nav-shell">
-    <button id="nav-toggle" class="nav-toggle" type="button" aria-label="Abrir menú">☰</button>
-
-    <nav class="nav-left" aria-label="Navegación principal izquierda">
-      <a class="nav-link" href="search.html?gestion=arriendo">Arriendos</a>
-      <a class="nav-link" href="search.html?gestion=venta">Ventas</a>
-      <a class="nav-link" href="#consigne">Consigne</a>
-      <a class="nav-link" href="#servicios">Servicios</a>
+  <div class="container nav-wrap">
+    <a class="logo" href="index.html">Grupo <span>Versa</span></a>
+    <nav class="nav-main" aria-label="Principal">
+      <a href="search.html">Inmuebles</a><a href="#servicios">Servicios</a><a href="#consigne">Consigne su inmueble</a><a href="about.html">Nosotros</a><a href="#footer">Contacto</a>
     </nav>
-
-    <a class="logo" href="index.html"><img class="logo-full" src="assets/logo-horizontal.svg" alt="Grupo Versa">
-    <img class="logo-mark" src="assets/mark.svg" alt="Grupo Versa"></a>
-
-    <div class="nav-right">
+    <div class="nav-actions">
+      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="btn btn-secondary" href="clients.html#pagar">Pagar arriendo</a>
       <div class="dropdown">
-        <button class="btn btn-ghost dropdown-toggle" type="button">Zona clientes</button>
+        <button class="btn btn-ghost" type="button">Zona Clientes</button>
         <div class="dropdown-menu">
           <strong>Arrendatarios</strong>
-          <a href="clients.html#pagar">Pagar arriendo</a>
-          <a href="clients.html#cupon">Cupón</a>
-          <a href="clients.html#requisitos">Requisitos</a>
-          <a href="clients.html#tutoriales">Tutoriales</a>
+          <a href="clients.html#pagar">Pagar arriendo</a><a href="clients.html#cupon">Cupón</a><a href="clients.html#requisitos">Requisitos</a><a href="clients.html#tutoriales">Tutoriales</a>
           <strong>Propietarios</strong>
-          <a href="clients.html#estados">Estados de cuenta</a>
-          <a href="clients.html#certificados">Certificados</a>
+          <a href="clients.html#estados">Estados de cuenta</a><a href="clients.html#certificados">Certificados</a>
         </div>
       </div>
-      <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </div>
 </header>
@@ -45,66 +33,31 @@
 <main id="main">
   <section class="hero">
     <div class="container hero-shell">
-      <!-- Opción 1: "Encuentra hogar en Cali, sin vueltas." -->
-      <!-- Opción 2 (elegida): "Tu próximo hogar en Cali empieza aquí." -->
-      <h1>Tu próximo hogar en Cali empieza aquí.</h1>
-      <p>Busca por barrio o sector y filtra en segundos con una experiencia clara y premium.</p>
-
+      <h1>Arrienda o compra con experiencia de portal premium</h1>
+      <p>Explora inmuebles en Cali y alrededores con una experiencia moderna, rápida y clara.</p>
       <div class="tab-row" role="tablist" aria-label="Tipo de gestión">
         <button class="tab active" type="button" data-gestion-tab="arriendo">Arriendo</button>
         <button class="tab" type="button" data-gestion-tab="venta">Venta</button>
       </div>
 
-      <form id="home-search" class="portal-search" aria-label="Buscador de inmuebles en Cali">
+      <form id="home-search" class="portal-search" aria-label="Buscador de inmuebles">
         <input type="hidden" id="gestion" name="gestion" value="arriendo">
-
         <div class="field">
-          <label for="ciudad">Barrio o sector</label>
-          <input id="ciudad" name="ciudad" list="barrios-cali" placeholder="Ej: Pance, Ciudad Jardín, Granada">
-          <datalist id="barrios-cali">
-            <option value="Pance"></option>
-            <option value="Ciudad Jardín"></option>
-            <option value="Granada"></option>
-            <option value="San Fernando"></option>
-            <option value="Valle del Lili"></option>
-            <option value="Bochalema"></option>
-            <option value="El Peñón"></option>
-          </datalist>
+          <label for="ciudad">Ciudad o zona</label>
+          <input id="ciudad" name="ciudad" placeholder="Cali, Pance, Jamundí...">
         </div>
-
         <div class="field">
           <label for="tipo">Tipo</label>
-          <select id="tipo" name="tipo">
-            <option value="">Todos</option>
-            <option>Apartamento</option>
-            <option>Casa</option>
-            <option>Oficina</option>
-            <option>Local</option>
-            <option>Lote</option>
-          </select>
+          <select id="tipo" name="tipo"><option value="">Todos</option><option>Apartamento</option><option>Casa</option><option>Oficina</option><option>Local</option><option>Lote</option></select>
         </div>
-
         <div class="field">
           <label for="precioMin">Precio min</label>
           <input id="precioMin" name="precioMin" type="number" min="0" placeholder="$0">
         </div>
-
         <div class="field">
           <label for="precioMax">Precio max</label>
           <input id="precioMax" name="precioMax" type="number" min="0" placeholder="Sin tope">
         </div>
-
-        <div class="field">
-          <label for="habitaciones-home">Habitaciones</label>
-          <select id="habitaciones-home" name="habitaciones">
-            <option value="">Cualquiera</option>
-            <option value="1">1+</option>
-            <option value="2">2+</option>
-            <option value="3">3+</option>
-            <option value="4">4+</option>
-          </select>
-        </div>
-
         <button class="btn btn-primary" type="submit">Buscar</button>
       </form>
     </div>
