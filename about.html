@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Grupo Versa | Nosotros</title>
-  <link rel="stylesheet" href="./styles.css?v=200">
+  <link rel="preload" href="./content.json?v=102" as="fetch" crossorigin="anonymous">
+  <link rel="stylesheet" href="./styles.css?v=102">
 </head>
 <body data-page="about">
   <header class="site-header">
@@ -13,20 +14,19 @@
       <button class="menu-toggle" id="openMobileNav" type="button" aria-label="Abrir menú" aria-controls="mobileNavDrawer" aria-expanded="false">☰</button>
 
       <nav class="nav-left" aria-label="Principal">
-        <a href="./search.html?tipo=arriendo">Arriendos</a>
-        <a href="./search.html?tipo=venta">Ventas</a>
+        <a href="./search.html?operacion=arriendo">Arriendos</a>
+        <a href="./search.html?operacion=venta">Ventas</a>
         <a href="./index.html#consigne">Consigne</a>
         <a href="./index.html#servicios">Servicios</a>
       </nav>
 
       <a class="brand" href="./index.html" aria-label="Grupo Versa">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-text"><strong>Grupo</strong> Versa</span>
+        <img class="brand-logo" src="./assets/logo-grupo-versa.png" alt="Grupo Versa">
       </a>
 
       <div class="nav-right">
         <button class="btn btn-secondary" id="openClients" type="button" aria-expanded="false" aria-controls="clientsDrawer">Zona clientes</button>
-        <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn btn-primary" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
   </header>
@@ -41,15 +41,15 @@
     <div class="drawer-grid">
       <section>
         <h3>Arrendatarios</h3>
-        <a href="./clients.html#pagar">Pagar arriendo</a>
-        <a href="./clients.html#cupon">Cupón</a>
-        <a href="./clients.html#requisitos">Requisitos</a>
-        <a href="./clients.html#tutoriales">Tutoriales</a>
+        <a data-bind="clientsZone.arrendatarios[0].url" data-bind-attr="href" href="./clients.html#pagar">Pagar arriendo</a>
+        <a data-bind="clientsZone.arrendatarios[1].url" data-bind-attr="href" href="./clients.html#cupon">Cupón</a>
+        <a data-bind="clientsZone.arrendatarios[2].url" data-bind-attr="href" href="./clients.html#requisitos">Requisitos</a>
+        <a data-bind="clientsZone.arrendatarios[3].url" data-bind-attr="href" href="./clients.html#tutoriales">Tutoriales</a>
       </section>
       <section>
         <h3>Propietarios</h3>
-        <a href="./clients.html#estados">Estados de cuenta</a>
-        <a href="./clients.html#certificados">Certificados</a>
+        <a data-bind="clientsZone.propietarios[0].url" data-bind-attr="href" href="./clients.html#estados">Estados de cuenta</a>
+        <a data-bind="clientsZone.propietarios[1].url" data-bind-attr="href" href="./clients.html#certificados">Certificados</a>
       </section>
     </div>
   </aside>
@@ -60,12 +60,12 @@
       <button class="drawer-close" id="closeMobileNav" type="button" aria-label="Cerrar menú">✕</button>
     </div>
     <nav class="mobile-links" aria-label="Navegación móvil">
-      <a href="./search.html?tipo=arriendo">Arriendos</a>
-      <a href="./search.html?tipo=venta">Ventas</a>
+      <a href="./search.html?operacion=arriendo">Arriendos</a>
+      <a href="./search.html?operacion=venta">Ventas</a>
       <a href="./index.html#consigne">Consigne</a>
       <a href="./index.html#servicios">Servicios</a>
       <a href="./clients.html">Zona clientes</a>
-      <a href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+      <a data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
     </nav>
   </aside>
 
@@ -76,16 +76,19 @@
       </div>
       <div class="about-grid">
         <article class="about-card">
-          <h2>Nuestra propuesta</h2>
-          <p>Un enfoque inmobiliario claro, sobrio y orientado a resultados medibles para propietarios, arrendatarios e inversionistas.</p>
+          <h2 data-bind="brand.name">Grupo Versa Colombia SAS</h2>
+          <p data-bind="brand.tagline">Arrendamientos, ventas y avalúos de inmuebles en Cali.</p>
         </article>
         <article class="about-card">
-          <h2>Equipo</h2>
-          <p>Comercial, jurídico y operativo trabajando en una sola ruta de atención para acelerar cierres y reducir fricción.</p>
+          <h2>Ubicación</h2>
+          <p data-bind="contact.address">Calle 9C # 49-45, Cali</p>
+          <p><strong>Ciudad:</strong> <span data-bind="brand.city">Cali</span></p>
         </article>
         <article class="about-card">
-          <h2>Contacto</h2>
-          <p>Dirección y líneas de atención: (actualizar)</p>
+          <h2>Atención</h2>
+          <p><strong>Tel:</strong> <span data-bind="contact.phones[0]">302 258 4900</span></p>
+          <p><strong>Email:</strong> <span data-bind="contact.email">No publicado</span></p>
+          <p><strong>Horario:</strong> <span data-bind="contact.hours">Lun - Vie: 8:00 - 17:00</span></p>
         </article>
       </div>
     </section>
@@ -93,11 +96,12 @@
 
   <footer class="site-footer">
     <div class="container footer-wrap">
-      <p>Grupo Versa Inmobiliaria</p>
-      <p class="muted">Contacto y dirección: (actualizar)</p>
+      <p data-bind="brand.name">Grupo Versa Colombia SAS</p>
+      <p class="muted"><span data-bind="contact.address">Calle 9C # 49-45, Cali</span> · <span data-bind="contact.phones[0]">302 258 4900</span></p>
     </div>
   </footer>
 
-  <script src="./app.js?v=200"></script>
+  <script src="./data.js?v=102"></script>
+  <script src="./app.js?v=102"></script>
 </body>
 </html>

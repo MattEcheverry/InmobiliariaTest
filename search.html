@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grupo Versa | Búsqueda</title>
-  <link rel="stylesheet" href="./styles.css?v=200">
+  <title>Grupo Versa | Buscar Inmuebles</title>
+  <link rel="preload" href="./content.json?v=102" as="fetch" crossorigin="anonymous">
+  <link rel="stylesheet" href="./styles.css?v=102">
 </head>
 <body data-page="search">
   <header class="site-header">
@@ -13,20 +14,19 @@
       <button class="menu-toggle" id="openMobileNav" type="button" aria-label="Abrir menú" aria-controls="mobileNavDrawer" aria-expanded="false">☰</button>
 
       <nav class="nav-left" aria-label="Principal">
-        <a href="./search.html?tipo=arriendo">Arriendos</a>
-        <a href="./search.html?tipo=venta">Ventas</a>
+        <a href="./search.html?operacion=arriendo">Arriendos</a>
+        <a href="./search.html?operacion=venta">Ventas</a>
         <a href="./index.html#consigne">Consigne</a>
         <a href="./index.html#servicios">Servicios</a>
       </nav>
 
       <a class="brand" href="./index.html" aria-label="Grupo Versa">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-text"><strong>Grupo</strong> Versa</span>
+        <img class="brand-logo" src="./assets/logo-grupo-versa.png" alt="Grupo Versa">
       </a>
 
       <div class="nav-right">
         <button class="btn btn-secondary" id="openClients" type="button" aria-expanded="false" aria-controls="clientsDrawer">Zona clientes</button>
-        <a class="btn btn-primary" href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn btn-primary" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
       </div>
     </div>
   </header>
@@ -41,15 +41,15 @@
     <div class="drawer-grid">
       <section>
         <h3>Arrendatarios</h3>
-        <a href="./clients.html#pagar">Pagar arriendo</a>
-        <a href="./clients.html#cupon">Cupón</a>
-        <a href="./clients.html#requisitos">Requisitos</a>
-        <a href="./clients.html#tutoriales">Tutoriales</a>
+        <a data-bind="clientsZone.arrendatarios[0].url" data-bind-attr="href" href="./clients.html#pagar">Pagar arriendo</a>
+        <a data-bind="clientsZone.arrendatarios[1].url" data-bind-attr="href" href="./clients.html#cupon">Cupón</a>
+        <a data-bind="clientsZone.arrendatarios[2].url" data-bind-attr="href" href="./clients.html#requisitos">Requisitos</a>
+        <a data-bind="clientsZone.arrendatarios[3].url" data-bind-attr="href" href="./clients.html#tutoriales">Tutoriales</a>
       </section>
       <section>
         <h3>Propietarios</h3>
-        <a href="./clients.html#estados">Estados de cuenta</a>
-        <a href="./clients.html#certificados">Certificados</a>
+        <a data-bind="clientsZone.propietarios[0].url" data-bind-attr="href" href="./clients.html#estados">Estados de cuenta</a>
+        <a data-bind="clientsZone.propietarios[1].url" data-bind-attr="href" href="./clients.html#certificados">Certificados</a>
       </section>
     </div>
   </aside>
@@ -60,47 +60,48 @@
       <button class="drawer-close" id="closeMobileNav" type="button" aria-label="Cerrar menú">✕</button>
     </div>
     <nav class="mobile-links" aria-label="Navegación móvil">
-      <a href="./search.html?tipo=arriendo">Arriendos</a>
-      <a href="./search.html?tipo=venta">Ventas</a>
+      <a href="./search.html?operacion=arriendo">Arriendos</a>
+      <a href="./search.html?operacion=venta">Ventas</a>
       <a href="./index.html#consigne">Consigne</a>
       <a href="./index.html#servicios">Servicios</a>
       <a href="./clients.html">Zona clientes</a>
-      <a href="https://wa.me/57XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a>
+      <a data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
     </nav>
   </aside>
 
   <main id="main">
-    <section class="section search-section">
+    <section class="section search-layout">
       <form id="searchFilters" class="filters-sticky">
         <label>
           <span>Operación</span>
-          <select name="tipo">
+          <select name="operacion">
             <option value="">Todas</option>
             <option value="arriendo">Arriendo</option>
             <option value="venta">Venta</option>
           </select>
         </label>
         <label>
-          <span>Barrio o sector</span>
-          <input type="text" name="q" placeholder="Ej: Laureles">
+          <span>Barrio / Sector</span>
+          <input type="text" name="q" placeholder="Ej. Pance">
         </label>
         <label>
           <span>Tipo</span>
-          <select name="clase">
+          <select name="tipo">
             <option value="">Todos</option>
             <option value="apartamento">Apartamento</option>
             <option value="casa">Casa</option>
-            <option value="oficina">Oficina</option>
             <option value="local">Local</option>
+            <option value="oficina">Oficina</option>
+            <option value="lote">Lote</option>
           </select>
         </label>
         <label>
           <span>Precio min</span>
-          <input type="number" name="min" min="0" step="100000">
+          <input type="number" name="min" placeholder="0">
         </label>
         <label>
           <span>Precio max</span>
-          <input type="number" name="max" min="0" step="100000">
+          <input type="number" name="max" placeholder="2000000000">
         </label>
         <label>
           <span>Habitaciones</span>
@@ -116,24 +117,24 @@
       </form>
 
       <div class="results-shell">
-        <section class="results-pane" id="listPane">
+        <section id="listPane" class="results-pane">
           <div class="section-head">
-            <h1>Resultados</h1>
-            <p id="resultsCount" class="muted">0 inmuebles</p>
+            <h1>Resultados de búsqueda</h1>
+            <p class="muted" id="resultsCount">0 inmuebles</p>
           </div>
           <div id="resultsGrid" class="cards-grid"></div>
         </section>
 
-        <aside class="map-pane" id="mapPane">
+        <aside id="mapPane" class="map-pane">
           <div class="map-mock">
             <strong>Mapa referencial</strong>
-            <p>Vista de ubicación disponible en versión completa.</p>
+            <p>Vista de ubicación de inmuebles en Cali y alrededores.</p>
           </div>
         </aside>
       </div>
     </section>
 
-    <div class="mobile-map-toggle" aria-label="Vista móvil">
+    <div class="mobile-map-toggle" aria-label="Cambiar vista">
       <button type="button" data-view="list" class="is-active">Lista</button>
       <button type="button" data-view="map">Mapa</button>
     </div>
@@ -141,12 +142,12 @@
 
   <footer class="site-footer">
     <div class="container footer-wrap">
-      <p>Grupo Versa Inmobiliaria</p>
-      <p class="muted">Contacto y dirección: (actualizar)</p>
+      <p data-bind="brand.name">Grupo Versa Colombia SAS</p>
+      <p class="muted"><span data-bind="contact.address">Calle 9C # 49-45, Cali</span> · <span data-bind="contact.phones[0]">302 258 4900</span></p>
     </div>
   </footer>
 
-  <script src="./data.js?v=200"></script>
-  <script src="./app.js?v=200"></script>
+  <script src="./data.js?v=102"></script>
+  <script src="./app.js?v=102"></script>
 </body>
 </html>

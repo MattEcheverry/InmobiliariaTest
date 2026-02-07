@@ -1,0 +1,79 @@
+{
+  "brand": {
+    "name": "Grupo Versa Colombia SAS",
+    "tagline": "Arrendamientos, ventas y avalúos de inmuebles en Cali",
+    "city": "Cali"
+  },
+  "contact": {
+    "whatsapp": "https://wa.me/573022584900",
+    "phones": [
+      "302 258 4900"
+    ],
+    "email": "No publicado en el sitio",
+    "address": "Calle 9C # 49-45, Cali",
+    "hours": "Lun - Vie: 8:00 - 17:00"
+  },
+  "hero": {
+    "headline": "Arrendamientos, ventas y administración inmobiliaria en Cali",
+    "subheadline": "Grupo Versa Colombia SAS gestiona inmuebles en Cali con soporte para arrendatarios, propietarios e inversionistas."
+  },
+  "services": [
+    {
+      "title": "Arrendamientos",
+      "description": "Colocación de inmuebles, estudio de clientes y administración de cánones."
+    },
+    {
+      "title": "Ventas",
+      "description": "Gestión comercial para vivienda, locales y activos de inversión."
+    },
+    {
+      "title": "Avalúos",
+      "description": "Avalúos y análisis de mercado para decisiones de compra, venta y renta."
+    },
+    {
+      "title": "Seguros",
+      "description": "Opciones de seguro para inmuebles y cobertura relacionada."
+    }
+  ],
+  "clientsZone": {
+    "ownerPitch": "Gestionamos tu inmueble con seguimiento comercial, control documental y reportes de cartera.",
+    "arrendatarios": [
+      {
+        "title": "Pago en línea PSE",
+        "url": "https://www.psepagos.co/PSEHostingUI/ShowTicketOffice.aspx?ID=4728"
+      },
+      {
+        "title": "Cupón",
+        "url": "https://zonaclientes.dgiwebs.com/"
+      },
+      {
+        "title": "Requisitos",
+        "url": "https://grupoversa.com.co/arrendatarios/"
+      },
+      {
+        "title": "Tutoriales",
+        "url": "https://grupoversa.com.co/arrendatarios/"
+      }
+    ],
+    "propietarios": [
+      {
+        "title": "Estados de cuenta",
+        "url": "https://zonaclientes.dgiwebs.com/"
+      },
+      {
+        "title": "Certificados",
+        "url": "https://zonaclientes.dgiwebs.com/"
+      },
+      {
+        "title": "Consignar inmueble",
+        "url": "https://grupoversa.com.co/propietarios/"
+      }
+    ]
+  },
+  "sourceNotes": [
+    "https://grupoversa.com.co/",
+    "https://grupoversa.com.co/arrendatarios/",
+    "https://grupoversa.com.co/propietarios/",
+    "https://grupoversa.com.co/contactenos/"
+  ]
+}

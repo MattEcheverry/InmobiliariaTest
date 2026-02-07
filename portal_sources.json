@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-02-07T00:00:00Z",
+  "sources": [
+    {
+      "portal": "FincaRaiz",
+      "urls": [
+        "https://www.fincaraiz.com.co/detalle/casa-en-venta/villa-del-sol/cali/193266756",
+        "https://www.fincaraiz.com.co/detalle/local-en-arriendo/pance/cali/192223798",
+        "https://www.fincaraiz.com.co/detalle/local-en-arriendo/pance/cali/192337861",
+        "https://www.fincaraiz.com.co/detalle/local-en-arriendo/pance/cali/192223803",
+        "https://www.fincaraiz.com.co/detalle/lote-en-venta/prados-del-norte/cali/11110906",
+        "https://www.fincaraiz.com.co/detalle/casa-campestre-en-venta/arroyohondo/yumbo/193338250",
+        "https://www.fincaraiz.com.co/detalle/casa-en-venta/san-fernando-viejo/cali/193338267"
+      ]
+    },
+    {
+      "portal": "Metrocuadrado",
+      "urls": [
+        "https://www.metrocuadrado.com/inmueble/venta-lote-urbano-cali-prados-del-norte/18346-M5454816",
+        "https://www.metrocuadrado.com/inmueble/venta-casa-cali-capri-3-habitaciones-3-banos/18346-M5811442",
+        "https://www.metrocuadrado.com/inmueble/arriendo-local-comercial-cali-pance/18346-M5730859",
+        "https://www.metrocuadrado.com/inmueble/arriendo-local-comercial-cali-pance/18346-M5676069"
+      ]
+    },
+    {
+      "portal": "Ciencuadras",
+      "urls": [
+        "https://www.ciencuadras.com/venta/apartamento/cali/ciudad-real/3591531",
+        "https://www.ciencuadras.com/venta/edificio/cali/caney/3339498",
+        "https://www.ciencuadras.com/venta/apartamento/cali/camino-real/3397195",
+        "https://www.ciencuadras.com/venta/apartamento/cali/militar/3306872",
+        "https://www.ciencuadras.com/venta/edificio/jamundi/jamundi/3339496"
+      ]
+    }
+  ]
+}

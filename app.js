@@ -1,10 +1,29 @@
 (function () {
+  var CONTENT_URL = "./content.json?v=102";
+
   function qs(selector, root) {
     return (root || document).querySelector(selector);
   }
 
   function qsa(selector, root) {
-    return Array.from((root || document).querySelectorAll(selector));
+    return Array.prototype.slice.call((root || document).querySelectorAll(selector));
+  }
+
+  function parsePath(path) {
+    return String(path || "")
+      .replace(/\[(\d+)\]/g, ".$1")
+      .split(".")
+      .filter(Boolean);
+  }
+
+  function readPath(obj, path) {
+    var parts = parsePath(path);
+    var current = obj;
+    for (var i = 0; i < parts.length; i += 1) {
+      if (current == null) return undefined;
+      current = current[parts[i]];
+    }
+    return current;
   }
 
   function toNumber(value) {
@@ -14,118 +33,122 @@
     return Number.isFinite(n) ? n : 0;
   }
 
-  function normalizeText(value) {
-    return String(value || "").toLowerCase().trim();
-  }
-
   function formatCop(value) {
-    var amount = Number.isFinite(value) ? value : 0;
+    var n = Number.isFinite(value) ? value : 0;
     return new Intl.NumberFormat("es-CO", {
       style: "currency",
       currency: "COP",
       maximumFractionDigits: 0
-    }).format(amount);
+    }).format(n);
   }
 
-  function getRawListings() {
-    var lexicalCandidates = [];
-    if (typeof properties !== "undefined") lexicalCandidates.push(properties);
-    if (typeof inmuebles !== "undefined") lexicalCandidates.push(inmuebles);
-    if (typeof listings !== "undefined") lexicalCandidates.push(listings);
-    if (typeof data !== "undefined") lexicalCandidates.push(data);
-    if (typeof DATA !== "undefined") lexicalCandidates.push(DATA);
+  function normalizeText(value) {
+    return String(value || "").toLowerCase().trim();
+  }
 
-    var candidates = [
-      lexicalCandidates[0],
-      lexicalCandidates[1],
-      lexicalCandidates[2],
-      lexicalCandidates[3],
-      lexicalCandidates[4],
-      window.properties,
-      window.inmuebles,
-      window.PROPERTIES,
-      window.listings,
-      window.data,
-      window.DATA
-    ];
-
-    for (var i = 0; i < candidates.length; i += 1) {
-      var candidate = candidates[i];
-      if (Array.isArray(candidate)) return candidate;
-      if (candidate && typeof candidate === "object") {
-        var keys = ["properties", "inmuebles", "items", "data", "results"];
-        for (var k = 0; k < keys.length; k += 1) {
-          if (Array.isArray(candidate[keys[k]])) return candidate[keys[k]];
-        }
+  function applyContentBindings(content) {
+    qsa("[data-bind]").forEach(function (el) {
+      var path = el.getAttribute("data-bind");
+      var attr = el.getAttribute("data-bind-attr");
+      var value = readPath(content, path);
+      if (value == null) return;
+      if (attr) {
+        el.setAttribute(attr, String(value));
+      } else if (typeof value === "string" || typeof value === "number") {
+        el.textContent = String(value);
       }
-    }
-    return [];
-  }
-
-  function normalizeListing(item, index) {
-    var images = Array.isArray(item.images) ? item.images : [];
-    var image = item.imagen || item.image || images[0] || "";
-    var price = toNumber(item.precio || item.price || item.valor || item.canon);
-    var bedrooms = toNumber(item.habitaciones || item.habs || item.alcobas || item.rooms);
-    var bathrooms = toNumber(item.banos || item["baños"] || item.bathrooms);
-    var area = toNumber(item.area || item.m2 || item.metros);
-    var op = normalizeText(item.tipo || item.operacion || item.operation || "");
-    var category = normalizeText(item.clase || item.categoria || item.category || "");
-    var title = item.titulo || item.title || item.nombre || "Inmueble " + (index + 1);
-    var location = item.barrio || item.sector || item.ciudad || item.ubicacion || item.direccionCorta || "Ubicación por confirmar";
-    return {
-      id: item.id || "item-" + index,
-      title: title,
-      location: location,
-      price: price,
-      tipo: op,
-      clase: category,
-      bedrooms: bedrooms,
-      bathrooms: bathrooms,
-      area: area,
-      image: image,
-      nuevo: Boolean(item.nuevo),
-      destacado: Boolean(item.destacado)
-    };
-  }
-
-  function getListings() {
-    return getRawListings().map(normalizeListing).filter(function (it) {
-      return it && it.title;
     });
   }
 
-  function cardTemplate(item) {
-    var badgeHtml = "";
-    if (item.nuevo || item.destacado) {
-      badgeHtml = '<div class="badge-row">' +
-        (item.nuevo ? '<span class="badge badge-new">Nuevo</span>' : "") +
-        (item.destacado ? '<span class="badge badge-featured">Destacado</span>' : "") +
-        "</div>";
+  async function loadContent() {
+    try {
+      var res = await fetch(CONTENT_URL, { method: "GET" });
+      if (!res.ok) return;
+      var content = await res.json();
+      applyContentBindings(content);
+    } catch (error) {
+      return;
+    }
+  }
+
+  function firstFocusable(root) {
+    return qs('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', root);
+  }
+
+  function initDrawers() {
+    var overlay = qs("#overlay");
+    var openClients = qs("#openClients");
+    var closeClients = qs("#closeClients");
+    var clientsDrawer = qs("#clientsDrawer");
+    var openMobileNav = qs("#openMobileNav");
+    var closeMobileNav = qs("#closeMobileNav");
+    var mobileDrawer = qs("#mobileNavDrawer");
+    var currentDrawer = null;
+    var currentTrigger = null;
+    var previousFocus = null;
+
+    function toggle(drawer, trigger, open) {
+      if (!drawer || !overlay) return;
+      if (open) {
+        if (currentDrawer && currentDrawer !== drawer) toggle(currentDrawer, currentTrigger, false);
+        previousFocus = document.activeElement;
+        currentDrawer = drawer;
+        currentTrigger = trigger || null;
+        drawer.hidden = false;
+        overlay.hidden = false;
+        document.body.classList.add("modal-open");
+        if (trigger) trigger.setAttribute("aria-expanded", "true");
+        var focusTarget = firstFocusable(drawer);
+        if (focusTarget) focusTarget.focus();
+      } else {
+        drawer.hidden = true;
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+        if (currentDrawer === drawer) {
+          currentDrawer = null;
+          currentTrigger = null;
+          overlay.hidden = true;
+          document.body.classList.remove("modal-open");
+          if (previousFocus && typeof previousFocus.focus === "function") previousFocus.focus();
+          previousFocus = null;
+        }
+      }
     }
 
-    var media = item.image
-      ? '<img src="' + item.image + '" alt="' + item.title + '">'
-      : '<div class="listing-media"></div>';
+    if (openClients && clientsDrawer) {
+      openClients.addEventListener("click", function () {
+        toggle(clientsDrawer, openClients, clientsDrawer.hidden);
+      });
+    }
 
-    return (
-      '<article class="listing-card">' +
-      '<div class="listing-media-wrap" style="position:relative">' +
-      badgeHtml +
-      '<div class="listing-media">' + media + "</div>" +
-      "</div>" +
-      '<div class="listing-body">' +
-      '<div class="listing-price">' + formatCop(item.price) + "</div>" +
-      '<h3 class="listing-title">' + item.title + "</h3>" +
-      '<p class="listing-location">' + item.location + "</p>" +
-      '<div class="listing-specs">' +
-      '<span class="spec">🛏 ' + (item.bedrooms || "-") + "</span>" +
-      '<span class="spec">🛁 ' + (item.bathrooms || "-") + "</span>" +
-      '<span class="spec">▦ ' + (item.area || "-") + " m²</span>" +
-      "</div>" +
-      "</div>" +
-      "</article>"
-    );
+    if (closeClients && clientsDrawer && openClients) {
+      closeClients.addEventListener("click", function () {
+        toggle(clientsDrawer, openClients, false);
+      });
+    }
+
+    if (openMobileNav && mobileDrawer) {
+      openMobileNav.addEventListener("click", function () {
+        toggle(mobileDrawer, openMobileNav, mobileDrawer.hidden);
+      });
+    }
+
+    if (closeMobileNav && mobileDrawer && openMobileNav) {
+      closeMobileNav.addEventListener("click", function () {
+        toggle(mobileDrawer, openMobileNav, false);
+      });
+    }
+
+    if (overlay) {
+      overlay.addEventListener("click", function () {
+        if (currentDrawer && currentTrigger) toggle(currentDrawer, currentTrigger, false);
+      });
+    }
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && currentDrawer && currentTrigger) {
+        toggle(currentDrawer, currentTrigger, false);
+      }
+    });
   }
 
   function initSegmentedControl() {
@@ -134,7 +157,7 @@
       var buttons = qsa(".seg-btn", group);
       buttons.forEach(function (button) {
         button.addEventListener("click", function () {
-          var value = button.getAttribute("data-seg-value") || "arriendo";
+          var value = button.getAttribute("data-seg-value") || "";
           if (hidden) hidden.value = value;
           buttons.forEach(function (b) {
             var active = b === button;
@@ -146,85 +169,157 @@
     });
   }
 
-  function initHome() {
-    var grid = qs("#featuredGrid");
-    if (!grid) return;
-    var items = getListings().sort(function (a, b) {
-      return Number(b.destacado) - Number(a.destacado);
-    });
-
-    if (!items.length) {
-      grid.innerHTML = '<article class="listing-card"><div class="listing-body"><h3 class="listing-title">Sin inmuebles disponibles</h3><p class="listing-location">Actualiza data.js para cargar propiedades.</p></div></article>';
-      return;
-    }
-    grid.innerHTML = items.slice(0, 6).map(cardTemplate).join("");
+  function getListingsRaw() {
+    if (Array.isArray(window.listings)) return window.listings;
+    if (Array.isArray(window.inmuebles)) return window.inmuebles;
+    if (Array.isArray(window.properties)) return window.properties;
+    return [];
   }
 
-  function getFiltersFromForm(form) {
+  function normalizeListing(item, idx) {
     return {
-      tipo: normalizeText(form.tipo && form.tipo.value),
+      id: item.id || "listing-" + idx,
+      titulo: item.titulo || item.title || "Inmueble",
+      precio: Number(item.precio) || 0,
+      barrio: item.barrio || item.sector || item.ciudad || "Sector no especificado",
+      direccionCorta: item.direccionCorta || "",
+      habitaciones: item.habitaciones == null ? null : Number(item.habitaciones),
+      banos: item.banos == null ? null : Number(item.banos),
+      areaM2: item.areaM2 == null ? null : Number(item.areaM2),
+      parqueadero: item.parqueadero == null ? null : Number(item.parqueadero),
+      estrato: item.estrato == null ? null : Number(item.estrato),
+      tipo: normalizeText(item.tipo),
+      operacion: normalizeText(item.operacion),
+      destacado: Boolean(item.destacado),
+      nuevo: Boolean(item.nuevo),
+      imagen: item.imagen || "",
+      source: item.source || null,
+      sourceUrl: item.sourceUrl || null
+    };
+  }
+
+  function listingsData() {
+    return getListingsRaw().map(normalizeListing);
+  }
+
+  function spec(value, label) {
+    if (value == null) return "-";
+    return label ? String(value) + " " + label : String(value);
+  }
+
+  function sourceLine(item) {
+    if (!item.source) return "";
+    if (item.sourceUrl) {
+      return '<div class="listing-source">Fuente: <a href="' + item.sourceUrl + '" target="_blank" rel="noopener">' + item.source + "</a></div>";
+    }
+    return '<div class="listing-source">Fuente: ' + item.source + "</div>";
+  }
+
+  function listingCard(item) {
+    var imageMarkup = item.imagen
+      ? '<img src="' + item.imagen + '" alt="' + item.titulo + '">'
+      : '<svg viewBox="0 0 640 400" aria-hidden="true"><rect width="640" height="400" fill="#e8edf4"/><path d="M90 300h460L430 170l-65 64-62-71-98 100-45-46z" fill="#c8d5e4"/><circle cx="460" cy="130" r="28" fill="#d9e5f1"/></svg>';
+
+    var badges = "";
+    if (item.nuevo || item.destacado) {
+      badges = '<div class="badge-row">' +
+        (item.nuevo ? '<span class="badge badge-new">Nuevo</span>' : "") +
+        (item.destacado ? '<span class="badge badge-featured">Destacado</span>' : "") +
+        "</div>";
+    }
+
+    return (
+      '<article class="listing-card">' +
+      '<div class="listing-media-wrap">' + badges + '<div class="listing-media">' + imageMarkup + "</div></div>" +
+      '<div class="listing-body">' +
+      '<div class="listing-price">' + formatCop(item.precio) + "</div>" +
+      '<h3 class="listing-title">' + item.titulo + "</h3>" +
+      '<p class="listing-location">' + item.barrio + (item.direccionCorta ? " · " + item.direccionCorta : "") + "</p>" +
+      '<div class="listing-specs">' +
+      '<span class="spec">🛏 ' + spec(item.habitaciones, "") + "</span>" +
+      '<span class="spec">🛁 ' + spec(item.banos, "") + "</span>" +
+      '<span class="spec">▦ ' + spec(item.areaM2, "m²") + "</span>" +
+      "</div>" +
+      sourceLine(item) +
+      "</div></article>"
+    );
+  }
+
+  function renderFeatured() {
+    var grid = qs("#featuredGrid");
+    if (!grid) return;
+    var items = listingsData().slice().sort(function (a, b) {
+      return Number(b.destacado) - Number(a.destacado);
+    });
+    if (!items.length) {
+      grid.innerHTML = '<article class="listing-card"><div class="listing-body"><h3 class="listing-title">No hay inmuebles cargados</h3><p class="listing-location">Actualiza <code>data.js</code> para poblar esta sección.</p></div></article>';
+      return;
+    }
+    grid.innerHTML = items.slice(0, 6).map(listingCard).join("");
+  }
+
+  function setFormFromQuery(form) {
+    var params = new URLSearchParams(window.location.search);
+    ["operacion", "q", "tipo", "min", "max", "hab"].forEach(function (name) {
+      if (params.has(name) && form[name]) form[name].value = params.get(name);
+    });
+  }
+
+  function readFilters(form) {
+    return {
+      operacion: normalizeText(form.operacion && form.operacion.value),
       q: normalizeText(form.q && form.q.value),
-      clase: normalizeText(form.clase && form.clase.value),
+      tipo: normalizeText(form.tipo && form.tipo.value),
       min: toNumber(form.min && form.min.value),
       max: toNumber(form.max && form.max.value),
       hab: toNumber(form.hab && form.hab.value)
     };
   }
 
-  function passFilters(item, filters) {
-    if (filters.tipo && !normalizeText(item.tipo).includes(filters.tipo)) return false;
-    if (filters.clase && !normalizeText(item.clase).includes(filters.clase)) return false;
+  function byFilters(item, filters) {
+    if (filters.operacion && item.operacion !== filters.operacion) return false;
+    if (filters.tipo && item.tipo !== filters.tipo) return false;
     if (filters.q) {
-      var haystack = normalizeText(item.title + " " + item.location + " " + item.clase);
-      if (!haystack.includes(filters.q)) return false;
+      var text = normalizeText(item.titulo + " " + item.barrio + " " + item.direccionCorta);
+      if (!text.includes(filters.q)) return false;
     }
-    if (filters.min && item.price < filters.min) return false;
-    if (filters.max && item.price > filters.max) return false;
-    if (filters.hab && item.bedrooms < filters.hab) return false;
+    if (filters.min && item.precio < filters.min) return false;
+    if (filters.max && item.precio > filters.max) return false;
+    if (filters.hab && (item.habitaciones || 0) < filters.hab) return false;
     return true;
   }
 
-  function writeQueryFromFilters(filters) {
+  function writeQuery(filters) {
     var params = new URLSearchParams();
     Object.keys(filters).forEach(function (key) {
       var value = filters[key];
-      if (value !== "" && value !== 0 && value !== null && value !== undefined) {
-        params.set(key, String(value));
-      }
+      if (value !== "" && value !== 0 && value != null) params.set(key, String(value));
     });
-    var next = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
-    window.history.replaceState({}, "", next);
+    var url = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
+    history.replaceState({}, "", url);
   }
 
-  function setFormFromQuery(form) {
-    var params = new URLSearchParams(window.location.search);
-    ["tipo", "q", "clase", "min", "max", "hab"].forEach(function (key) {
-      if (params.has(key) && form[key]) form[key].value = params.get(key);
-    });
-  }
-
-  function initSearch() {
+  function initSearchPage() {
     var form = qs("#searchFilters");
     var grid = qs("#resultsGrid");
     var count = qs("#resultsCount");
     if (!form || !grid || !count) return;
 
     setFormFromQuery(form);
-    var all = getListings();
+    var all = listingsData();
 
     function render() {
-      var filters = getFiltersFromForm(form);
+      var filters = readFilters(form);
       var filtered = all.filter(function (item) {
-        return passFilters(item, filters);
+        return byFilters(item, filters);
       });
-
       count.textContent = filtered.length + " inmuebles";
       if (!filtered.length) {
-        grid.innerHTML = '<article class="listing-card"><div class="listing-body"><h3 class="listing-title">No encontramos resultados</h3><p class="listing-location">Ajusta tus filtros e inténtalo de nuevo.</p></div></article>';
+        grid.innerHTML = '<article class="listing-card"><div class="listing-body"><h3 class="listing-title">No hay resultados</h3><p class="listing-location">Ajusta los filtros para encontrar más opciones.</p></div></article>';
       } else {
-        grid.innerHTML = filtered.map(cardTemplate).join("");
+        grid.innerHTML = filtered.map(listingCard).join("");
       }
-      writeQueryFromFilters(filters);
+      writeQuery(filters);
     }
 
     form.addEventListener("submit", function (event) {
@@ -233,120 +328,29 @@
     });
 
     render();
-    initMobileViewToggle();
+    initMapToggle();
   }
 
-  function initMobileViewToggle() {
+  function initMapToggle() {
     var toggle = qs(".mobile-map-toggle");
-    var mapPane = qs("#mapPane");
-    var listPane = qs("#listPane");
-    if (!toggle || !mapPane || !listPane) return;
-
+    if (!toggle) return;
     qsa("button", toggle).forEach(function (button) {
       button.addEventListener("click", function () {
         var view = button.getAttribute("data-view");
         qsa("button", toggle).forEach(function (b) {
           b.classList.toggle("is-active", b === button);
         });
-        if (view === "map") {
-          document.body.classList.add("show-map");
-        } else {
-          document.body.classList.remove("show-map");
-        }
+        document.body.classList.toggle("show-map", view === "map");
       });
-    });
-  }
-
-  function firstFocusable(root) {
-    return qs('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', root);
-  }
-
-  function initDrawers() {
-    var overlay = qs("#overlay");
-    var clientsTrigger = qs("#openClients");
-    var clientsDrawer = qs("#clientsDrawer");
-    var clientsClose = qs("#closeClients");
-    var mobileTrigger = qs("#openMobileNav");
-    var mobileDrawer = qs("#mobileNavDrawer");
-    var mobileClose = qs("#closeMobileNav");
-    var activeDrawer = null;
-    var activeTrigger = null;
-    var previousFocus = null;
-
-    function setOpen(drawer, trigger, open) {
-      if (!drawer || !overlay) return;
-      if (open) {
-        previousFocus = document.activeElement;
-        activeDrawer = drawer;
-        activeTrigger = trigger || null;
-        drawer.hidden = false;
-        overlay.hidden = false;
-        document.body.classList.add("modal-open");
-        if (trigger) trigger.setAttribute("aria-expanded", "true");
-        var target = firstFocusable(drawer);
-        if (target) target.focus();
-      } else {
-        drawer.hidden = true;
-        overlay.hidden = true;
-        document.body.classList.remove("modal-open");
-        if (activeTrigger) activeTrigger.setAttribute("aria-expanded", "false");
-        if (previousFocus && typeof previousFocus.focus === "function") previousFocus.focus();
-        activeDrawer = null;
-        activeTrigger = null;
-        previousFocus = null;
-      }
-    }
-
-    if (clientsTrigger && clientsDrawer) {
-      clientsTrigger.addEventListener("click", function () {
-        if (activeDrawer === clientsDrawer) setOpen(clientsDrawer, clientsTrigger, false);
-        else {
-          if (activeDrawer) setOpen(activeDrawer, activeTrigger, false);
-          setOpen(clientsDrawer, clientsTrigger, true);
-        }
-      });
-    }
-
-    if (clientsClose && clientsDrawer) {
-      clientsClose.addEventListener("click", function () {
-        setOpen(clientsDrawer, clientsTrigger, false);
-      });
-    }
-
-    if (mobileTrigger && mobileDrawer) {
-      mobileTrigger.addEventListener("click", function () {
-        if (activeDrawer === mobileDrawer) setOpen(mobileDrawer, mobileTrigger, false);
-        else {
-          if (activeDrawer) setOpen(activeDrawer, activeTrigger, false);
-          setOpen(mobileDrawer, mobileTrigger, true);
-        }
-      });
-    }
-
-    if (mobileClose && mobileDrawer) {
-      mobileClose.addEventListener("click", function () {
-        setOpen(mobileDrawer, mobileTrigger, false);
-      });
-    }
-
-    if (overlay) {
-      overlay.addEventListener("click", function () {
-        if (activeDrawer) setOpen(activeDrawer, activeTrigger, false);
-      });
-    }
-
-    document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && activeDrawer) {
-        setOpen(activeDrawer, activeTrigger, false);
-      }
     });
   }
 
   function init() {
-    initSegmentedControl();
+    loadContent();
     initDrawers();
-    initHome();
-    initSearch();
+    initSegmentedControl();
+    renderFeatured();
+    initSearchPage();
     console.log("GV UI loaded", { hasDrawer: !!document.getElementById("clientsDrawer") });
   }
 
