@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Detalle de Inmueble | Grupo Versa</title>
+  <link rel="stylesheet" href="./styles.css?v=99">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+</head>
+<body data-page="property">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="container header-shell">
+      <nav class="nav-left">
+        <a href="./search.html?op=arriendo">Arriendos</a>
+        <a href="./search.html?op=venta">Ventas</a>
+        <a href="./index.html#consigne">Consigne</a>
+        <a href="./index.html#services">Servicios</a>
+      </nav>
+      <a class="brand-center" href="./index.html">
+        <picture>
+          <source srcset="./assets/logo.svg" type="image/svg+xml">
+          <img src="./assets/logo.png" alt="Grupo Versa" class="brand-logo">
+        </picture>
+      </a>
+      <div class="nav-right">
+        <a class="btn btn-primary" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuOpen" aria-label="Abrir menú" type="button">☰</button>
+    </div>
+  </header>
+
+  <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="drawer-head">
+      <strong>Menú</strong>
+      <button class="mobile-menu-btn" id="mobileMenuClose" aria-label="Cerrar menú" type="button">✕</button>
+    </div>
+    <a href="./index.html">Inicio</a>
+    <a href="./search.html">Buscar</a>
+    <a href="./clients.html">Zona clientes</a>
+  </aside>
+
+  <main id="main-content" class="section">
+    <div class="container property-layout">
+      <section>
+        <div class="gallery-main">
+          <img id="detailMainImage" src="./assets/fallback-property.svg" alt="Imagen principal">
+        </div>
+        <div class="gallery-thumbs" id="detailThumbs"></div>
+
+        <div class="property-heading">
+          <h1 id="detailTitle">Inmueble Grupo Versa</h1>
+          <p id="detailPrice" class="property-price">$0</p>
+          <p id="detailSpecs" class="muted">0 hab · 0 baños · 0 m2</p>
+        </div>
+
+        <section class="panel-card">
+          <h2>Qué ofrece este inmueble</h2>
+          <p id="detailDescription"></p>
+        </section>
+
+        <section class="panel-card">
+          <h2>Amenidades</h2>
+          <ul id="detailAmenities" class="amenities-list"></ul>
+        </section>
+
+        <section class="panel-card">
+          <h2>Ubicación</h2>
+          <div id="propertyMap" class="leaflet-map property-map"></div>
+        </section>
+
+        <section class="panel-card">
+          <h2>Detalles</h2>
+          <table class="details-table" id="detailTable"></table>
+        </section>
+
+        <section class="panel-card">
+          <h2>Inmuebles similares</h2>
+          <div class="property-grid" id="similarProperties"></div>
+        </section>
+      </section>
+
+      <aside class="sticky-contact">
+        <h3>Agenda una visita</h3>
+        <p>Te ayudamos a coordinar visita y resolver cualquier duda.</p>
+        <a id="detailWhatsapp" class="btn btn-primary full" href="https://wa.me/573022584900" target="_blank" rel="noopener">Contactar por WhatsApp</a>
+        <a id="detailVisit" class="btn btn-secondary full" href="https://wa.me/573022584900" target="_blank" rel="noopener">Solicitar visita</a>
+      </aside>
+    </div>
+  </main>
+
+  <div class="toast" id="appToast" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="./data.js?v=99"></script>
+  <script src="./app.js?v=99"></script>
+</body>
+</html>

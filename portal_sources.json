@@ -1,36 +1,38 @@
 {
-  "generatedAt": "2026-02-07T00:00:00Z",
-  "sources": [
-    {
-      "portal": "FincaRaiz",
-      "urls": [
-        "https://www.fincaraiz.com.co/detalle/casa-en-venta/villa-del-sol/cali/193266756",
-        "https://www.fincaraiz.com.co/detalle/local-en-arriendo/pance/cali/192223798",
-        "https://www.fincaraiz.com.co/detalle/local-en-arriendo/pance/cali/192337861",
-        "https://www.fincaraiz.com.co/detalle/local-en-arriendo/pance/cali/192223803",
-        "https://www.fincaraiz.com.co/detalle/lote-en-venta/prados-del-norte/cali/11110906",
-        "https://www.fincaraiz.com.co/detalle/casa-campestre-en-venta/arroyohondo/yumbo/193338250",
-        "https://www.fincaraiz.com.co/detalle/casa-en-venta/san-fernando-viejo/cali/193338267"
-      ]
-    },
-    {
-      "portal": "Metrocuadrado",
-      "urls": [
-        "https://www.metrocuadrado.com/inmueble/venta-lote-urbano-cali-prados-del-norte/18346-M5454816",
-        "https://www.metrocuadrado.com/inmueble/venta-casa-cali-capri-3-habitaciones-3-banos/18346-M5811442",
-        "https://www.metrocuadrado.com/inmueble/arriendo-local-comercial-cali-pance/18346-M5730859",
-        "https://www.metrocuadrado.com/inmueble/arriendo-local-comercial-cali-pance/18346-M5676069"
-      ]
-    },
-    {
-      "portal": "Ciencuadras",
-      "urls": [
-        "https://www.ciencuadras.com/venta/apartamento/cali/ciudad-real/3591531",
-        "https://www.ciencuadras.com/venta/edificio/cali/caney/3339498",
-        "https://www.ciencuadras.com/venta/apartamento/cali/camino-real/3397195",
-        "https://www.ciencuadras.com/venta/apartamento/cali/militar/3306872",
-        "https://www.ciencuadras.com/venta/edificio/jamundi/jamundi/3339496"
-      ]
-    }
-  ]
+  "generatedAt": "2026-02-07",
+  "queryTerm": "GRUPO VERSA",
+  "attemptedSearchUrls": {
+    "metrocuadrado": [
+      "https://www.google.com/search?q=site%3Ametrocuadrado.com+%22GRUPO+VERSA%22+arriendo",
+      "https://www.google.com/search?q=site%3Ametrocuadrado.com+%2218346-M%22+%22GRUPO+VERSAS+SAS%22",
+      "https://www.google.com/search?q=site%3Ametrocuadrado.com+%22GRUPO+VERSAS+SAS%22"
+    ],
+    "ciencuadras": [
+      "https://www.google.com/search?q=site%3Aciencuadras.com+%22grupo+versa%22+inmueble"
+    ],
+    "fincaraiz": [
+      "https://www.google.com/search?q=site%3Afincaraiz.com.co+%22GRUPO+VERSA%22"
+    ]
+  },
+  "listingUrlsCollected": {
+    "metrocuadrado": [
+      "https://www.metrocuadrado.com/inmueble/arriendo-apartamento-cali-bochalema-2-habitaciones-2-banos-1-garajes/18346-M5319748",
+      "https://www.metrocuadrado.com/inmueble/arriendo-apartamento-cali-bochalema-2-habitaciones-2-banos-1-garajes/18346-M5319735",
+      "https://www.metrocuadrado.com/inmueble/arriendo-apartamento-cali-valle-del-lili-2-habitaciones-2-banos-1-garajes/18346-M5319688",
+      "https://www.metrocuadrado.com/inmueble/arriendo-apartamento-cali-valle-del-lili-2-habitaciones-2-banos-1-garajes/18346-M5319706",
+      "https://www.metrocuadrado.com/inmueble/arriendo-apartamento-cali-valle-del-lili-2-habitaciones-2-banos-1-garajes/18346-M5319747",
+      "https://www.metrocuadrado.com/inmueble/arriendo-apartamento-cali-ciudad-guabinas-2-habitaciones-2-banos-1-garajes/18346-M5319784",
+      "https://www.metrocuadrado.com/inmueble/venta-apartamento-cali-sur-de-cali-2-habitaciones-2-banos-1-garajes/18346-M5319783",
+      "https://www.metrocuadrado.com/inmueble/venta-apartamento-cali-sur-de-cali-2-habitaciones-2-banos-1-garajes/18346-M5319772",
+      "https://www.metrocuadrado.com/inmueble/venta-apartamento-cali-sur-de-cali-3-habitaciones-3-banos-1-garajes/18346-M5319712"
+    ],
+    "ciencuadras": [
+      "https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-cali-1543800061",
+      "https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-cali-1543800062",
+      "https://www.ciencuadras.com/inmueble/apartamento-en-venta-en-cali-1543800063"
+    ],
+    "fincaraiz": [
+      "https://www.fincaraiz.com.co/inmueble/apartamento-en-arriendo/valle-del-lili/cali/8368857"
+    ]
+  }
 }

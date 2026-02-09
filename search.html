@@ -1,225 +1,103 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grupo Versa | Catálogo de Inmuebles</title>
-  <link rel="preload" href="./content.json?v=102" as="fetch" crossorigin="anonymous">
-  <link rel="stylesheet" href="./styles.css?v=102">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Búsqueda de Inmuebles | Grupo Versa</title>
+  <link rel="stylesheet" href="./styles.css?v=99">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
 </head>
 <body data-page="search">
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-
-  <div class="topbar">
-    <div class="container topbar-wrap">
-      <p><strong data-bind="brand.shortName">Grupo Versa</strong> · Catálogo inmobiliario</p>
-      <p><span data-bind="contact.phones[0]">302 258 4900</span> · <a data-whatsapp-fallback="true" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a></p>
-    </div>
-  </div>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
 
   <header class="site-header">
-    <div class="container header-grid">
-      <button class="btn btn-ghost menu-toggle" id="openMobileNav" type="button" aria-label="Abrir menú" aria-controls="mobileNavDrawer" aria-expanded="false">☰</button>
+    <div class="container header-shell">
       <nav class="nav-left" aria-label="Principal">
-        <a href="./search.html?operacion=arriendo">Arriendos</a>
-        <a href="./search.html?operacion=venta">Ventas</a>
-        <a href="./index.html#servicios">Servicios</a>
-        <a href="./about.html">Nosotros</a>
+        <a href="./search.html?op=arriendo">Arriendos</a>
+        <a href="./search.html?op=venta">Ventas</a>
+        <a href="./index.html#consigne">Consigne</a>
+        <a href="./index.html#services">Servicios</a>
       </nav>
-      <a class="brand" href="./index.html" aria-label="Grupo Versa">
-        <img class="brand-logo" src="./assets/logo-grupo-versa-header.png" onerror="this.onerror=null;this.src='./assets/logo-grupo-versa.png';" alt="Grupo Versa">
+      <a class="brand-center" href="./index.html" aria-label="Grupo Versa">
+        <picture>
+          <source srcset="./assets/logo.svg" type="image/svg+xml">
+          <img src="./assets/logo.png" alt="Grupo Versa" class="brand-logo">
+        </picture>
       </a>
       <div class="nav-right">
-        <div class="dropdown zc-desktop">
-          <button class="btn btn-secondary zc-trigger" type="button" aria-expanded="false">Ver zona clientes</button>
-          <div class="dropdown-menu" role="menu" aria-label="Zona clientes">
-            <div class="dropdown-grid">
-              <div class="dropdown-group">
-                <h4>Arrendatarios</h4>
-                <a data-bind="clientsZone.arrendatarios[0].url" data-bind-attr="href" href="./clients.html#pagar">Pagar arriendo</a>
-                <a data-bind="clientsZone.arrendatarios[1].url" data-bind-attr="href" href="./clients.html#cupon">Cupón de pago</a>
-                <a data-bind="clientsZone.arrendatarios[2].url" data-bind-attr="href" href="./clients.html#requisitos">Requisitos</a>
-                <a data-bind="clientsZone.arrendatarios[3].url" data-bind-attr="href" href="./clients.html#tutoriales">Tutoriales</a>
-              </div>
-              <div class="dropdown-group">
-                <h4>Propietarios</h4>
-                <a data-bind="clientsZone.propietarios[0].url" data-bind-attr="href" href="./clients.html#estados">Estados de cuenta</a>
-                <a data-bind="clientsZone.propietarios[1].url" data-bind-attr="href" href="./clients.html#certificados">Certificados</a>
-              </div>
-            </div>
+        <div class="menu-dropdown" data-dropdown>
+          <button class="btn btn-ghost dropdown-toggle" type="button" aria-expanded="false">Zona clientes</button>
+          <div class="dropdown-menu">
+            <a href="./clients.html">Portal de clientes</a>
+            <a href="./clients.html#arrendatarios">Arrendatarios</a>
+            <a href="./clients.html#propietarios">Propietarios</a>
           </div>
         </div>
-        <button class="btn btn-secondary zc-mobile-trigger" id="openClients" type="button" aria-expanded="false" aria-controls="clientsDrawer">Ver zona clientes</button>
-        <a class="btn btn-primary" data-whatsapp-fallback="true" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+        <a class="btn btn-primary" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
       </div>
+      <button class="mobile-menu-btn" id="mobileMenuOpen" aria-label="Abrir menú" type="button">☰</button>
     </div>
   </header>
 
-  <div id="overlay" class="overlay" hidden></div>
-
-  <aside id="clientsDrawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="clientsDrawerTitle" hidden>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
     <div class="drawer-head">
-      <h2 id="clientsDrawerTitle">Zona clientes</h2>
-      <button class="drawer-close" type="button" data-close-drawer="clientsDrawer" aria-label="Cerrar zona clientes">✕</button>
+      <strong>Menú</strong>
+      <button class="mobile-menu-btn" id="mobileMenuClose" aria-label="Cerrar menú" type="button">✕</button>
     </div>
-    <div class="drawer-grid">
-      <section>
-        <h3>Arrendatarios</h3>
-        <a data-bind="clientsZone.arrendatarios[0].url" data-bind-attr="href" href="./clients.html#pagar">Pagar arriendo</a>
-        <a data-bind="clientsZone.arrendatarios[1].url" data-bind-attr="href" href="./clients.html#cupon">Cupón de pago</a>
-        <a data-bind="clientsZone.arrendatarios[2].url" data-bind-attr="href" href="./clients.html#requisitos">Requisitos</a>
-        <a data-bind="clientsZone.arrendatarios[3].url" data-bind-attr="href" href="./clients.html#tutoriales">Tutoriales</a>
-      </section>
-      <section>
-        <h3>Propietarios</h3>
-        <a data-bind="clientsZone.propietarios[0].url" data-bind-attr="href" href="./clients.html#estados">Estados de cuenta</a>
-        <a data-bind="clientsZone.propietarios[1].url" data-bind-attr="href" href="./clients.html#certificados">Certificados</a>
-      </section>
-    </div>
+    <a href="./search.html?op=arriendo">Arriendos</a>
+    <a href="./search.html?op=venta">Ventas</a>
+    <a href="./clients.html">Zona clientes</a>
+    <a class="btn btn-primary full" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
   </aside>
 
-  <aside id="mobileNavDrawer" class="drawer drawer-nav" role="dialog" aria-modal="true" aria-labelledby="mobileNavTitle" hidden>
-    <div class="drawer-head">
-      <h2 id="mobileNavTitle">Menú principal</h2>
-      <button class="drawer-close" type="button" data-close-drawer="mobileNavDrawer" aria-label="Cerrar menú">✕</button>
-    </div>
-    <nav class="mobile-links" aria-label="Navegación móvil">
-      <a href="./search.html?operacion=arriendo">Arriendos</a>
-      <a href="./search.html?operacion=venta">Ventas</a>
-      <a href="./index.html#servicios">Servicios</a>
-      <a href="./about.html">Nosotros</a>
-      <a href="./clients.html">Zona clientes</a>
-      <a data-whatsapp-fallback="true" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener">Hablar por WhatsApp</a>
-    </nav>
-  </aside>
-
-  <main id="main">
-    <section class="section search-layout">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <p class="kicker">Catálogo inteligente</p>
-            <h1>Explora inmuebles con filtros avanzados</h1>
-            <p class="section-sub">Selecciona operación, presupuesto y características para encontrar coincidencias en segundos.</p>
+  <main id="main-content" class="section">
+    <div class="container search-layout">
+      <section class="search-results-col" id="resultsPanel">
+        <div class="search-toolbar">
+          <div class="segmented-control">
+            <button type="button" class="segmented-btn is-active" data-op="arriendo">Arriendo</button>
+            <button type="button" class="segmented-btn" data-op="venta">Venta</button>
           </div>
+          <input id="searchBarrio" list="barriosListSearch" placeholder="Barrio o sector">
+          <datalist id="barriosListSearch"></datalist>
+          <select id="searchTipo">
+            <option value="">Tipo</option>
+            <option>Apartamento</option>
+            <option>Casa</option>
+            <option>Local</option>
+            <option>Oficina</option>
+            <option>Bodega</option>
+          </select>
+          <input id="searchMin" type="number" placeholder="Precio min">
+          <input id="searchMax" type="number" placeholder="Precio max">
+          <select id="searchHab">
+            <option value="">Habitaciones</option>
+            <option value="1">1+</option>
+            <option value="2">2+</option>
+            <option value="3">3+</option>
+            <option value="4">4+</option>
+          </select>
+          <button id="searchApplyBtn" class="btn btn-secondary" type="button">Aplicar</button>
         </div>
+        <p id="searchCounter" class="muted">0 resultados en Cali</p>
+        <div id="searchResultsList" class="result-list"></div>
+      </section>
 
-        <div class="mode-tabs" aria-label="Modo de búsqueda">
-          <button type="button" class="mode-tab is-active" data-mode-btn="arriendo" aria-pressed="true">Arriendo <span class="mode-count" data-count-mode="arriendo">0</span></button>
-          <button type="button" class="mode-tab" data-mode-btn="venta" aria-pressed="false">Venta <span class="mode-count" data-count-mode="venta">0</span></button>
-        </div>
-
-        <form id="searchFilters" class="filters-sticky">
-          <label>
-            <span>Operación</span>
-            <select name="operacion">
-              <option value="arriendo">Arriendo</option>
-              <option value="venta">Venta</option>
-            </select>
-          </label>
-          <label>
-            <span>Barrio o sector</span>
-            <input type="text" name="q" placeholder="Ej. Pance, El Caney">
-          </label>
-          <label>
-            <span>Tipo de inmueble</span>
-            <select name="tipo">
-              <option value="">Todos</option>
-              <option value="apartamento">Apartamento</option>
-              <option value="casa">Casa</option>
-              <option value="local">Local</option>
-              <option value="oficina">Oficina</option>
-              <option value="lote">Lote</option>
-            </select>
-          </label>
-          <label>
-            <span>Desde</span>
-            <input type="number" name="min" placeholder="0">
-          </label>
-          <label>
-            <span>Hasta</span>
-            <input type="number" name="max" placeholder="2000000000">
-          </label>
-          <label>
-            <span>Habitaciones</span>
-            <select name="hab">
-              <option value="">Cualquiera</option>
-              <option value="1">1+</option>
-              <option value="2">2+</option>
-              <option value="3">3+</option>
-              <option value="4">4+</option>
-            </select>
-          </label>
-          <button class="btn btn-primary" type="submit">Aplicar filtros</button>
-        </form>
-
-        <div class="results-layout">
-          <section class="results-pane" id="listPane">
-            <div class="section-head">
-              <div>
-                <p class="kicker">Resultados en tiempo real</p>
-                <h2>Propiedades publicadas</h2>
-              </div>
-              <p class="muted" id="resultsCount">0 inmuebles</p>
-            </div>
-            <div id="resultsList" class="results-list"></div>
-          </section>
-
-          <aside class="map-pane" id="mapPane">
-            <div class="map-mock" id="mapMock">
-              <div class="map-label">Mapa referencial · pasa el cursor sobre una propiedad</div>
-            </div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <div class="mobile-view-toggle" id="mobileViewToggle" aria-label="Cambiar vista">
-      <button type="button" data-view="list" class="is-active">Lista</button>
-      <button type="button" data-view="map">Mapa</button>
+      <aside class="search-map-col" id="mapPanel">
+        <div id="searchMap" class="leaflet-map" aria-label="Mapa de inmuebles"></div>
+      </aside>
     </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <img class="footer-logo" src="./assets/logo-grupo-versa-header.png" onerror="this.onerror=null;this.src='./assets/logo-grupo-versa.png';" alt="Grupo Versa">
-        <p class="muted" data-bind="brand.tagline">Arrendamientos, ventas, avalúos y administración inmobiliaria</p>
-        <p class="muted"><span data-bind="contact.address">Calle 9C #49-45, Cali, Valle del Cauca</span></p>
-      </div>
-      <div>
-        <h4>Empresa</h4>
-        <a href="./about.html">Nosotros</a>
-        <a href="./index.html#servicios">Servicios</a>
-        <a href="./search.html">Catálogo</a>
-      </div>
-      <div>
-        <h4>Zona clientes</h4>
-        <a href="./clients.html#pagar">Pagar arriendo</a>
-        <a href="./clients.html#estados">Estados de cuenta</a>
-        <a href="./clients.html#certificados">Certificados</a>
-      </div>
-      <div>
-        <h4>Conecta con Versa</h4>
-        <div class="social-row">
-          <a class="social-chip" data-whatsapp-fallback="true" data-bind="contact.whatsapp" data-bind-attr="href" href="https://wa.me/573022584900" target="_blank" rel="noopener" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2a9.94 9.94 0 0 0-8.47 15.2L2 22l4.94-1.54A9.95 9.95 0 1 0 12.04 2Zm5.8 13.76c-.24.67-1.37 1.27-1.9 1.35-.49.08-1.1.12-1.78-.1-.42-.14-.96-.31-1.66-.61-2.91-1.26-4.8-4.2-4.95-4.4-.15-.2-1.18-1.58-1.18-3.01 0-1.43.75-2.14 1.02-2.43.27-.29.59-.36.79-.36.2 0 .4 0 .58.01.19.01.43-.07.67.51.24.58.81 2.01.88 2.16.07.15.12.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.31.31-.13.6.18.3.81 1.33 1.73 2.16 1.19 1.06 2.18 1.39 2.48 1.54.3.15.47.13.64-.08.17-.2.74-.86.93-1.15.2-.29.39-.24.67-.15.27.1 1.73.81 2.02.96.3.15.49.22.57.35.08.12.08.71-.16 1.38Z"/></svg>
-          </a>
-          <a class="social-chip" data-bind="social.facebook" data-bind-attr="href" href="https://www.facebook.com/grupoversacolombia/" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.5 1.6-1.5h1.7V5c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5V11H7v3h2.8v8h3.7Z"/></svg>
-          </a>
-          <a class="social-chip" data-bind="social.instagram" data-bind-attr="href" href="https://www.instagram.com/grupoversacolombia/" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm-.2 1.9A3.65 3.65 0 0 0 3.9 7.55v8.9a3.65 3.65 0 0 0 3.65 3.65h8.9a3.65 3.65 0 0 0 3.65-3.65v-8.9a3.65 3.65 0 0 0-3.65-3.65h-8.9Zm9.95 1.45a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.9a3.1 3.1 0 1 0 0 6.2 3.1 3.1 0 0 0 0-6.2Z"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <p>© <span data-bind="brand.shortName">Grupo Versa</span> · Todos los derechos reservados.</p>
-    </div>
-  </footer>
+  <div class="mobile-map-toggle">
+    <button id="showListBtn" class="btn btn-secondary is-active" type="button">Lista</button>
+    <button id="showMapBtn" class="btn btn-secondary" type="button">Mapa</button>
+  </div>
 
-  <script src="./data.js?v=102"></script>
-  <script src="./app.js?v=102"></script>
+  <div class="toast" id="appToast" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="./data.js?v=99"></script>
+  <script src="./app.js?v=99"></script>
 </body>
 </html>

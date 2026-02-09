@@ -1,133 +1,64 @@
 {
   "brand": {
-    "name": "Grupo Versa Colombia SAS",
-    "shortName": "Grupo Versa",
-    "tagline": "Arrendamientos, ventas, avalúos y administración inmobiliaria",
-    "city": "Cali",
-    "experience": "Más de 11 años en el mercado inmobiliario"
-  },
-  "contact": {
-    "whatsapp": "https://wa.me/573022584900",
-    "phones": [
-      "302 258 4900",
-      "317 801 6459",
-      "317 894 1028"
-    ],
-    "email": "No publicado en sitio oficial",
-    "address": "Calle 9C #49-45, Cali, Valle del Cauca",
-    "hours": "Lunes a viernes · 8:00 a.m. a 5:00 p.m."
+    "name": "GRUPO VERSA"
   },
   "hero": {
-    "headline": "Tecnología inmobiliaria para arriendos y ventas en Cali",
-    "subheadline": "Administra y comercializa inmuebles con una experiencia clara para propietarios, arrendatarios e inversionistas."
+    "title": "Inmobiliaria en Cali para arriendos, ventas y administración con estándar profesional",
+    "subtitle": "Acompañamos propietarios y arrendatarios con procesos claros, gestión rigurosa y atención comercial prioritaria por WhatsApp."
+  },
+  "about": {
+    "summary": "Grupo Versa es una inmobiliaria en Cali enfocada en arrendamientos, ventas y administración de inmuebles residenciales y comerciales.",
+    "values": "Nuestro enfoque combina acompañamiento legal y comercial, trazabilidad documental y servicio continuo para propietarios y arrendatarios."
   },
   "services": [
     {
       "title": "Arrendamientos",
-      "description": "Captación, promoción, estudio de clientes y colocación de inmuebles."
+      "desc": "Gestión integral del arriendo con validación documental y seguimiento permanente."
     },
     {
-      "title": "Administración de inmuebles",
-      "description": "Gestión de cartera, mantenimiento, atención de novedades y reportes."
+      "title": "Ventas",
+      "desc": "Comercialización de inmuebles con estrategia de posicionamiento y acompañamiento de cierre."
     },
     {
-      "title": "Ventas y corretaje",
-      "description": "Comercialización de vivienda, locales y activos de inversión."
+      "title": "Administración",
+      "desc": "Administración de propiedades con control operativo, financiero y soporte al cliente."
     },
     {
       "title": "Avalúos",
-      "description": "Avalúos y análisis técnico para toma de decisiones."
-    },
-    {
-      "title": "Adelanto de canon",
-      "description": "Opciones de liquidez para propietarios con contrato activo."
-    },
-    {
-      "title": "Seguros",
-      "description": "Soluciones de respaldo para operación inmobiliaria."
+      "desc": "Soporte de valoración y análisis comercial para decisiones inmobiliarias informadas."
     }
   ],
+  "contact": {
+    "phones": [
+      "+57 302 258 4900"
+    ],
+    "email": "info@grupoversa.com.co",
+    "emailHref": "mailto:info@grupoversa.com.co",
+    "address": "Cali, Valle del Cauca, Colombia",
+    "hours": "Lunes a viernes en horario de oficina (confirmar en canales oficiales).",
+    "social": {
+      "facebook": "https://www.facebook.com/grupoversa",
+      "instagram": "https://www.instagram.com/grupoversa"
+    }
+  },
+  "consigne": {
+    "copy": "Consigna tu inmueble con Grupo Versa y recibe acompañamiento experto en valoración, comercialización y gestión contractual.",
+    "requisitosUrl": "https://grupoversa.com.co/requisitos/"
+  },
   "clientsZone": {
-    "arrendatarios": [
-      {
-        "title": "Pagar arriendo (PSE)",
-        "url": "https://www.psepagos.co/PSEHostingUI/ShowTicketOffice.aspx?ID=4728"
-      },
-      {
-        "title": "Cupón de pago",
-        "url": "https://zonaclientes.dgiwebs.com/"
-      },
-      {
-        "title": "Requisitos para arrendar",
-        "url": "https://grupoversa.com.co/arrendatarios/"
-      },
-      {
-        "title": "Tutoriales y guías",
-        "url": "https://grupoversa.com.co/arrendatarios/"
-      }
-    ],
-    "propietarios": [
-      {
-        "title": "Estados de cuenta",
-        "url": "https://simidocs.siminmobiliarias.com/"
-      },
-      {
-        "title": "Certificados",
-        "url": "https://simidocs.siminmobiliarias.com/"
-      },
-      {
-        "title": "Consignar inmueble",
-        "url": "https://grupoversa.com.co/propietarios/"
-      }
-    ],
-    "ownerPitch": "Convierte tu inmueble en un activo administrado con control comercial, soporte jurídico y seguimiento continuo."
+    "arrendatarios": {
+      "pagarArriendo": "https://grupoversa.com.co/boton-de-pagos/",
+      "cupon": "https://grupoversa.com.co/category/arrendatario/",
+      "requisitos": "https://grupoversa.com.co/requisitos/",
+      "tutoriales": "https://grupoversa.com.co/tutoriales"
+    },
+    "propietarios": {
+      "estadosCuenta": "https://grupoversa.com.co/category/propietarios/",
+      "certificados": "https://grupoversa.com.co/category/propietarios/"
+    }
   },
-  "requirements": {
-    "canonRules": [
-      "Canon hasta $3.000.000: un deudor solidario con propiedad raíz y otro deudor solidario.",
-      "Canon entre $3.000.000 y $6.000.000: dos deudores solidarios con propiedad raíz y dos deudores solidarios.",
-      "Canon superior a $6.000.000: consulta estudio especializado con asesor Versa."
-    ],
-    "docsNatural": [
-      "Formulario de solicitud totalmente diligenciado.",
-      "Certificación laboral o de ingresos.",
-      "Extractos bancarios recientes.",
-      "Documentos de identidad de solicitante y deudores."
-    ],
-    "docsCompany": [
-      "Cámara de Comercio y RUT actualizados.",
-      "Estados financieros o declaración de renta.",
-      "Soporte de ingresos y referencias comerciales."
-    ],
-    "forms": [
-      {
-        "title": "Solicitud persona natural",
-        "url": "https://grupoversa.com.co/wp-content/uploads/2021/09/solicitud-arrendamiento-natural.pdf"
-      },
-      {
-        "title": "Solicitud persona jurídica",
-        "url": "https://grupoversa.com.co/wp-content/uploads/2021/09/solicitud-arrendamiento-juridica.pdf"
-      },
-      {
-        "title": "Solicitud codeudor",
-        "url": "https://grupoversa.com.co/wp-content/uploads/2021/09/solicitud-codeudor.pdf"
-      }
-    ]
-  },
-  "about": {
-    "summary": "Grupo Versa Colombia SAS es una inmobiliaria caleña con enfoque en arrendamientos, administración y ventas, impulsando procesos ágiles apoyados por herramientas digitales.",
-    "promise": "Nuestra meta es ofrecer una experiencia tecnológica, confiable y humana para cada operación inmobiliaria."
-  },
-  "social": {
-    "facebook": "https://www.facebook.com/grupoversacolombia/",
-    "instagram": "https://www.instagram.com/grupoversacolombia/"
-  },
-  "officialSources": [
-    "https://grupoversa.com.co/",
-    "https://grupoversa.com.co/quienes-somos/",
-    "https://grupoversa.com.co/contactenos/",
-    "https://grupoversa.com.co/arrendatarios/",
-    "https://grupoversa.com.co/propietarios/",
-    "https://grupoversa.com.co/servicios/"
-  ]
+  "source": {
+    "site": "https://grupoversa.com.co/",
+    "updatedAt": "2026-02-07"
+  }
 }

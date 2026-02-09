@@ -2,187 +2,183 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Grupo Versa | Inmobiliaria en Cali</title>
-  <meta name="description" content="Rentas, ventas, seguros y avalúos con Grupo Versa en Cali.">
-  <link rel="stylesheet" href="./styles.css?v=102">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Grupo Versa | Arriendos y Ventas en Cali</title>
+  <meta name="description" content="Portal inmobiliario premium de Grupo Versa en Cali. Arriendos, ventas, avalúos y zona clientes.">
+  <link rel="stylesheet" href="./styles.css?v=99">
 </head>
-<body>
-  <header class="site-header">
-    <a class="skip-link" href="#main">Saltar al contenido</a>
-    <div class="container header-grid">
-      <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-controls="mobile-drawer" aria-expanded="false">☰</button>
+<body data-page="home">
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
 
-      <nav class="nav-left" aria-label="Navegación principal">
-        <a href="./search.html?tipo=arriendo">Arriendos</a>
-        <a href="./search.html?tipo=venta">Ventas</a>
-        <a href="./index.html#servicios">Servicios</a>
-        <a href="./about.html">Nosotros</a>
+  <header class="site-header">
+    <div class="container header-shell">
+      <nav class="nav-left" aria-label="Principal">
+        <a href="./search.html?op=arriendo">Arriendos</a>
+        <a href="./search.html?op=venta">Ventas</a>
+        <a href="#consigne">Consigne</a>
+        <a href="#services">Servicios</a>
       </nav>
 
-      <a class="brand" href="./index.html" aria-label="Grupo Versa">
-        <img src="./assets/logo-nuevo.png" alt="Grupo Versa" onerror="this.src='./assets/logo-grupo-versa.png'">
+      <a class="brand-center" href="./index.html" aria-label="Grupo Versa">
+        <picture>
+          <source srcset="./assets/logo.svg" type="image/svg+xml">
+          <img src="./assets/logo.png" alt="Grupo Versa" class="brand-logo">
+        </picture>
       </a>
 
       <div class="nav-right">
-        <div class="dropdown">
-          <button id="openClients" class="btn btn-secondary" type="button" data-dropdown-button aria-expanded="false">Ver zona clientes</button>
-          <div class="dropdown-menu" role="dialog" aria-label="Zona clientes">
-            <div class="zc-grid">
-              <div>
-                <p class="zc-title">Arrendatarios</p>
-                <a href="./clients.html#pagar">Pagar arriendo</a>
-                <a href="./clients.html#cupon">Generar cupón</a>
-                <a href="./clients.html#requisitos">Requisitos</a>
-                <a href="./clients.html#tutoriales">Tutoriales</a>
-              </div>
-              <div>
-                <p class="zc-title">Propietarios</p>
-                <a href="./clients.html#estados">Estados de cuenta</a>
-                <a href="./clients.html#certificados">Certificados</a>
-              </div>
-            </div>
+        <div class="menu-dropdown" data-dropdown>
+          <button class="btn btn-ghost dropdown-toggle" type="button" aria-expanded="false">Zona clientes</button>
+          <div class="dropdown-menu">
+            <a href="./clients.html">Portal de clientes</a>
+            <a href="./clients.html#arrendatarios">Arrendatarios</a>
+            <a href="./clients.html#propietarios">Propietarios</a>
+            <a href="https://wa.me/573022584900" target="_blank" rel="noopener">Soporte por WhatsApp</a>
           </div>
         </div>
-        <a class="btn btn-primary" href="https://wa.me/573022584900" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+        <a class="btn btn-primary" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
       </div>
-    </div>
 
-    <div id="mobile-drawer" class="mobile-drawer" hidden>
-      <div class="mobile-drawer-card">
-        <div class="mobile-drawer-head">
-          <p class="mobile-title">Menú</p>
-          <button class="drawer-close" type="button" aria-label="Cerrar menú">✕</button>
-        </div>
-        <div class="mobile-links">
-          <a href="./search.html?tipo=arriendo">Arriendos</a>
-          <a href="./search.html?tipo=venta">Ventas</a>
-          <a href="./index.html#servicios">Servicios</a>
-          <a href="./about.html">Nosotros</a>
-          <hr>
-          <a href="./clients.html">Zona clientes</a>
-          <a href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
-        </div>
-      </div>
+      <button class="mobile-menu-btn" id="mobileMenuOpen" aria-label="Abrir menú" type="button">☰</button>
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero-section">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <h1 class="hero-title">Rentas. Ventas. Seguros. Avalúos.</h1>
-          <div class="hero-quick-clients">
-            <p class="hero-clients-title">Clientes: accesos rápidos</p>
-            <div class="hero-clients-grid">
-              <a href="./clients.html#pagar">Pagar arriendo</a>
-              <a href="./clients.html#cupon">Generar cupón</a>
-              <a href="./clients.html#estados">Estados de cuenta</a>
-              <a href="./clients.html#certificados">Certificados</a>
-            </div>
+  <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="drawer-head">
+      <strong>Menú</strong>
+      <button class="mobile-menu-btn" id="mobileMenuClose" aria-label="Cerrar menú" type="button">✕</button>
+    </div>
+    <a href="./search.html?op=arriendo">Arriendos</a>
+    <a href="./search.html?op=venta">Ventas</a>
+    <a href="#consigne">Consigne</a>
+    <a href="#services">Servicios</a>
+    <details>
+      <summary>Zona clientes</summary>
+      <a href="./clients.html#arrendatarios">Arrendatarios</a>
+      <a href="./clients.html#propietarios">Propietarios</a>
+      <a href="./clients.html">Portal completo</a>
+    </details>
+    <a class="btn btn-primary full" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
+  </aside>
+
+  <main id="main-content">
+    <section class="hero-wrap">
+      <div class="container">
+        <div class="hero-card">
+          <div class="hero-card-tabs" role="tablist" aria-label="Herramientas Inmobiliaria">
+            <button type="button" class="hero-panel-tab is-active" data-hero-panel="buscar">Busca tu inmueble</button>
+            <button type="button" class="hero-panel-tab" data-hero-panel="avaluos">Avalúos</button>
           </div>
-        </div>
 
-        <form class="search-card" action="./search.html" method="get">
-          <h2>Encuentra tu inmueble ideal</h2>
-
-          <div class="mode-tabs" role="tablist" aria-label="Operación">
-            <button class="mode-tab is-active" type="button" data-mode-tab="arriendo" aria-pressed="true">
-              Arriendo <span class="count" data-mode-count="arriendo">0</span>
-            </button>
-            <button class="mode-tab" type="button" data-mode-tab="venta" aria-pressed="false">
-              Venta <span class="count" data-mode-count="venta">0</span>
-            </button>
-          </div>
-
-          <input type="hidden" name="tipo" value="arriendo" data-mode-field>
-
-          <div class="search-grid">
-            <label>
-              Barrio o sector
-              <input name="q" type="text" placeholder="Ej. Pance, Capri, Caney">
-            </label>
-            <label>
-              Tipo de inmueble
-              <select name="tipoInmueble">
-                <option value="">Todos</option>
+          <div class="hero-panel is-active" data-hero-content="buscar">
+            <h1>Encuentra tu inmueble ideal en Cali</h1>
+            <p>Arriendos primero, ventas estratégicas y acompañamiento experto en cada paso.</p>
+            <form id="heroSearchForm" class="hero-search-grid">
+              <div class="segmented-control" aria-label="Tipo de operación">
+                <button type="button" class="segmented-btn is-active" data-op="arriendo">Arriendo</button>
+                <button type="button" class="segmented-btn" data-op="venta">Venta</button>
+              </div>
+              <input id="heroBarrio" list="barriosListHome" placeholder="Barrio o sector">
+              <datalist id="barriosListHome"></datalist>
+              <select id="heroTipo">
+                <option value="">Tipo</option>
                 <option>Apartamento</option>
                 <option>Casa</option>
                 <option>Local</option>
                 <option>Oficina</option>
-                <option>Lote</option>
+                <option>Bodega</option>
               </select>
-            </label>
-            <label>
-              Presupuesto mínimo
-              <input name="min" type="number" min="0" step="100000" placeholder="0">
-            </label>
-            <label>
-              Presupuesto máximo
-              <input name="max" type="number" min="0" step="100000" placeholder="2000000000">
-            </label>
-            <label>
-              Habitaciones
-              <select name="hab">
-                <option value="">Cualquiera</option>
+              <input id="heroPrecioMin" type="number" placeholder="Precio min">
+              <input id="heroPrecioMax" type="number" placeholder="Precio max">
+              <select id="heroHab">
+                <option value="">Habitaciones</option>
                 <option value="1">1+</option>
                 <option value="2">2+</option>
                 <option value="3">3+</option>
                 <option value="4">4+</option>
               </select>
-            </label>
+              <button class="btn btn-primary" type="submit">Buscar</button>
+            </form>
           </div>
 
-          <button class="btn btn-primary btn-block" type="submit">Buscar inmuebles</button>
-        </form>
+          <div class="hero-panel" data-hero-content="avaluos">
+            <h1>Solicita un avalúo comercial</h1>
+            <p>Comparte datos básicos y te contactamos por WhatsApp para orientar el proceso.</p>
+            <form id="appraisalForm" class="hero-search-grid appraisal-grid">
+              <select id="avTipo">
+                <option value="">Tipo de inmueble</option>
+                <option>Apartamento</option>
+                <option>Casa</option>
+                <option>Local</option>
+                <option>Oficina</option>
+                <option>Bodega</option>
+              </select>
+              <input id="avBarrio" list="barriosListAvaluo" placeholder="Barrio o sector">
+              <datalist id="barriosListAvaluo"></datalist>
+              <input id="avArea" type="number" placeholder="Área m2">
+              <input id="avHab" type="number" placeholder="Habitaciones">
+              <input id="avBanos" type="number" placeholder="Baños">
+              <input id="avContacto" placeholder="Email o WhatsApp">
+              <button class="btn btn-primary" type="submit">Solicitar avalúo</button>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="servicios" class="section">
+    <section class="section" id="services">
       <div class="container">
-        <h2 class="section-title">Servicios inmobiliarios</h2>
+        <div class="section-head">
+          <h2>Servicios Grupo Versa</h2>
+        </div>
         <div class="services-grid">
           <article class="service-card">
-            <h3>Arriendos</h3>
-            <p>Administración integral para propietarios y proceso ágil para arrendatarios.</p>
+            <img src="./assets/icons/rent.svg" alt="" aria-hidden="true">
+            <h3>Arrendamientos</h3>
+            <p>Gestión integral para propietarios y arrendatarios.</p>
           </article>
           <article class="service-card">
+            <img src="./assets/icons/sale.svg" alt="" aria-hidden="true">
             <h3>Ventas</h3>
-            <p>Comercialización con estrategia digital, filtros de clientes y acompañamiento legal.</p>
+            <p>Comercialización estratégica de activos residenciales y comerciales.</p>
           </article>
           <article class="service-card">
-            <h3>Avalúos y seguros</h3>
-            <p>Valoración técnica y respaldo para decisiones seguras en cada operación.</p>
+            <img src="./assets/icons/admin.svg" alt="" aria-hidden="true">
+            <h3>Administración</h3>
+            <p>Control operativo y financiero con trazabilidad documental.</p>
+          </article>
+          <article class="service-card">
+            <img src="./assets/icons/value.svg" alt="" aria-hidden="true">
+            <h3>Avalúos</h3>
+            <p>Análisis comercial para decisiones inmobiliarias informadas.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section section-muted">
+    <section class="section section-soft">
       <div class="container">
-        <h2 class="section-title">Inmuebles destacados</h2>
-        <div id="featuredGrid" data-featured-grid class="listing-grid"></div>
+        <div class="section-head">
+          <h2>Inmuebles destacados</h2>
+          <a href="./search.html">Ver catálogo completo</a>
+        </div>
+        <div class="top-tabs">
+          <button type="button" class="result-tab is-active" data-featured-op="arriendo">Arriendos <span id="countArriendo">0</span></button>
+          <button type="button" class="result-tab" data-featured-op="venta">Ventas <span id="countVenta">0</span></button>
+        </div>
+        <div id="homeFeaturedGrid" class="property-grid"></div>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container two-panels">
-        <article class="panel">
-          <p class="panel-kicker">Propietarios</p>
-          <h3>Consigne su inmueble con método y visibilidad digital</h3>
-          <p>Convierta su inmueble en un activo administrado con control comercial, soporte jurídico y seguimiento continuo.</p>
-          <a class="btn btn-primary" href="./clients.html#consignar">Iniciar consignación</a>
-        </article>
-        <article class="panel">
-          <p class="panel-kicker">Requisitos</p>
-          <h3>Resumen para arrendar</h3>
-          <ul>
-            <li>Hasta $3.000.000: 1 deudor con raíz + 1 solidario.</li>
-            <li>$3.000.000 a $6.000.000: 2 con raíz + 2 solidarios.</li>
-            <li>Más de $6.000.000: estudio especializado.</li>
-          </ul>
-          <a class="btn btn-secondary" href="./clients.html#requisitos">Ver requisitos completos</a>
-        </article>
+    <section class="section" id="consigne">
+      <div class="container">
+        <div class="consigne-box">
+          <div>
+            <h2>Consigna tu inmueble con Grupo Versa</h2>
+            <p>Recibe acompañamiento en valoración, publicación y cierre comercial.</p>
+          </div>
+          <a class="btn btn-primary" href="https://wa.me/573022584900?text=Hola%20Grupo%20Versa,%20quiero%20consignar%20mi%20inmueble." target="_blank" rel="noopener">Hablar por WhatsApp</a>
+        </div>
       </div>
     </section>
   </main>
@@ -190,28 +186,22 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <a class="footer-brand" href="./index.html">
-          <img src="./assets/logo-nuevo.png" alt="Grupo Versa" onerror="this.src='./assets/logo-grupo-versa.png'">
-        </a>
-        <p>Soluciones inmobiliarias en Cali para arriendos, ventas y administración.</p>
+        <h3>Grupo Versa</h3>
+        <p>Cali, Valle del Cauca</p>
       </div>
       <div>
-        <p class="footer-title">Accesos</p>
-        <a href="./search.html?tipo=arriendo">Arriendos</a>
-        <a href="./search.html?tipo=venta">Ventas</a>
-        <a href="./clients.html">Zona clientes</a>
+        <p>Zona clientes para arrendatarios y propietarios.</p>
+        <a href="./clients.html">Ir a zona clientes</a>
       </div>
       <div>
-        <p class="footer-title">Contacto</p>
-        <a href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="mailto:contacto@grupoversa.com.co">contacto@grupoversa.com.co</a>
-        <p>Cali, Colombia</p>
+        <a class="btn btn-primary" href="https://wa.me/573022584900" target="_blank" rel="noopener">WhatsApp 302 258 4900</a>
       </div>
     </div>
-    <div class="container footer-bottom">© Grupo Versa</div>
   </footer>
 
-  <script src="./data.js?v=102"></script>
-  <script src="./app.js?v=102"></script>
+  <div class="toast" id="appToast" aria-live="polite"></div>
+
+  <script src="./data.js?v=99"></script>
+  <script src="./app.js?v=99"></script>
 </body>
 </html>

@@ -1,52 +1,30 @@
 # Portal Ingest Report
 
-Generated: 2026-02-07  
-Keyword used: `Grupo Versa`
+Date: 2026-02-07  
+Query used: `GRUPO VERSA`
 
-## Portals attempted
+## Scope and limits
+- Light, best-effort lookup only (no aggressive crawling).
+- Metadata only was stored in `data.js`.
+- Third-party images were not copied; placeholders were used.
 
-1. `fincaraiz.com.co`
-2. `metrocuadrado.com`
-3. `ciencuadras.com`
+## Portals checked
+1. Metrocuadrado
+2. Ciencuadras
+3. Fincaraiz
 
-## Result summary
+## Results
+- Listings mentioning `GRUPO VERSA` or `GRUPO VERSAS SAS` were found through public result pages.
+- Metadata extracted where available: title, price, operation, type, area, rooms, baths, parking, city/sector.
+- Total portal-based listing records included in `data.js`: 13
+- Additional realistic demo listings for Cali were added to keep both tabs populated and avoid empty states.
 
-- URLs collected: **16**
-- Listings normalized into `data.js`: **16**
-- Parsed with complete core fields (title, price, operation, type, location): **13**
-- Parsed with partial fields (missing some attributes like baños/parqueadero/estrato): **3**
+## Blockers / quality notes
+- Some portal pages are highly dynamic and can hide fields until client-side rendering; in those cases fields were normalized from available snippet-level data.
+- No captcha-breaking or authenticated scraping was attempted.
+- Several Grupo Versa pages are WordPress/plugin-driven; some contact details are visible only after scripts load. `content.json` keeps verified essentials and conservative defaults.
 
-## Per-portal notes
-
-### FincaRaiz
-
-- URLs found: 7
-- Parsed successfully: 7
-- Observations:
-  - Some pages exposed structured content in the fetched HTML preview.
-  - A subset of detail pages returned limited content in this environment; those were completed using listing snippets where possible.
-
-### Metrocuadrado
-
-- URLs found: 4
-- Parsed successfully: 4
-- Observations:
-  - Listing pages exposed title and key attributes in preview text.
-  - Good coverage for operation/type/area and partial coverage for amenities.
-
-### Ciencuadras
-
-- URLs found: 5
-- Parsed successfully: 5
-- Observations:
-  - Some sections required page script execution; when unavailable, fields were inferred from page snippets.
-  - Core fields (title/price/type/operation/zone) were still captured for examples.
-
-## Blocking / failures
-
-- No hard captcha wall was hit in the sampled URLs.
-- Several URLs returned partial content (likely script-rendered content), so not all attributes were available.
-
-## Next step
-
-If you want more volume and higher field completeness, paste additional listing URLs directly and they can be normalized one-by-one into `data.js`.
+## Files updated by ingest
+- `data.js`
+- `portal_sources.json`
+- `content.json`
